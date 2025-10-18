@@ -25,56 +25,12 @@ namespace TUEL.TestFramework.Web.TestClasses
         {
             TestContext.WriteLine($"Starting Web test: {TestContext.TestName}. Environment: {InitializeTestAssembly.ENV}");
 
-            // Check if we're in pipeline environment
-            bool isPipelineEnvironment = UIHelper.IsPipelineEnvironment();
-
-            try
-            {
-                if (InitializeTestAssembly.Browser.Equals("edge", StringComparison.OrdinalIgnoreCase))
-                {
-                    Driver = InitializeTestAssembly.CreateEdgeDriver();
-                }
-                else if (InitializeTestAssembly.Browser.Equals("local-edge", StringComparison.OrdinalIgnoreCase))
-                {
-                    Driver = WebDriverFactory.CreateDriver(); //msedgedriver.exe on local PC.
-                }
-                else
-                {
-                    throw new NotSupportedException($"The configured browser '{InitializeTestAssembly.Browser}' is not supported by this test framework setup.");
-                }
-            }
-            catch (Exception ex)
-            {
-                if (isPipelineEnvironment)
-                {
-                    // In pipeline
-                    TestContext.WriteLine($"Pipeline environment detected");
-                    TestContext.WriteLine($"fhlb.common EdgeDriverManager failed: {ex.Message}");
-                    throw new InvalidOperationException($"fhlb.common EdgeDriverManager failed in pipeline. Error: {ex.Message}", ex);
-                }
-
-                // Local environment only, allow fallback
-                TestContext.WriteLine($"Local environment - attempting fallback to local-edge driver");
-                TestContext.WriteLine($"Primary driver creation failed: {ex.Message}");
-
-                try
-                {
-                    Driver = WebDriverFactory.CreateDriver();
-                    TestContext.WriteLine("Successfully created fallback local-edge driver");
-                }
-                catch (Exception fallbackEx)
-                {
-                    throw new InvalidOperationException($"Both primary and fallback driver creation failed. Primary: {ex.Message}, Fallback: {fallbackEx.Message}");
-                }
-            }
+            Driver = InitializeTestAssembly.CreateWebDriver();
 
             if (Driver == null)
             {
                 throw new InvalidOperationException("Driver creation failed");
             }
-
-            Driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(InitializeTestAssembly.DefaultTimeoutSeconds);
-            Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10); // Reduced to rely more on explicit waits
 
             if (string.IsNullOrEmpty(InitializeTestAssembly.UiUrl))
             {
@@ -252,9 +208,9 @@ namespace TUEL.TestFramework.Web.TestClasses
             try
             {
                 TestContext.WriteLine($"Finished Web test: {TestContext.TestName}");
-                Driver?.Close();
-                Driver?.Quit();
-
+                var shouldReuse = TestContext?.CurrentTestOutcome == UnitTestOutcome.Passed;
+                WebDriverLifecycleManager.ReleaseDriver(Driver, shouldReuse);
+                Driver = null;
             }
             catch (Exception ex)
             {

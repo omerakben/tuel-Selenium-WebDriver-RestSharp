@@ -9,16 +9,30 @@
 		<Parameter name="DefaultTimeoutSeconds" value="#{DefaultTimeoutSeconds}#" />
 		<Parameter name="WaitTimeoutInMinutes" value="#{WaitTimeoutInMinutes}#" />
 
+		<!-- Secret Management (prefer env://, kv://, or enc:// references) -->
+		<Parameter name="SecretManagement__KeyVaultUri" value="https://your-key-vault-name.vault.azure.net/" />
+		<Parameter name="SecretManagement__ConfigurationEncryptionKey" value="env://LOCSELENIUM_CONFIG_KEY" />
+		<Parameter name="SecretManagement__AllowPlaintextFallback" value="false" />
+		<Parameter name="SecretManagement__ManagedIdentityClientId" value="#{ManagedIdentityClientId}#" />
+		<Parameter name="SecretManagement__TenantId" value="#{AzureTenantId}#" />
+
 		<!-- User Credentials for ROPC Flow -->
-		<Parameter name="UserName" value="#{UserNameAzure}#" />
-		<Parameter name="UserPassword" value="#{AzureNonProdUserPassword}#" />
+		<Parameter name="UserName" value="env://LOCSELENIUM_USER_NAME" />
+		<Parameter name="UserPassword" value="enc://aes256/#{EncryptedUserPassword}#?iv=#{EncryptedUserPasswordIv}#" />
 
 		<!-- Azure AD Configuration -->
 		<Parameter name="EntraIdTenantId" value="#{EntraIdTenantId}#" />
 		<Parameter name="EntraIdClientId" value="#{EntraIdClientId}#" />
-		<Parameter name="EntraIdClientSecret" value="#{EntraIdClientSecret}#" />
+		<Parameter name="EntraIdClientSecret" value="kv://#{KeyVaultClientSecretName}#" />
 		<Parameter name="EntraIdApiScope" value="#{EntraIdApiScope}#" />
 		<Parameter name="EntraIdAuthority" value="https://login.microsoftonline.com" />
+		<Parameter name="EntraIdUseLocalJwt" value="false" />
+		<Parameter name="EntraIdLocalJwtPrivateKey" value="kv://#{KeyVaultLocalJwtSigningKey}#" />
+		<Parameter name="EntraIdLocalJwtSigningAlgorithm" value="RS256" />
+		<Parameter name="EntraIdLocalJwtLifetimeMinutes" value="60" />
+		<Parameter name="EntraIdLocalJwtKeyId" value="#{LocalJwtKeyId}#" />
+		<Parameter name="EntraIdLocalJwtAudience" value="#{LocalJwtAudience}#" />
+		<Parameter name="EntraIdLocalJwtIssuer" value="#{LocalJwtIssuer}#" />
 
 		<!-- Performance Configuration -->
 		<Parameter name="UseSmartWaitStrategies" value="true" />
@@ -39,6 +53,16 @@
 		<Parameter name="ForceHttps" value="false" />
 		<Parameter name="EnableSecureTokenStorage" value="false" />
 		<Parameter name="EnableAuditLogging" value="false" />
+
+		<!-- WebDriver Configuration -->
+		<Parameter name="Browser" value="remote-edge" />
+		<Parameter name="WebDriverProvider" value="grid" />
+		<Parameter name="SeleniumGridUrl" value="https://selenium-grid.example.com/wd/hub" />
+		<Parameter name="WebDriverEnablePooling" value="true" />
+		<Parameter name="WebDriverMaxPoolSize" value="4" />
+		<Parameter name="WebDriverIdleTimeoutMinutes" value="10" />
+		<Parameter name="WebDriverHeadless" value="true" />
+		<Parameter name="WebDriverCommandTimeoutSeconds" value="180" />
 
 		<!-- Email for Test Results -->
 		<Parameter name="EMailTo" value="#{EMailTo}#" />

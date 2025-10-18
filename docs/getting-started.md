@@ -36,7 +36,7 @@ This guide walks you through cloning the repository, configuring environments, a
    cp TUEL.TestFramework.runsettings.example TUEL.TestFramework.runsettings
    ```
 
-2. **Update the copied file** with your environment values:
+2. **Update the copied file** with your environment values and secret references:
    ```xml
    <?xml version="1.0" encoding="utf-8"?>
    <RunSettings>
@@ -47,20 +47,56 @@ This guide walks you through cloning the repository, configuring environments, a
        <Parameter name="BaseurlAPI" value="https://your-api.example.com/api" />
        <Parameter name="DefaultTimeoutSeconds" value="30" />
 
+       <!-- Secret Management -->
+       <Parameter name="SecretManagement__ConfigurationEncryptionKey" value="env://LOCSELENIUM_CONFIG_KEY" />
+       <Parameter name="SecretManagement__KeyVaultUri" value="https://your-key-vault-name.vault.azure.net/" />
+       <Parameter name="SecretManagement__AllowPlaintextFallback" value="false" />
+
+       <!-- Optional: ROPC credentials -->
+       <Parameter name="UserName" value="env://LOCSELENIUM_USER_NAME" />
+       <Parameter name="UserPassword" value="enc://aes256/${EncryptedUserPassword}?iv=${EncryptedUserPasswordIv}" />
+
        <!-- Azure AD / Entra ID -->
        <Parameter name="EntraIdTenantId" value="your-tenant-id" />
        <Parameter name="EntraIdClientId" value="your-client-id" />
-       <Parameter name="EntraIdClientSecret" value="your-client-secret" />
+       <Parameter name="EntraIdClientSecret" value="kv://automation-client-secret" />
        <Parameter name="EntraIdApiScope" value="api://your-resource/.default" />
+       <Parameter name="EntraIdUseLocalJwt" value="false" />
+       <Parameter name="EntraIdLocalJwtPrivateKey" value="kv://local-jwt-signing-key" />
+       <Parameter name="EntraIdLocalJwtSigningAlgorithm" value="RS256" />
 
-       <!-- Optional: ROPC credentials -->
-       <Parameter name="UserName" value="user@example.com" />
-       <Parameter name="UserPassword" value="your-password" />
+       <!-- WebDriver -->
+       <Parameter name="Browser" value="remote-edge" />
+       <Parameter name="WebDriverProvider" value="grid" />
+       <Parameter name="SeleniumGridUrl" value="https://selenium-grid.example.com/wd/hub" />
+       <Parameter name="WebDriverEnablePooling" value="true" />
      </TestRunParameters>
    </RunSettings>
    ```
 
 3. **Smart wait strategies** are enabled by default. Adjust timeouts or retry counts in the same file to fit your application’s responsiveness.
+
+### Encrypting configuration values
+
+Generate encrypted secrets using the new AES‑256 helper (requires a base64 master key in `LOCSELENIUM_CONFIG_KEY`):
+
+```csharp
+using TUEL.TestFramework.Security.Encryption;
+
+var key = Environment.GetEnvironmentVariable("LOCSELENIUM_CONFIG_KEY");
+var reference = ConfigurationEncryptionUtility.EncryptToReference("plain-text-password", key);
+Console.WriteLine(reference);
+```
+
+> The `LOCSELENIUM_CONFIG_KEY` environment variable must be a base64-encoded 32 byte value (AES-256 key).
+
+Copy the emitted `enc://` reference into your runsettings file.
+
+### WebDriver providers and pooling
+
+- Use `Browser=local-edge` or `local-chrome` for local execution.
+- Use `remote-<browser>` + `WebDriverProvider=grid` + `SeleniumGridUrl` for Selenium Grid or cloud providers.
+- Pooling is enabled by default (`WebDriverEnablePooling=true`) and reuses healthy drivers between tests for faster suites.
 
 ## Running Tests
 

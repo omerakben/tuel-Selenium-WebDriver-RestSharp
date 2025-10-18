@@ -20,6 +20,7 @@ namespace TUEL.TestFramework.Web.PageObjects
 
         #region Page & Header Elements
         private readonly By feeActivitySubHeader = By.XPath("//*[contains(text(),'Fee Activity')] | //h2[contains(.,'Fee Activity')] | //h3[contains(.,'Fee Activity')]");
+        private readonly By feesTab = By.XPath("//nav//a[contains(translate(., 'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'), 'fee')] | //a[@href='/fees'] | //button[contains(translate(., 'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'), 'fee')]");
 
         private readonly By viewFeeParametersButton = By.XPath("//button[contains(normalize-space(),'View Fee Parameters')] | //a[contains(normalize-space(),'View Fee Parameters')]");
         private readonly By exportToCsvButton = By.XPath("//button[contains(normalize-space(),'Export to CSV')] | //a[contains(normalize-space(),'Export to CSV')]");

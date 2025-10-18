@@ -40,8 +40,8 @@ namespace TUEL.TestFramework.Web.TestClasses
                         TestContext.WriteLine("Authentication flow completed");
                     }
 
-                    // Navigate to Beneficiaries page
-                    NavigateToBeneficiariesPage();
+                    // Navigate to Customers page
+                    NavigateToCustomersPage();
                 }
                 else
                 {
@@ -203,8 +203,8 @@ namespace TUEL.TestFramework.Web.TestClasses
 
             // Assertions
             Assert.IsTrue(pageTitle, "The browser page title must remain 'TUEL Records'");
-            Assert.IsTrue(beneficiariesTabActive, "The 'Beneficiaries' tab must be highlighted as the active tab");
-            Assert.IsTrue(beneficiariesHeader, "A sub-header with the text 'Beneficiaries' is visible on the page");
+            Assert.IsTrue(customersTabActive, "The 'Beneficiaries' tab must be highlighted as the active tab");
+            Assert.IsTrue(customersHeader, "A sub-header with the text 'Beneficiaries' is visible on the page");
             Assert.IsTrue(searchInput, "A search input field is visible above the data table, allowing users to search for beneficiaries");
             Assert.IsTrue(dataTablePresent, "A data table grid is loaded and populated with rows of data");
             Assert.IsTrue(columnHeadersInOrder, "The table must display column headers exactly in this order: View, Beneficiary, Address, Address 2, Address 3, City, State, Zip Code");

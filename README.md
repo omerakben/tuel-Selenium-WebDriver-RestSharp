@@ -11,8 +11,10 @@ A comprehensive, enterprise-grade test automation framework built with .NET 8.0,
 - **Page Object Model**: Maintainable UI test architecture
 - **Authentication**: Multi-flow Azure AD integration
 - **Configuration Management**: Environment-specific settings
+- **Secret Management**: Env/Key Vault/encrypted configuration via SecretManager
 - **Retry Mechanisms**: Robust error handling and recovery
 - **Performance Optimized**: Efficient wait strategies
+- **WebDriver Lifecycle**: Pooling, health checks, and Selenium Grid support
 - **Docker Ready**: Containerized setup for easy deployment
 
 ## 🏗️ Architecture
@@ -86,10 +88,22 @@ docker exec -it tuel-test-framework dotnet test
 - `BaseurlAPI`: API base URL
 - `DefaultTimeoutSeconds`: Default timeout for operations
 
+### WebDriver
+- `Browser`: `local-edge`, `local-chrome`, or `remote-<browser>` to target Selenium Grid/cloud providers.
+- `WebDriverProvider`: `local` or `grid` to control provider selection.
+- `SeleniumGridUrl`: Remote WebDriver hub when `WebDriverProvider=grid`.
+- `WebDriverEnablePooling`: Enable/disable the shared driver pool (default `true`).
+- `WebDriverCommandTimeoutSeconds`: Increase for slow Selenium Grid providers.
+
 ### Authentication
 - **Azure AD**: Client credentials flow
 - **ROPC**: Resource owner password credentials
-- **Local JWT**: Development/testing tokens
+- **Local JWT**: RS256/ES256-signed development tokens with pluggable PEM keys
+
+### Secret Management
+- Use `env://`, `kv://` (Azure Key Vault), or `enc://` (AES-256 encrypted) references in runsettings.
+- Configure Key Vault access through `SecretManagement__KeyVaultUri`, optional managed identity, and disable plaintext fallback for production.
+- Generate encrypted references with `ConfigurationEncryptionUtility.EncryptToReference`.
 
 ## 🧪 Test Categories
 

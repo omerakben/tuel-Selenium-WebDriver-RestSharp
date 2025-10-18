@@ -1,6 +1,5 @@
 using OpenQA.Selenium;
 using System;
-using fhlb.selenium.common.Extensions;
 using TUEL.TestFramework.Web.Support;
 
 namespace TUEL.TestFramework.Web.PageObjects

@@ -6,6 +6,7 @@ using System.Net.Http.Headers;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Text;
+using TUEL.TestFramework.Security.Jwt;
 
 namespace TUEL.TestFramework.API.Auth
 {
@@ -269,11 +270,34 @@ namespace TUEL.TestFramework.API.Auth
 
         private static string GetLocalJwtToken(string? role)
         {
-            var header = "{\"alg\":\"HS256\",\"typ\":\"JWT\"}";
-            var payload = $"{{\"sub\":\"1234567890\",\"name\":\"Test User\",\"role\":\"{role ?? "DefaultRole"}\",\"iat\":{DateTimeOffset.UtcNow.ToUnixTimeSeconds()}}}";
-            var encodedHeader = Convert.ToBase64String(Encoding.UTF8.GetBytes(header));
-            var encodedPayload = Convert.ToBase64String(Encoding.UTF8.GetBytes(payload));
-            return $"{encodedHeader}.{encodedPayload}.signature";
+            var privateKey = InitializeTestAssembly.EntraIdLocalJwtPrivateKey;
+            if (string.IsNullOrWhiteSpace(privateKey))
+            {
+                throw new InvalidOperationException("Local JWT requested but EntraIdLocalJwtPrivateKey is not configured. Provide a PEM encoded key via SecretManager (e.g. env://).");
+            }
+
+            var additionalClaims = new Dictionary<string, object>();
+            if (InitializeTestAssembly.EntraIdLocalJwtIncludeScopeClaim && !string.IsNullOrWhiteSpace(InitializeTestAssembly.EntraIdApiScope))
+            {
+                additionalClaims["scp"] = InitializeTestAssembly.EntraIdApiScope;
+            }
+
+            var lifetimeMinutes = Math.Clamp(InitializeTestAssembly.EntraIdLocalJwtLifetimeMinutes, 5, 240);
+
+            return LocalJwtTokenFactory.CreateToken(new LocalJwtOptions
+            {
+                Algorithm = InitializeTestAssembly.EntraIdLocalJwtSigningAlgorithm,
+                PrivateKey = privateKey,
+                KeyId = InitializeTestAssembly.EntraIdLocalJwtKeyId,
+                Issuer = InitializeTestAssembly.EntraIdLocalJwtIssuer ?? InitializeTestAssembly.EntraIdAuthority,
+                Audience = InitializeTestAssembly.EntraIdLocalJwtAudience ?? InitializeTestAssembly.EntraIdApiScope,
+                Subject = InitializeTestAssembly.Email ?? InitializeTestAssembly.EntraIdClientId,
+                Name = InitializeTestAssembly.Email ?? "Local Automation Account",
+                Role = role ?? InitializeTestAssembly.EntraIdLocalJwtRole ?? "DefaultRole",
+                ClientId = InitializeTestAssembly.EntraIdClientId,
+                Lifetime = TimeSpan.FromMinutes(lifetimeMinutes),
+                AdditionalClaims = additionalClaims.Count > 0 ? additionalClaims : null
+            });
         }
 
         public static void ClearCache()
@@ -316,6 +340,9 @@ namespace TUEL.TestFramework.API.Auth
             info.AppendLine($"Calculated Token Endpoint: {tokenEndpoint}");
             info.AppendLine($"Use Local JWT: {InitializeTestAssembly.EntraIdUseLocalJwt}");
             info.AppendLine($"Local JWT Role: {InitializeTestAssembly.EntraIdLocalJwtRole ?? "N/A"}");
+            info.AppendLine($"Local JWT Algorithm: {InitializeTestAssembly.EntraIdLocalJwtSigningAlgorithm}");
+            info.AppendLine($"Local JWT Lifetime Minutes: {InitializeTestAssembly.EntraIdLocalJwtLifetimeMinutes}");
+            info.AppendLine($"Local JWT KeyId Configured: {!string.IsNullOrWhiteSpace(InitializeTestAssembly.EntraIdLocalJwtKeyId)}");
             if (!string.IsNullOrEmpty(InitializeTestAssembly.Email))
             {
                 info.AppendLine($"Username: {InitializeTestAssembly.Email}");

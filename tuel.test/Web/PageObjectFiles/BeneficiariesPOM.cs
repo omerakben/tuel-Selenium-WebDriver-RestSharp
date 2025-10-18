@@ -7,7 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using OpenQA.Selenium.Keys;
 
 namespace TUEL.TestFramework.Web.PageObjects
 {
@@ -22,14 +21,16 @@ namespace TUEL.TestFramework.Web.PageObjects
 
         #region Page-Specific Elements
 
-        // Customers page specific elements
+        // Customers / Beneficiaries specific elements
         private readonly By customersHeader = By.XPath("//h3[contains(text(), 'Customers')] | //div[contains(text(), 'Customers')] | //h2[contains(text(), 'Customers')]");
+        private readonly By beneficiariesHeader = By.XPath("//h3[contains(text(), 'Beneficiaries')] | //div[contains(text(), 'Beneficiaries')] | //h2[contains(text(), 'Beneficiaries')]");
+        private readonly By beneficiariesTab = By.XPath("//nav//a[contains(translate(., 'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'), 'beneficiar')] | //a[@href='/beneficiaries'] | //button[contains(translate(., 'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'), 'beneficiar')]");
         private readonly By addNewCustomerButton = By.XPath("//button[contains(text(), 'Add New Customer')] | //*[contains(text(), 'Add New Customer')]");
 
         // Expected column headers in exact order for Customers page
         private readonly string[] expectedColumnHeaders = new string[]
         {
-            "View", "Customer", "Address", "Address 2", "Address 3", "City", "State", "Zip Code"
+            "View", "Beneficiary", "Address", "Address 2", "Address 3", "City", "State", "Zip Code"
         };
 
         // Specific column locators for validation - based on the HTML structure
@@ -75,6 +76,18 @@ namespace TUEL.TestFramework.Web.PageObjects
             }
         }
 
+        public bool VerifyCustomersHeader()
+        {
+            try
+            {
+                return IsElementVisible(customersHeader) || VerifyBeneficiariesHeader();
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         public bool VerifyBeneficiariesTabActive()
         {
             try
@@ -97,6 +110,11 @@ namespace TUEL.TestFramework.Web.PageObjects
             {
                 return false;
             }
+        }
+
+        public bool VerifyCustomersTabActive()
+        {
+            return VerifyBeneficiariesTabActive();
         }
 
         public bool VerifyColumnHeadersInOrder()
@@ -133,7 +151,7 @@ namespace TUEL.TestFramework.Web.PageObjects
                 var columnChecks = new[]
                 {
                     IsElementVisible(viewColumn),
-                    IsElementVisible(customerColumn),
+                    IsElementVisible(customerColumn) || IsElementVisible(By.XPath("//span[contains(@class, 'k-column-title') and contains(text(), 'Beneficiary')]") ),
                     IsElementVisible(addressColumn),
                     IsElementVisible(address2Column),
                     IsElementVisible(address3Column),
@@ -312,7 +330,7 @@ namespace TUEL.TestFramework.Web.PageObjects
 
         #region Override Common Methods for Kendo Grid
 
-        public override List<string> GetColumnHeaders()
+        public override List<string> GetColumnHeaders(bool includeEmpty = false, string? emptyPlaceholder = null)
         {
             try
             {
@@ -320,18 +338,22 @@ namespace TUEL.TestFramework.Web.PageObjects
                 var kendoHeaders = Driver.FindElements(By.XPath("//kendo-grid//thead//th//span[contains(@class, 'k-column-title')]"));
                 if (kendoHeaders.Count > 0)
                 {
-                    return kendoHeaders.Select(h => h.Text.Trim()).Where(text => !string.IsNullOrEmpty(text)).ToList();
+                    return kendoHeaders.Select(h => h.Text.Trim())
+                                         .Where(text => !string.IsNullOrEmpty(text))
+                                         .ToList();
                 }
 
                 // Fallback to standard headers
                 var headers = Driver.FindElements(kendoGridHeaders);
                 if (headers.Count > 0)
                 {
-                    return headers.Select(h => h.Text.Trim()).Where(text => !string.IsNullOrEmpty(text)).ToList();
+                    return headers.Select(h => h.Text.Trim())
+                                  .Where(text => !string.IsNullOrEmpty(text))
+                                  .ToList();
                 }
 
                 // Final fallback to base implementation
-                return base.GetColumnHeaders();
+                return base.GetColumnHeaders(includeEmpty, emptyPlaceholder);
             }
             catch
             {
