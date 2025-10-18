@@ -1,4 +1,5 @@
-using fhlb.selenium.common.Extensions;
+using TUEL.TestFramework;
+using TUEL.TestFramework.Web.Support;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
@@ -6,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace loc.test.Web.PageObjectFiles
+namespace TUEL.TestFramework.Web.PageObjects
 {
     public class DashboardPOM : BasePage
     {
@@ -15,22 +16,22 @@ namespace loc.test.Web.PageObjectFiles
         }
 
         // Primary page identifier
-        protected override By UniqueLocator => By.XPath("//div[contains(text(), 'Approval Queue')] | //h1[contains(text(), 'Letters of Credit')]");
+        protected override By UniqueLocator => By.XPath("//div[contains(text(), 'Approval Queue')] | //h1[contains(text(), 'Business Application')]");
 
         #region Page & Header Elements
-        private readonly By mainHeader = By.XPath("//h1[contains(text(), 'Letters of Credit')] | //*[contains(text(), 'Letters of Credit') and contains(@class, 'title')] | //*[@title='Letters of Credit']");
+        private readonly By mainHeader = By.XPath("//h1[contains(text(), 'Business Application')] | //*[contains(text(), 'Business Application') and contains(@class, 'title')] | //*[@title='Business Application']");
 
         // Navigation Tabs
-        private readonly By navigationTabs = By.XPath("//nav//a | //div[contains(@class, 'nav')]//a | //*[contains(@class, 'tab')] | //a[contains(text(), 'Dashboard')] | //a[contains(text(), 'Completed')] | //a[contains(text(), 'Beneficiaries')]");
+        private readonly By navigationTabs = By.XPath("//nav//a | //div[contains(@class, 'nav')]//a | //*[contains(@class, 'tab')] | //a[contains(text(), 'Dashboard')] | //a[contains(text(), 'Completed')] | //a[contains(text(), 'Customers')]");
         private readonly By dashboardTab = By.XPath("//a[contains(text(), 'Dashboard')] | //button[contains(text(), 'Dashboard')] | //*[contains(@class, 'active') and contains(text(), 'Dashboard')]");
         private readonly By completedTab = By.XPath("//a[contains(text(), 'Completed')] | //button[contains(text(), 'Completed')]");
-        private readonly By beneficiariesTab = By.XPath("//a[contains(text(), 'Beneficiaries')] | //button[contains(text(), 'Beneficiaries')]");
+        private readonly By customersTab = By.XPath("//a[contains(text(), 'Customers')] | //button[contains(text(), 'Customers')]");
         private readonly By templatesTab = By.XPath("//a[contains(text(), 'Templates')] | //button[contains(text(), 'Templates')]");
-        private readonly By feesTab = By.XPath("//a[contains(text(), 'Fees')] | //button[contains(text(), 'Fees')]");
+        private readonly By pricingTab = By.XPath("//a[contains(text(), 'Pricing')] | //button[contains(text(), 'Pricing')]");
 
         // Left sidebar navigation
         private readonly By leftSidebar = By.XPath("//div[contains(@class, 'sidebar')] | //nav[contains(@class, 'sidebar')]");
-        private readonly By lettersOfCreditMenuItem = By.XPath("//a[contains(text(), 'Letters Of Credit')] | //*[contains(@class, 'menu') and contains(text(), 'Letters Of Credit')]");
+        private readonly By businessApplicationMenuItem = By.XPath("//a[contains(text(), 'Business Application')] | //*[contains(@class, 'menu') and contains(text(), 'Business Application')]");
         private readonly By healthCheckMenuItem = By.XPath("//a[contains(text(), 'Health Check')] | //*[contains(@class, 'menu') and contains(text(), 'Health Check')]");
         #endregion
 
@@ -41,7 +42,7 @@ namespace loc.test.Web.PageObjectFiles
         private readonly By approvalQueueTable = By.XPath("//kendo-grid | //table | //app-data-grid | //*[contains(@class, 'grid')] | //*[contains(@class, 'table')]");
         #endregion
 
-        #region Send Items Section  
+        #region Send Items Section
         private readonly By sendItemsSection = By.XPath("//div[contains(text(), 'Send Items')] | //*[contains(@class, 'send') and contains(@class, 'items')]");
         private readonly By sendItemsHeader = By.XPath("//div[contains(text(), 'Send Items')] | //h2[contains(text(), 'Send Items')] | //h3[contains(text(), 'Send Items')]");
         private readonly By sendItemsSearchInput = By.XPath("//app-send-q//input[@placeholder='Search'] | //app-send-q//input[contains(@class, 'search')]");
@@ -58,9 +59,9 @@ namespace loc.test.Web.PageObjectFiles
         // Key column headers to verify
         private readonly string[] expectedColumnHeaders = new string[]
         {
-            "View", "DDA", "Member", "Issue Date", "Expiration Date",
-            "Beneficiary", "Amount", "LOC #", "LOC Type", "Created On",
-            "Created By", "Comments", "Status", "Exception"
+            "View", "Account", "Customer", "Order Date", "Delivery Date",
+            "Customer", "Amount", "Product #", "Product Type", "Created On",
+            "Created By", "Comments", "Status", "Priority"
         };
         #endregion
 
@@ -77,7 +78,7 @@ namespace loc.test.Web.PageObjectFiles
             try
             {
                 var title = Driver.Title;
-                return !string.IsNullOrEmpty(title) && title.Contains("Letters of Credit");
+                return !string.IsNullOrEmpty(title) && title.Contains("Business Application");
             }
             catch
             {
@@ -349,9 +350,9 @@ namespace loc.test.Web.PageObjectFiles
                 {
                     "dashboard" => dashboardTab,
                     "completed" => completedTab,
-                    "beneficiaries" => beneficiariesTab,
+                    "customers" => customersTab,
                     "templates" => templatesTab,
-                    "fees" => feesTab,
+                    "pricing" => pricingTab,
                     _ => throw new ArgumentException($"Unknown tab: {tabName}")
                 };
 
@@ -412,13 +413,11 @@ namespace loc.test.Web.PageObjectFiles
             }
             catch (Exception ex)
             {
-                {
-                    Console.WriteLine($"Failed to Page Load: {ex.Message}");
-                    return false;
-                }
+                Console.WriteLine($"Failed to Page Load: {ex.Message}");
+                return false;
             }
-
-            #endregion
         }
+
+        #endregion
     }
 }

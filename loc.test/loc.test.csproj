@@ -7,14 +7,17 @@
 
 		<IsPackable>false</IsPackable>
 		<IsTestProject>true</IsTestProject>
+		<AssemblyTitle>TUEL.TestFramework</AssemblyTitle>
+		<AssemblyDescription>TUEL Enterprise Test Automation Framework</AssemblyDescription>
+		<AssemblyCompany>TUEL</AssemblyCompany>
+		<AssemblyProduct>TUEL Test Framework</AssemblyProduct>
+		<AssemblyCopyright>Copyright © 2024 TUEL</AssemblyCopyright>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Azure.Core" Version="1.47.3" />
 		<PackageReference Include="Azure.Identity" Version="1.15.0" />
 		<PackageReference Include="DotNetSeleniumExtras.WaitHelpers" Version="3.11.0" />
-		<PackageReference Include="fhlb.core.api" Version="2.0.25077.1" />
-		<PackageReference Include="fhlb.selenium.common" Version="1.0.25238.1" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
 		<PackageReference Include="MSTest.TestAdapter" Version="3.10.3" />
 		<PackageReference Include="MSTest.TestFramework" Version="3.10.3" />
@@ -38,7 +41,6 @@
 		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="9.0.8" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.8" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="9.0.8" />
-
 
 		<PackageReference Include="Microsoft.Identity.Client" Version="4.76.0" />
 

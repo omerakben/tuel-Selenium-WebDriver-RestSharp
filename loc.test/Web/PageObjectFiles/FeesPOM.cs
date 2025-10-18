@@ -1,11 +1,14 @@
+using TUEL.TestFramework;
+using TUEL.TestFramework.Web.Support;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using loc.test.Web.Support;
+using System.Threading;
 
-namespace loc.test.Web.PageObjectFiles
+namespace TUEL.TestFramework.Web.PageObjects
 {
     // Page Object Model for the Fees page
     public class FeesPOM : BasePage
@@ -25,12 +28,12 @@ namespace loc.test.Web.PageObjectFiles
         // Expected grid column headers exact order
         private static readonly string[] ExpectedHeadersExactOrder =
         [
-            "DDA",
-            "Member",
-            "LOC #",
+            "Account",
+            "Customer",
+            "Product #",
             "Amount",
-            "Issue Date",
-            "Expiration Date",
+            "Order Date",
+            "Delivery Date",
             "Fee",
             "Charge Date",
             "Fee Start Date",
@@ -44,13 +47,13 @@ namespace loc.test.Web.PageObjectFiles
         // Generic page header check
         public bool VerifyFeeActivitySubHeader()
         {
-            try 
-            { 
-                return IsElementVisible(feeActivitySubHeader); 
-            } 
-            catch 
-            { 
-                return false; 
+            try
+            {
+                return IsElementVisible(feeActivitySubHeader);
+            }
+            catch
+            {
+                return false;
             }
         }
 
@@ -67,46 +70,46 @@ namespace loc.test.Web.PageObjectFiles
                        || string.Equals(aria, "page", StringComparison.OrdinalIgnoreCase)
                        || string.Equals(aria, "true", StringComparison.OrdinalIgnoreCase);
             }
-            catch 
-            { 
-                return false; 
+            catch
+            {
+                return false;
             }
         }
 
         public bool VerifyViewFeeParametersButton()
         {
-            try 
-            { 
-                return IsElementVisible(viewFeeParametersButton); 
-            } 
-            catch 
-            { 
-                return false; 
+            try
+            {
+                return IsElementVisible(viewFeeParametersButton);
+            }
+            catch
+            {
+                return false;
             }
         }
 
         public bool VerifyExportToCsvButton()
         {
-            try 
-            { 
-                return IsElementVisible(exportToCsvButton); 
-            } 
-            catch 
-            { 
+            try
+            {
+                return IsElementVisible(exportToCsvButton);
+            }
+            catch
+            {
                 return false;
             }
         }
 
         public bool VerifyFeeParametersHeader()
         {
-            try 
+            try
             {
                 Driver.WaitVisible(feeParametersHeader);
                 return IsElementVisible(feeParametersHeader);
-            } 
-            catch 
+            }
+            catch
             {
-                return false; 
+                return false;
             }
         }
 
@@ -134,20 +137,20 @@ namespace loc.test.Web.PageObjectFiles
                 }
                 return true;
             }
-            catch 
-            { 
-                return false; 
+            catch
+            {
+                return false;
             }
         }
 
         public bool VerifyNoRecordsMessageVisible()
         {
-            try 
-            { 
-                return VerifyNoRecordsMessage(); 
-            } 
-            catch 
-            { 
+            try
+            {
+                return VerifyNoRecordsMessage();
+            }
+            catch
+            {
                 return false;
             }
         }
@@ -170,7 +173,7 @@ namespace loc.test.Web.PageObjectFiles
                 return rows.Any(t => t.Contains(term, StringComparison.OrdinalIgnoreCase));
             }
             catch
-            { 
+            {
                 return false;
             }
         }
@@ -191,7 +194,7 @@ namespace loc.test.Web.PageObjectFiles
             }
             catch { return false; }
         }
-        
+
         // First row token & status (if any)
         public (string? token, string? status) GetFirstRowTokenAndStatus(params string[] statusKeywords)
         {
@@ -307,8 +310,8 @@ namespace loc.test.Web.PageObjectFiles
                 var rowElements = Driver.FindElements(tableRows);
                 return [.. rowElements.Select(e => e.Text?.Trim() ?? string.Empty).Where(t => !string.IsNullOrEmpty(t))];
             }
-            catch 
-            { 
+            catch
+            {
                 return new List<string>();
             }
         }

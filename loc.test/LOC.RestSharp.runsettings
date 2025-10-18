@@ -13,7 +13,7 @@
 		<Parameter name="UserName" value="#{UserNameAzure}#" />
 		<Parameter name="UserPassword" value="#{AzureNonProdUserPassword}#" />
 
-		<!-- Entra ID Configuration (Specific to this project) -->
+		<!-- Azure AD Configuration -->
 		<Parameter name="EntraIdTenantId" value="#{EntraIdTenantId}#" />
 		<Parameter name="EntraIdClientId" value="#{EntraIdClientId}#" />
 		<Parameter name="EntraIdClientSecret" value="#{EntraIdClientSecret}#" />

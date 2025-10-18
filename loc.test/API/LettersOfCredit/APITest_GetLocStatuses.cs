@@ -1,4 +1,4 @@
-﻿using loc.test.API;
+﻿using TUEL.TestFramework.API;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using System.Collections.Generic;
@@ -6,9 +6,9 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace loc.test.API.LettersOfCredit
+namespace TUEL.TestFramework.API.Products
 {
-    public class LocDataStatus
+    public class ProductDataStatus
     {
         [JsonProperty("id")]
         public int Id { get; set; }
@@ -18,13 +18,13 @@ namespace loc.test.API.LettersOfCredit
     }
 
     [TestClass]
-    public class APITest_GetLocStatuses : APIBase
+    public class APITest_GetProductStatuses : APIBase
     {
-        private const string ApiPath = "/locs/statuses";
+        private const string ApiPath = "/products/statuses";
 
         [TestMethod]
-        [Description("Verifies that a GET request to the /locs/statuses endpoint returns a 200 OK status.")]
-        public async Task GetLocStatuses_Returns_Status_OK()
+        [Description("Verifies that a GET request to the /products/statuses endpoint returns a 200 OK status.")]
+        public async Task GetProductStatuses_Returns_Status_OK()
         {
             var response = await ExecuteGetAsync(ApiPath);
 
@@ -44,12 +44,11 @@ namespace loc.test.API.LettersOfCredit
 
         [TestMethod]
         [Description("Verifies that all status objects have valid data.")]
-        public async Task GetLocStatuses_All_Have_Valid_Data()
+        public async Task GetProductStatuses_All_Have_Valid_Data()
         {
-            var response = await ExecuteGetAsync<List<LocDataStatus>>(ApiPath);
+            var response = await ExecuteGetAsync<List<ProductDataStatus>>(ApiPath);
 
             Assert.IsTrue(response.Content.Length > 0);
-
         }
     }
 }

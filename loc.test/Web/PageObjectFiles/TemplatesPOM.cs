@@ -1,4 +1,6 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using TUEL.TestFramework;
+using TUEL.TestFramework.Web.Support;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using System;
@@ -6,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 
-namespace loc.test.Web.PageObjectFiles
+namespace TUEL.TestFramework.Web.PageObjects
 {
     public class TemplatesPOM : BasePage
     {
@@ -20,7 +22,7 @@ namespace loc.test.Web.PageObjectFiles
         #region Page & Navigation Elements
 
         // Page title and main header
-        private readonly By pageTitle = By.XPath("//h1[contains(text(), 'Letters of Credit')] | //*[@class='summit-page-container-title-text' and contains(text(), 'Letters of Credit')]");
+        private readonly By pageTitle = By.XPath("//h1[contains(text(), 'Business Application')] | //*[@class='summit-page-container-title-text' and contains(text(), 'Business Application')]");
         private readonly By templatesAndSignaturesHeader = By.XPath("//h2[contains(text(), 'Templates & Signatures')]");
 
         // Navigation tabs
@@ -44,11 +46,11 @@ namespace loc.test.Web.PageObjectFiles
 
         #endregion
 
-        #region Letter of Credit Signatories Section Elements
+        #region Business Document Signatories Section Elements
 
-        // Letter of Credit Signatories section
-        private readonly By letterOfCreditSignatoriesSection = By.XPath("//h3[contains(text(), 'Letter of Credit Signatories')] | //div[contains(@class, 'summit-section-header-text-title') and contains(text(), 'Letter of Credit Signatories')]");
-        private readonly By letterOfCreditSignatoriesHeader = By.XPath("//h3[contains(text(), 'Letter of Credit Signatories')]");
+        // Business Document Signatories section
+        private readonly By businessDocumentSignatoriesSection = By.XPath("//h3[contains(text(), 'Business Document Signatories')] | //div[contains(@class, 'summit-section-header-text-title') and contains(text(), 'Business Document Signatories')]");
+        private readonly By businessDocumentSignatoriesHeader = By.XPath("//h3[contains(text(), 'Business Document Signatories')]");
 
         // Signers block
         private readonly By signersBlock = By.XPath("//summit-card | //div[contains(@class, 'summit-card')]");
@@ -80,7 +82,7 @@ namespace loc.test.Web.PageObjectFiles
             {
                 var title = Driver.Title;
                 var titleElement = IsElementVisible(pageTitle);
-                return (!string.IsNullOrEmpty(title) && title.Contains("Letters of Credit")) || titleElement;
+                return (!string.IsNullOrEmpty(title) && title.Contains("Business Application")) || titleElement;
             }
             catch
             {
@@ -218,13 +220,13 @@ namespace loc.test.Web.PageObjectFiles
 
         #endregion
 
-        #region Letter of Credit Signatories Section Verification Methods
+        #region Business Document Signatories Section Verification Methods
 
-        public bool VerifyLetterOfCreditSignatoriesSection()
+        public bool VerifyBusinessDocumentSignatoriesSection()
         {
             try
             {
-                return IsElementVisible(letterOfCreditSignatoriesSection) || IsElementVisible(letterOfCreditSignatoriesHeader);
+                return IsElementVisible(businessDocumentSignatoriesSection) || IsElementVisible(businessDocumentSignatoriesHeader);
             }
             catch
             {
@@ -401,9 +403,9 @@ namespace loc.test.Web.PageObjectFiles
             try
             {
                 var templateNames = new List<string>();
-                if (IsElementVisible(templateLinkStandbyPud)) templateNames.Add("Standby / PUD");
-                if (IsElementVisible(templateLinkStandbyConfirming)) templateNames.Add("Standby for Confirming LOCs");
-                if (IsElementVisible(templateLinkDirectPay)) templateNames.Add("Direct Pay");
+                if (IsElementVisible(templateLinkStandbyPud)) templateNames.Add("Standard Template");
+                if (IsElementVisible(templateLinkStandbyConfirming)) templateNames.Add("Confirmation Template");
+                if (IsElementVisible(templateLinkDirectPay)) templateNames.Add("Direct Pay Template");
 
                 return templateNames;
             }

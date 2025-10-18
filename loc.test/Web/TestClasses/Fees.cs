@@ -1,10 +1,13 @@
-using loc.test.Web.PageObjectFiles;
-using loc.test.Web.TestClasses;
+using TUEL.TestFramework;
+using TUEL.TestFramework.Web.PageObjects;
+using TUEL.TestFramework.Web.Support;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenQA.Selenium;
 using System;
 using System.Linq;
+using System.Threading;
 
-namespace loc.test.Web.TestClasses
+namespace TUEL.TestFramework.Web.TestClasses
 {
     // UI tests for the Fees page
     [TestClass, TestCategory("UI"), TestCategory("Fees")]
@@ -61,7 +64,7 @@ namespace loc.test.Web.TestClasses
 
         private bool IsOnFeesPage() =>
             Driver != null && (FeesPage.VerifyFeeActivitySubHeader() || FeesPage.VerifyFeesTabActive());
-        
+
 
         private void WaitForFeesPageReady()
         {
@@ -81,7 +84,7 @@ namespace loc.test.Web.TestClasses
             bool feesTabActive = FeesPage.VerifyFeesTabActive();
             bool feeActivityHeader = FeesPage.VerifyFeeActivitySubHeader();
 
-            TestContext.WriteLine($"Browser title contains 'Letters of Credit': {pageTitle}");
+            TestContext.WriteLine($"Browser title contains 'Business Application': {pageTitle}");
             TestContext.WriteLine($"Fees tab highlighted as active: {feesTabActive}");
             TestContext.WriteLine($"'Fee Activity' sub-header visible: {feeActivityHeader}");
 
@@ -230,7 +233,7 @@ namespace loc.test.Web.TestClasses
         }
 
         [TestMethod]
-        [Description("Combined search: first-row DDA token then status (simple strict validation)")] 
+        [Description("Combined search: first-row DDA token then status (simple strict validation)")]
         public void Fees_VerifySearch_WithActualDataOnFirstRow()
         {
             TestContext.WriteLine("Starting first-row based search verification (strict mode)");
@@ -248,8 +251,8 @@ namespace loc.test.Web.TestClasses
                                            .ToList();
 
             // Status keywords from data
-            if (initialRows.Any(r => r.Contains("Charged", StringComparison.OrdinalIgnoreCase))) dynamicTokens.Add("Charged");
-            if (initialRows.Any(r => r.Contains("Denied", StringComparison.OrdinalIgnoreCase))) dynamicTokens.Add("Denied");
+            if (initialRows.Any(r => r.Contains("Active", StringComparison.OrdinalIgnoreCase))) dynamicTokens.Add("Active");
+            if (initialRows.Any(r => r.Contains("Inactive", StringComparison.OrdinalIgnoreCase))) dynamicTokens.Add("Inactive");
 
             var positiveTerms = dynamicTokens.Distinct(StringComparer.OrdinalIgnoreCase).ToList();
             TestContext.WriteLine($"Positive terms: {string.Join(", ", positiveTerms)}");
@@ -272,7 +275,7 @@ namespace loc.test.Web.TestClasses
         }
 
         [TestMethod]
-        [Description("Lightweight pagination: attempt to navigate to page 2 if available")] 
+        [Description("Lightweight pagination: attempt to navigate to page 2 if available")]
         public void Fees_Verify_Pagination_Page2()
         {
             bool pager = FeesPage.VerifyPaginationControls();

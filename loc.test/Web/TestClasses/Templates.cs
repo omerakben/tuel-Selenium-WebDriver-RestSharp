@@ -1,17 +1,15 @@
-﻿using fhlb.selenium.common.builders;
-using loc.test;
-using loc.test.Web.PageObjectFiles;
-using loc.test.Web.TestClasses;
-using loc.test.Web.Support;
+﻿using TUEL.TestFramework;
+using TUEL.TestFramework.Web.PageObjects;
+using TUEL.TestFramework.Web.Support;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
 using System;
 using System.Linq;
 using System.Threading;
 
-namespace loc.test.Web.TestClasses
+namespace TUEL.TestFramework.Web.TestClasses
 {
-    // Test class for the Letters of Credit Templates & Signatures page
+    // Test class for the Business Application Templates & Signatures page
     [TestClass, TestCategory("UI")]
     public class Templates : Base
     {
@@ -136,7 +134,7 @@ namespace loc.test.Web.TestClasses
             try
             {
                 var currentUrl = Driver.Url;
-                return currentUrl.Contains("/letters-of-credit/templates", StringComparison.OrdinalIgnoreCase) ||
+                return currentUrl.Contains("/business-application/templates", StringComparison.OrdinalIgnoreCase) ||
                        currentUrl.Contains("/templates", StringComparison.OrdinalIgnoreCase) ||
                        _templatesPage.IsPageLoaded();
             }
@@ -154,7 +152,7 @@ namespace loc.test.Web.TestClasses
                 if (currentUrl.Contains("as-badev-nc-loc-ui", StringComparison.OrdinalIgnoreCase))
                 {
                     var baseUrl = currentUrl.Substring(0, currentUrl.IndexOf(".net") + 4);
-                    var templatesUrl = $"{baseUrl}/letters-of-credit/templates";
+                    var templatesUrl = $"{baseUrl}/business-application/templates";
                     TestContext.WriteLine($"Attempting direct navigation to: {templatesUrl}");
                     Driver.Navigate().GoToUrl(templatesUrl);
                 }
@@ -278,7 +276,7 @@ namespace loc.test.Web.TestClasses
             TestContext.WriteLine($"Recommended checks passed: {recommendedPassed}/{recommendedChecks.Length}");
 
             // Assertions
-            Assert.IsTrue(pageTitle, "The browser page title must be 'Letters of Credit'");
+            Assert.IsTrue(pageTitle, "The browser page title must be 'Business Application'");
             Assert.IsTrue(templatesTabActive, "The 'Templates' tab must be highlighted as the active tab");
             Assert.IsTrue(templatesAndSignaturesHeader, "A sub-header with the text 'Templates & Signatures' is visible on the page");
 
@@ -378,7 +376,7 @@ namespace loc.test.Web.TestClasses
         {
             TestContext.WriteLine("Testing default template link interactions");
 
-            var templateNames = new[] { "Standby / PUD", "Standby for Confirming LOCs", "Direct Pay" };
+            var templateNames = new[] { "Standard Template", "Confirmation Template", "Direct Pay Template" };
 
             foreach (var templateName in templateNames)
             {

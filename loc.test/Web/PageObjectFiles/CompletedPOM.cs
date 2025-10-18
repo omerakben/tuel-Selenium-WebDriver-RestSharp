@@ -1,13 +1,14 @@
-﻿using OpenQA.Selenium;
-using loc.test.Web.Support;
+﻿using TUEL.TestFramework;
+using TUEL.TestFramework.Web.Support;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 
-namespace loc.test.Web.PageObjectFiles
+namespace TUEL.TestFramework.Web.PageObjects
 {
     public class CompletedPOM : BasePage
     {
@@ -27,21 +28,20 @@ namespace loc.test.Web.PageObjectFiles
         // Expected column headers in exact order
         private readonly string[] expectedColumnHeaders = new string[]
         {
-            "View", "DDA", "Member", "Issue Date", "Expiration Date",
-            "Beneficiary", "Amount", "LOC #", "LOC Type", "Letter", "Status"
+            "View", "Account", "Customer", "Order Date", "Delivery Date",
+            "Customer", "Amount", "Product #", "Product Type", "Document", "Status"
         };
 
         // Specific column locators for validation
         private readonly By viewColumn = By.XPath("//th[contains(text(), 'View')] | //th[contains(@title, 'View')]");
-        private readonly By ddaColumn = By.XPath("//th[contains(text(), 'DDA')] | //th[contains(@title, 'DDA')]");
-        private readonly By memberColumn = By.XPath("//th[contains(text(), 'Member')] | //th[contains(@title, 'Member')]");
-        private readonly By issueDateColumn = By.XPath("//th[contains(text(), 'Issue Date')] | //th[contains(@title, 'Issue Date')]");
-        private readonly By expirationDateColumn = By.XPath("//th[contains(text(), 'Expiration Date')] | //th[contains(@title, 'Expiration Date')]");
-        private readonly By beneficiaryColumn = By.XPath("//th[contains(text(), 'Beneficiary')] | //th[contains(@title, 'Beneficiary')]");
+        private readonly By accountColumn = By.XPath("//th[contains(text(), 'Account')] | //th[contains(@title, 'Account')]");
+        private readonly By customerColumn = By.XPath("//th[contains(text(), 'Customer')] | //th[contains(@title, 'Customer')]");
+        private readonly By orderDateColumn = By.XPath("//th[contains(text(), 'Order Date')] | //th[contains(@title, 'Order Date')]");
+        private readonly By deliveryDateColumn = By.XPath("//th[contains(text(), 'Delivery Date')] | //th[contains(@title, 'Delivery Date')]");
         private readonly By amountColumn = By.XPath("//th[contains(text(), 'Amount')] | //th[contains(@title, 'Amount')]");
-        private readonly By locNumberColumn = By.XPath("//th[contains(text(), 'LOC #')] | //th[contains(@title, 'LOC #')]");
-        private readonly By locTypeColumn = By.XPath("//th[contains(text(), 'LOC Type')] | //th[contains(@title, 'LOC Type')]");
-        private readonly By letterColumn = By.XPath("//th[contains(text(), 'Letter')] | //th[contains(@title, 'Letter')]");
+        private readonly By productNumberColumn = By.XPath("//th[contains(text(), 'Product #')] | //th[contains(@title, 'Product #')]");
+        private readonly By productTypeColumn = By.XPath("//th[contains(text(), 'Product Type')] | //th[contains(@title, 'Product Type')]");
+        private readonly By documentColumn = By.XPath("//th[contains(text(), 'Document')] | //th[contains(@title, 'Document')]");
         private readonly By statusColumn = By.XPath("//th[contains(text(), 'Status')] | //th[contains(@title, 'Status')]");
 
         #endregion
@@ -129,15 +129,14 @@ namespace loc.test.Web.PageObjectFiles
                 var columnChecks = new[]
                 {
                     IsElementVisible(viewColumn),
-                    IsElementVisible(ddaColumn),
-                    IsElementVisible(memberColumn),
-                    IsElementVisible(issueDateColumn),
-                    IsElementVisible(expirationDateColumn),
-                    IsElementVisible(beneficiaryColumn),
+                    IsElementVisible(accountColumn),
+                    IsElementVisible(customerColumn),
+                    IsElementVisible(orderDateColumn),
+                    IsElementVisible(deliveryDateColumn),
                     IsElementVisible(amountColumn),
-                    IsElementVisible(locNumberColumn),
-                    IsElementVisible(locTypeColumn),
-                    IsElementVisible(letterColumn),
+                    IsElementVisible(productNumberColumn),
+                    IsElementVisible(productTypeColumn),
+                    IsElementVisible(documentColumn),
                     IsElementVisible(statusColumn)
                 };
 

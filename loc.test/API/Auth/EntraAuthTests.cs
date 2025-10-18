@@ -2,7 +2,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading.Tasks;
 using System;
 
-namespace loc.test.API.Auth
+namespace TUEL.TestFramework.API.Auth
 {
     [TestClass]
     [TestCategory("AuthenticationTests")]
@@ -84,7 +84,6 @@ namespace loc.test.API.Auth
             // The primary check is that a valid token is returned.
             Assert.IsTrue(token2.Split('.').Length == 3, "Second token does not appear to be in a valid JWT format.");
         }
-
 
         [TestMethod]
         [TestCategory("Authentication")]

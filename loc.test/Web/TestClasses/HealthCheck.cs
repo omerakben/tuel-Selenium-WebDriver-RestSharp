@@ -1,14 +1,13 @@
-﻿using fhlb.selenium.common.builders;
-using loc.test;
-using loc.test.Web.PageObjectFiles;
-using loc.test.Web.TestClasses;
-using loc.test.Web.Support;
+﻿using TUEL.TestFramework;
+using TUEL.TestFramework.Web.PageObjects;
+using TUEL.TestFramework.Web.Support;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
 using System;
 using System.Linq;
+using System.Threading;
 
-namespace loc.test.Web.TestClasses
+namespace TUEL.TestFramework.Web.TestClasses
 {
     [TestClass, TestCategory("UI")]
     public class HealthCheck : Base

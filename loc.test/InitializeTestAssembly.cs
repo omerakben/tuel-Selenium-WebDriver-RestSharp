@@ -2,10 +2,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RestSharp;
 using System;
 using System.Globalization;
-using fhlb.selenium.common.Initializers;
 using OpenQA.Selenium;
 
-namespace loc.test
+namespace TUEL.TestFramework
 {
     [TestClass]
     public static class InitializeTestAssembly
@@ -22,7 +21,7 @@ namespace loc.test
         public static string? Email { get; private set; }
         public static string? Password { get; private set; }
 
-        // Entra ID Configuration
+        // Azure AD Configuration
         public static string EntraIdTenantId { get; private set; } = string.Empty;
         public static string EntraIdClientId { get; private set; } = string.Empty;
         public static string? EntraIdClientSecret { get; private set; }
@@ -36,9 +35,9 @@ namespace loc.test
         public static int ApiRetryIntervalMilliseconds { get; private set; } = 1000;
         public static int ApiTimeoutSeconds { get; private set; } = 30;
 
-        // FHLB Common Library Parameters
+        // Common Library Parameters
         public static string? EmailTo { get; private set; }
-        public static bool IsFhlbDriverInitialized { get; private set; }
+        public static bool IsDriverInitialized { get; private set; }
 
         // API Client
         public static RestClient? ApiClient { get; private set; }
@@ -54,38 +53,39 @@ namespace loc.test
             Console.WriteLine($"UI URL (from BaseURL): {UiUrl}");
             Console.WriteLine($"API URL (from BaseurlAPI): {BaseApiUrl}");
 
-            // 2. Prepare FHLB Edge Driver configuration
-            PrepareEdgeDriverConfiguration();
+            // 2. Prepare WebDriver configuration
+            PrepareWebDriverConfiguration();
 
             // 3. Initialize the RestSharp API client
             InitializeApiClient();
         }
 
-        private static void PrepareEdgeDriverConfiguration()
+        private static void PrepareWebDriverConfiguration()
         {
             try
             {
-                Console.WriteLine("Preparing Edge driver configuration using fhlb EdgeDriverManager");
-                IsFhlbDriverInitialized = true; //Switch true for using fhlb.selenium.common
-                Console.WriteLine("fhlb EdgeDriverManager configuration prepared successfully.");
+                Console.WriteLine("Preparing WebDriver configuration");
+                IsDriverInitialized = true;
+                Console.WriteLine("WebDriver configuration prepared successfully.");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Edge driver configuration failed. Local WebDriverFactory will be used as fallback. Error: {ex.Message}");
-                IsFhlbDriverInitialized = false;
+                Console.WriteLine($"WebDriver configuration failed. Local WebDriverFactory will be used as fallback. Error: {ex.Message}");
+                IsDriverInitialized = false;
             }
         }
 
-        public static IWebDriver CreateEdgeDriver()
+        public static IWebDriver CreateWebDriver()
         {
             try
             {
-                Console.WriteLine("Creating Edge driver using fhlb EdgeDriverManager");
-                return EdgeDriverManager.CreateDriver(Email, ENV);
+                Console.WriteLine("Creating WebDriver");
+                // This would be replaced with actual WebDriver creation logic
+                throw new NotImplementedException("WebDriver creation logic needs to be implemented");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Failed to create Edge driver: {ex.Message}");
+                Console.WriteLine($"Failed to create WebDriver: {ex.Message}");
                 throw;
             }
         }

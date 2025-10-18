@@ -1,23 +1,23 @@
-﻿using loc.test.API;
+﻿using TUEL.TestFramework.API;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace loc.test.API.LettersOfCredit
+namespace TUEL.TestFramework.API.Products
 {
     [TestClass]
-    public class APITest_GetLocById : APIBase
+    public class APITest_GetProductById : APIBase
     {
-        private const string ApiBasePath = "/locs";
+        private const string ApiBasePath = "/products";
 
-        private async Task<Guid> GetFirstValidLocIdAsync()
+        private async Task<Guid> GetFirstValidProductIdAsync()
         {
-            var response = await ExecuteGetAsync<GetLettersOfCreditResponse>($"{ApiBasePath}");
+            var response = await ExecuteGetAsync<GetProductsResponse>($"{ApiBasePath}");
 
             Assert.IsTrue(response.IsSuccessful,
-                $"Failed to get list of LOCs to select a valid ID. Status: {response.StatusCode}, Response: {response.Content}");
+                $"Failed to get list of products to select a valid ID. Status: {response.StatusCode}, Response: {response.Content}");
 
             Assert.IsNotNull(response.Data,
                 "Response data is null.");
@@ -26,26 +26,26 @@ namespace loc.test.API.LettersOfCredit
                 "Response items list is null.");
 
             Assert.IsTrue(response.Data.Items.Any(),
-                "The /locs endpoint returned no data, so no valid ID could be found for testing.");
+                "The /products endpoint returned no data, so no valid ID could be found for testing.");
 
-            var firstLoc = response.Data.Items.First();
+            var firstProduct = response.Data.Items.First();
 
-            TestContext.WriteLine($"Using LOC ID for testing: {firstLoc.LetterOfCreditId}");
-            TestContext.WriteLine($"LOC Number: {firstLoc.LocNumber}");
+            TestContext.WriteLine($"Using Product ID for testing: {firstProduct.ProductId}");
+            TestContext.WriteLine($"Product Number: {firstProduct.ProductNumber}");
 
-            return firstLoc.LetterOfCreditId;
+            return firstProduct.ProductId;
         }
 
         [TestMethod]
-        [Description("Verifies that a GET request for a specific, valid LOC returns a 200 OK status.")]
-        public async Task GetLocById_Returns_Status_OK_For_ValidId()
+        [Description("Verifies that a GET request for a specific, valid product returns a 200 OK status.")]
+        public async Task GetProductById_Returns_Status_OK_For_ValidId()
         {
-            // Get a valid LOC ID from the list
-            Guid validLocId = await GetFirstValidLocIdAsync();
+            // Get a valid product ID from the list
+            Guid validProductId = await GetFirstValidProductIdAsync();
 
-            var response = await ExecuteGetAsync($"{ApiBasePath}/{validLocId}");
+            var response = await ExecuteGetAsync($"{ApiBasePath}/{validProductId}");
 
-            TestContext.WriteLine($"Request URL: {ApiBasePath}/{validLocId}");
+            TestContext.WriteLine($"Request URL: {ApiBasePath}/{validProductId}");
             TestContext.WriteLine($"Response Status: {response.StatusCode}");
 
             if (response.StatusCode != HttpStatusCode.OK)
@@ -61,14 +61,14 @@ namespace loc.test.API.LettersOfCredit
         }
 
         [TestMethod]
-        [Description("Verifies that the response for a valid LOC can be deserialized into the complete LetterOfCreditDetail model.")]
-        public async Task GetLocById_Can_Parse_Response_For_ValidId()
+        [Description("Verifies that the response for a valid product can be deserialized into the complete ProductDetail model.")]
+        public async Task GetProductById_Can_Parse_Response_For_ValidId()
         {
-            // Get a valid LOC ID from the list
-            Guid validLocId = await GetFirstValidLocIdAsync();
+            // Get a valid product ID from the list
+            Guid validProductId = await GetFirstValidProductIdAsync();
 
-            // Get the detailed LOC
-            var response = await ExecuteGetAsync<LetterOfCreditDetail>($"{ApiBasePath}/{validLocId}");
+            // Get the detailed product
+            var response = await ExecuteGetAsync<ProductDetail>($"{ApiBasePath}/{validProductId}");
 
             if (!response.IsSuccessful)
             {
@@ -78,15 +78,15 @@ namespace loc.test.API.LettersOfCredit
         }
 
         [TestMethod]
-        [Description("Verifies that a GET request for a non-existent LOC GUID returns a 404 Not Found status.")]
-        public async Task GetLocById_Returns_NotFound_For_NonExistentId()
+        [Description("Verifies that a GET request for a non-existent product GUID returns a 404 Not Found status.")]
+        public async Task GetProductById_Returns_NotFound_For_NonExistentId()
         {
             // Generate a random GUID that shouldn't exist
-            var nonExistentLocId = Guid.NewGuid();
+            var nonExistentProductId = Guid.NewGuid();
 
-            TestContext.WriteLine($"Testing with non-existent ID: {nonExistentLocId}");
+            TestContext.WriteLine($"Testing with non-existent ID: {nonExistentProductId}");
 
-            var response = await ExecuteGetAsync($"{ApiBasePath}/{nonExistentLocId}");
+            var response = await ExecuteGetAsync($"{ApiBasePath}/{nonExistentProductId}");
 
             TestContext.WriteLine($"Response Status: {response.StatusCode}");
 
@@ -96,7 +96,7 @@ namespace loc.test.API.LettersOfCredit
 
         [TestMethod]
         [Description("Verifies that a GET request with an invalid GUID format returns appropriate error.")]
-        public async Task GetLocById_Returns_Error_For_Invalid_Guid_Format()
+        public async Task GetProductById_Returns_Error_For_Invalid_Guid_Format()
         {
             var invalidGuid = "not-a-valid-guid";
 

@@ -5,7 +5,7 @@ using System;
 using WebDriverManager;
 using WebDriverManager.DriverConfigs.Impl;
 
-namespace loc.test.Web.Support
+namespace TUEL.TestFramework.Web.Support
 {
     // Factory for creating WebDriver instances based on configuration
     public static class WebDriverFactory

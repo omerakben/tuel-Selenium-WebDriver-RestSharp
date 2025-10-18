@@ -1,17 +1,15 @@
-﻿using fhlb.selenium.common.builders;
-using loc.test.Web.PageObjectFiles;
-using loc.test.Web.Support;
-using loc.test;
-using loc.test.Web.TestClasses;
+﻿using TUEL.TestFramework;
+using TUEL.TestFramework.Web.PageObjects;
+using TUEL.TestFramework.Web.Support;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
 using System;
 using System.Linq;
 using System.Threading;
 
-namespace loc.test.Web.TestClasses
+namespace TUEL.TestFramework.Web.TestClasses
 {
-    // Test class for the Letters of Credit Completed page
+    // Test class for the Business Application Completed page
     [TestClass, TestCategory("UI"), TestCategory("Completed")]
     public class Completed : Base
     {
@@ -148,7 +146,7 @@ namespace loc.test.Web.TestClasses
             bool completedTabActive = _completedPage.VerifyCompletedTabActive();
             bool completedItemsHeader = _completedPage.VerifyCompletedItemsHeader();
 
-            TestContext.WriteLine($"Page Title Valid ('Letters of Credit'): {pageTitle}");
+            TestContext.WriteLine($"Page Title Valid ('Business Application'): {pageTitle}");
             TestContext.WriteLine($"Completed Tab Active: {completedTabActive}");
             TestContext.WriteLine($"Completed Items Header Present: {completedItemsHeader}");
 
@@ -201,7 +199,7 @@ namespace loc.test.Web.TestClasses
             TestContext.WriteLine($"Optional checks passed: {optionalPassed}/{optionalChecks.Length}");
 
             // Assertions
-            Assert.IsTrue(pageTitle, "Page title must contain 'Letters of Credit'");
+            Assert.IsTrue(pageTitle, "Page title must contain 'Business Application'");
             Assert.IsTrue(dataTablePresent, "Data table must be present on the page");
             Assert.IsTrue(completedItemsHeader, "Completed Items header must be visible");
             Assert.IsTrue(searchInput, "Search input field must be visible above the data table");
@@ -211,7 +209,7 @@ namespace loc.test.Web.TestClasses
             {
                 var actualHeaders = _completedPage.GetColumnHeaders();
                 TestContext.WriteLine($"Actual column headers found: {string.Join(", ", actualHeaders)}");
-                Assert.IsTrue(columnHeadersInOrder, "Column headers must be in exact order: View, DDA, Member, Issue Date, Expiration Date, Beneficiary, Amount, LOC #, LOC Type, Letter, Status");
+                Assert.IsTrue(columnHeadersInOrder, "Column headers must be in exact order: View, Account, Customer, Order Date, Delivery Date, Customer, Amount, Product #, Product Type, Document, Status");
             }
 
             TestContext.WriteLine("Completed page comprehensive test completed successfully");
@@ -225,7 +223,7 @@ namespace loc.test.Web.TestClasses
 
             // Page title verification
             bool pageTitle = _completedPage.VerifyPageTitle();
-            TestContext.WriteLine($"Page title contains 'Letters of Credit': {pageTitle}");
+            TestContext.WriteLine($"Page title contains 'Business Application': {pageTitle}");
 
             // Completed tab active state
             bool completedTabActive = _completedPage.VerifyCompletedTabActive();
@@ -236,7 +234,7 @@ namespace loc.test.Web.TestClasses
             TestContext.WriteLine($"Completed Items sub-header is visible: {completedItemsHeader}");
 
             // Assertions
-            Assert.IsTrue(pageTitle, "The browser page title must remain 'Letters of Credit'");
+            Assert.IsTrue(pageTitle, "The browser page title must remain 'Business Application'");
             Assert.IsTrue(completedTabActive, "The 'Completed' tab must be highlighted as the active tab");
             Assert.IsTrue(completedItemsHeader, "A sub-header with the text 'Completed Items' must be visible on the page");
 

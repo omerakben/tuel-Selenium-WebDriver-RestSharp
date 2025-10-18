@@ -2,7 +2,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.13.35828.75
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "loc.test", "loc.test.csproj", "{FDF84906-1C93-4F66-B642-49B2166024AD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TUEL.TestFramework", "TUEL.TestFramework.csproj", "{FDF84906-1C93-4F66-B642-49B2166024AD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

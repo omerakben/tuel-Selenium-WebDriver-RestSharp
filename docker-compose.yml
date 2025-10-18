@@ -1,0 +1,55 @@
+version: "3.8"
+
+services:
+  tuel-test-framework:
+    build: .
+    container_name: tuel-test-framework
+    environment:
+      - ENV=Development
+      - BaseURL=http://localhost:3000
+      - BaseurlAPI=http://localhost:5000/api
+      - DefaultTimeoutSeconds=30
+      - Browser=local-chrome
+      - EntraIdUseLocalJwt=true
+      - EntraIdLocalJwtRole=TestUser
+    volumes:
+      - ./test-results:/app/test-results
+      - ./loc.test/TUEL.TestFramework.local.runsettings:/app/loc.test/TUEL.TestFramework.local.runsettings
+    networks:
+      - test-network
+
+  # Optional: Add a sample API service for testing
+  sample-api:
+    image: mcr.microsoft.com/dotnet/aspnet:8.0
+    container_name: sample-api
+    ports:
+      - "5000:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+    volumes:
+      - ./sample-api:/app
+    networks:
+      - test-network
+    profiles:
+      - with-api
+
+  # Optional: Add a sample web application for UI testing
+  sample-web:
+    image: nginx:alpine
+    container_name: sample-web
+    ports:
+      - "3000:80"
+    volumes:
+      - ./sample-web:/usr/share/nginx/html
+    networks:
+      - test-network
+    profiles:
+      - with-web
+
+networks:
+  test-network:
+    driver: bridge
+
+volumes:
+  test-results:

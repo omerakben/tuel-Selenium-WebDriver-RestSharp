@@ -7,7 +7,7 @@ using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Text;
 
-namespace loc.test.API.Auth
+namespace TUEL.TestFramework.API.Auth
 {
     public static class EntraAuthHelper
     {
@@ -30,7 +30,7 @@ namespace loc.test.API.Auth
             return $"{GetTenantSpecificAuthority()}/oauth2/v2.0/token";
         }
 
-        // Retrieves an access token using the configured authentication flow (ROPC or Client Credentials).        
+        // Retrieves an access token using the configured authentication flow (ROPC or Client Credentials).
         public static async Task<string> GetAccessTokenAsync()
         {
             lock (_tokenLock)
@@ -308,7 +308,7 @@ namespace loc.test.API.Auth
             info.AppendLine($"Client ID: {InitializeTestAssembly.EntraIdClientId}");
             info.AppendLine($"API Scope: {InitializeTestAssembly.EntraIdApiScope}");
             info.AppendLine($"Has Client Secret: {!string.IsNullOrEmpty(InitializeTestAssembly.EntraIdClientSecret)}");
-            
+
             string authority = string.IsNullOrEmpty(InitializeTestAssembly.EntraIdTenantId) ? "N/A (TenantId not configured)" : GetTenantSpecificAuthority();
             string tokenEndpoint = string.IsNullOrEmpty(InitializeTestAssembly.EntraIdTenantId) ? "N/A (TenantId not configured)" : GetTenantSpecificTokenEndpoint();
 

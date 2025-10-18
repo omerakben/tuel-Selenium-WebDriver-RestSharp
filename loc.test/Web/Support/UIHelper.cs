@@ -3,9 +3,8 @@ using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
 using System;
 using System.Threading;
-using fhlb.selenium.common.Extensions;
 
-namespace loc.test.Web.Support
+namespace TUEL.TestFramework.Web.Support
 {
     // Static helper / extension class for robust Selenium actions.
     public static class UIHelper

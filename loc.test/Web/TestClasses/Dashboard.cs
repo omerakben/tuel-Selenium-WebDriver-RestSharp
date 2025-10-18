@@ -1,17 +1,15 @@
-﻿using fhlb.selenium.common.builders;
-using loc.test;
-using loc.test.Web.PageObjectFiles;
-using loc.test.Web.TestClasses;
-using loc.test.Web.Support;
+﻿using TUEL.TestFramework;
+using TUEL.TestFramework.Web.PageObjects;
+using TUEL.TestFramework.Web.Support;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
 using System;
 using System.Linq;
 using System.Threading;
 
-namespace loc.test.Web.TestClasses
+namespace TUEL.TestFramework.Web.TestClasses
 {
-    // Test class for the Letters of Credit Dashboard page
+    // Test class for the Business Application Dashboard page
     [TestClass, TestCategory("UI")]
     public class Dashboard : Base
     {
@@ -128,7 +126,7 @@ namespace loc.test.Web.TestClasses
                 if (currentUrl.Contains("as-badev-nc-loc-ui", StringComparison.OrdinalIgnoreCase))
                 {
                     var baseUrl = currentUrl.Substring(0, currentUrl.IndexOf(".net") + 4);
-                    var dashboardUrl = $"{baseUrl}/letters-of-credit/dashboard";
+                    var dashboardUrl = $"{baseUrl}/business-application/dashboard";
                     TestContext.WriteLine($"Attempting direct navigation to: {dashboardUrl}");
                     Driver.Navigate().GoToUrl(dashboardUrl);
                 }
@@ -500,7 +498,7 @@ namespace loc.test.Web.TestClasses
             Assert.IsTrue(navigationTabsPresent, "Navigation tabs should be present!");
 
             // Test clicking on different tabs if they exist
-            var tabsToTest = new[] { "Completed", "Beneficiaries", "Templates" };
+            var tabsToTest = new[] { "Completed", "Customers", "Templates" };
 
             foreach (var tabName in tabsToTest)
             {

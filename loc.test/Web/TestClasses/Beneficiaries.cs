@@ -1,31 +1,29 @@
-﻿using fhlb.selenium.common.builders;
-using loc.test.Web.PageObjectFiles;
-using loc.test.Web.Support;
-using loc.test;
-using loc.test.Web.TestClasses;
+﻿using TUEL.TestFramework;
+using TUEL.TestFramework.Web.PageObjects;
+using TUEL.TestFramework.Web.Support;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
 using System;
 using System.Linq;
 using System.Threading;
 
-namespace loc.test.Web.TestClasses
+namespace TUEL.TestFramework.Web.TestClasses
 {
-    // Test class for the Letters of Credit Beneficiaries page
-    [TestClass, TestCategory("UI"), TestCategory("Beneficiaries")]
-    public class Beneficiaries : Base
+    // Test class for the Business Application Customers page
+    [TestClass, TestCategory("UI"), TestCategory("Customers")]
+    public class Customers : Base
     {
-        private BeneficiariesPOM _beneficiariesPage;
+        private BeneficiariesPOM _customersPage;
         private DashboardPOM _dashboardPage;
         private LoginPOM _loginPage;
 
         [TestInitialize]
-        public void BeneficiariesTestSetup()
+        public void CustomersTestSetup()
         {
             try
             {
-                TestContext.WriteLine("Initializing Beneficiaries test components...");
-                _beneficiariesPage = new BeneficiariesPOM(Driver);
+                TestContext.WriteLine("Initializing Customers test components...");
+                _customersPage = new BeneficiariesPOM(Driver);
                 _dashboardPage = new DashboardPOM(Driver);
                 _loginPage = new LoginPOM(Driver);
 
@@ -50,58 +48,58 @@ namespace loc.test.Web.TestClasses
                     TestContext.WriteLine("No credentials provided for authentication");
                 }
 
-                WaitForBeneficiariesPageReady();
-                TestContext.WriteLine("Beneficiaries test setup completed successfully");
+                WaitForCustomersPageReady();
+                TestContext.WriteLine("Customers test setup completed successfully");
             }
             catch (Exception ex)
             {
-                TestContext.WriteLine($"Beneficiaries test setup failed: {ex.Message}");
+                TestContext.WriteLine($"Customers test setup failed: {ex.Message}");
                 TestContext.WriteLine($"Current URL: {Driver.Url}");
                 TestContext.WriteLine($"Page Title: {Driver.Title}");
                 throw;
             }
         }
 
-        private void NavigateToBeneficiariesPage()
+        private void NavigateToCustomersPage()
         {
             try
             {
-                TestContext.WriteLine("Navigating to Beneficiaries page...");
+                TestContext.WriteLine("Navigating to Customers page...");
 
                 // First check on a page with navigation tabs
                 if (!_dashboardPage.VerifyNavigationTabsPresent())
                 {
                     // Navigate to dashboard first
-                    var dashboardUrl = $"{InitializeTestAssembly.UiUrl}/letters-of-credit/dashboard";
+                    var dashboardUrl = $"{InitializeTestAssembly.UiUrl}/business-application/dashboard";
                     Driver.Navigate().GoToUrl(dashboardUrl);
                     Thread.Sleep(2000);
                 }
 
-                // Click on Beneficiaries tab
-                _beneficiariesPage.ClickBeneficiariesTab();
-                TestContext.WriteLine("Clicked on Beneficiaries tab");
+                // Click on Customers tab
+                _customersPage.ClickCustomersTab();
+                TestContext.WriteLine("Clicked on Customers tab");
 
-                // Wait for URL to change to beneficiaries page
-                var beneficiariesPageLoaded = Driver.WaitForUrlContains("/beneficiaries", TimeSpan.FromSeconds(15)) ||
-                                            Driver.WaitForUrlContains("/letters-of-credit/beneficiaries", TimeSpan.FromSeconds(5));
+                // Wait for URL to change to customers page
+                var customersPageLoaded = Driver.WaitForUrlContains("/customers", TimeSpan.FromSeconds(15)) ||
+                                        Driver.WaitForUrlContains("/business-application/customers", TimeSpan.FromSeconds(5));
 
-                if (beneficiariesPageLoaded)
+                if (customersPageLoaded)
                 {
-                    TestContext.WriteLine("Successfully navigated to Beneficiaries page");
+                    TestContext.WriteLine("Successfully navigated to Customers page");
                 }
                 else
                 {
-                    TestContext.WriteLine($"Warning: Expected beneficiaries page, current URL: {Driver.Url}");
+                    TestContext.WriteLine($"Warning: Expected customers page, current URL: {Driver.Url}");
                 }
             }
             catch (Exception ex)
             {
-                TestContext.WriteLine($"Navigation to Beneficiaries page failed: {ex.Message}");
+                TestContext.WriteLine($"Navigation to Customers page failed: {ex.Message}");
                 throw;
             }
         }
 
-        private void WaitForBeneficiariesPageReady()
+        private void WaitForCustomersPageReady()
         {
             const int maxRetries = 3;
             const int waitBetweenRetries = 2000;
@@ -110,19 +108,19 @@ namespace loc.test.Web.TestClasses
             {
                 try
                 {
-                    TestContext.WriteLine($"Waiting for Beneficiaries page to be ready (attempt {attempt}/{maxRetries})...");
+                    TestContext.WriteLine($"Waiting for Customers page to be ready (attempt {attempt}/{maxRetries})...");
 
                     Driver.WaitForPageTransition(TimeSpan.FromSeconds(5));
 
-                    // Try to wait for beneficiaries page-specific elements
-                    _beneficiariesPage.WaitUntilPageIsLoaded(TimeSpan.FromSeconds(10));
+                    // Try to wait for customers page-specific elements
+                    _customersPage.WaitUntilPageIsLoaded(TimeSpan.FromSeconds(10));
 
-                    TestContext.WriteLine("Beneficiaries page is ready");
+                    TestContext.WriteLine("Customers page is ready");
                     return;
                 }
                 catch (Exception ex)
                 {
-                    TestContext.WriteLine($"Beneficiaries page readiness check failed (attempt {attempt}): {ex.Message}");
+                    TestContext.WriteLine($"Customers page readiness check failed (attempt {attempt}): {ex.Message}");
 
                     if (attempt < maxRetries)
                     {
@@ -131,38 +129,38 @@ namespace loc.test.Web.TestClasses
                     }
                     else
                     {
-                        TestContext.WriteLine("Beneficiaries page readiness timeout");
+                        TestContext.WriteLine("Customers page readiness timeout");
                     }
                 }
             }
         }
 
         [TestMethod]
-        [Description("Beneficiaries page comprehensive test verifying all components")]
-        public void Beneficiaries_SmokeTest_AllComponentsPresent()
+        [Description("Customers page comprehensive test verifying all components")]
+        public void Customers_SmokeTest_AllComponentsPresent()
         {
-            TestContext.WriteLine("Starting comprehensive Beneficiaries page components test");
+            TestContext.WriteLine("Starting comprehensive Customers page components test");
 
             // Test Page State & Navigation Verification
-            bool pageTitle = _beneficiariesPage.VerifyPageTitle();
-            bool beneficiariesTabActive = _beneficiariesPage.VerifyBeneficiariesTabActive();
-            bool beneficiariesHeader = _beneficiariesPage.VerifyBeneficiariesHeader();
+            bool pageTitle = _customersPage.VerifyPageTitle();
+            bool customersTabActive = _customersPage.VerifyCustomersTabActive();
+            bool customersHeader = _customersPage.VerifyCustomersHeader();
 
-            TestContext.WriteLine($"Page Title Valid ('Letters of Credit'): {pageTitle}");
-            TestContext.WriteLine($"Beneficiaries Tab Active: {beneficiariesTabActive}");
-            TestContext.WriteLine($"Beneficiaries Header Present: {beneficiariesHeader}");
+            TestContext.WriteLine($"Page Title Valid ('Business Application'): {pageTitle}");
+            TestContext.WriteLine($"Customers Tab Active: {customersTabActive}");
+            TestContext.WriteLine($"Customers Header Present: {customersHeader}");
 
             // Test Search and Controls Verification
-            bool searchInput = _beneficiariesPage.VerifySearchInput();
+            bool searchInput = _customersPage.VerifySearchInput();
 
             TestContext.WriteLine($"Search Input Available: {searchInput}");
 
             // Test Data Table & Columns Verification
-            bool dataTablePresent = _beneficiariesPage.VerifyDataTablePresent();
-            bool columnHeadersInOrder = _beneficiariesPage.VerifyColumnHeadersInOrder();
-            bool specificColumns = _beneficiariesPage.VerifySpecificColumns();
-            bool viewLinksPresent = _beneficiariesPage.VerifyViewLinksInRows();
-            int rowCount = _beneficiariesPage.GetDataRowCount(); 
+            bool dataTablePresent = _customersPage.VerifyDataTablePresent();
+            bool columnHeadersInOrder = _customersPage.VerifyColumnHeadersInOrder();
+            bool specificColumns = _customersPage.VerifySpecificColumns();
+            bool viewLinksPresent = _customersPage.VerifyViewLinksInRows();
+            int rowCount = _customersPage.GetDataRowCount();
 
             TestContext.WriteLine($"Data Table Present: {dataTablePresent}");
             TestContext.WriteLine($"Column Headers In Correct Order: {columnHeadersInOrder}");
@@ -171,11 +169,11 @@ namespace loc.test.Web.TestClasses
             TestContext.WriteLine($"Data Row Count: {rowCount}");
 
             // Test Pagination and Item Count Verification
-            bool paginationControls = _beneficiariesPage.VerifyPaginationControls(); 
-            bool pageStatusDisplay = _beneficiariesPage.VerifyPageStatusDisplay(); 
-            bool itemsPerPageSelector = _beneficiariesPage.VerifyItemsPerPageSelector(); 
-            bool multiPageDataSet = _beneficiariesPage.VerifyMultiPageDataSet();
-            bool itemCountSummary = _beneficiariesPage.VerifyItemCountSummary();
+            bool paginationControls = _customersPage.VerifyPaginationControls();
+            bool pageStatusDisplay = _customersPage.VerifyPageStatusDisplay();
+            bool itemsPerPageSelector = _customersPage.VerifyItemsPerPageSelector();
+            bool multiPageDataSet = _customersPage.VerifyMultiPageDataSet();
+            bool itemCountSummary = _customersPage.VerifyItemCountSummary();
 
             TestContext.WriteLine($"Pagination Controls Present: {paginationControls}");
             TestContext.WriteLine($"Page Status Display Present: {pageStatusDisplay}");
@@ -186,14 +184,14 @@ namespace loc.test.Web.TestClasses
             // Get current page status for logging
             if (pageStatusDisplay)
             {
-                string pageStatus = _beneficiariesPage.GetPageStatus(); 
+                string pageStatus = _customersPage.GetPageStatus();
                 TestContext.WriteLine($"Current page status: '{pageStatus}'");
             }
 
             // Define critical, important, and optional checks
-            var criticalChecks = new[] { pageTitle, dataTablePresent, beneficiariesHeader };
+            var criticalChecks = new[] { pageTitle, dataTablePresent, customersHeader };
             var importantChecks = new[] { searchInput, columnHeadersInOrder, viewLinksPresent, paginationControls };
-            var optionalChecks = new[] { beneficiariesTabActive, specificColumns, pageStatusDisplay, itemsPerPageSelector, multiPageDataSet, itemCountSummary };
+            var optionalChecks = new[] { customersTabActive, specificColumns, pageStatusDisplay, itemsPerPageSelector, multiPageDataSet, itemCountSummary };
 
             var criticalPassed = criticalChecks.Count(check => check);
             var importantPassed = importantChecks.Count(check => check);
@@ -219,7 +217,7 @@ namespace loc.test.Web.TestClasses
             // Column headers verification is critical
             if (dataTablePresent && !columnHeadersInOrder)
             {
-                var actualHeaders = _beneficiariesPage.GetColumnHeaders();
+                var actualHeaders = _customersPage.GetColumnHeaders();
                 TestContext.WriteLine($"Actual column headers found: {string.Join(", ", actualHeaders)}");
                 Assert.IsTrue(columnHeadersInOrder, "Column headers must be in exact order: View, Beneficiary, Address, Address 2, Address 3, City, State, Zip Code");
             }
@@ -234,15 +232,15 @@ namespace loc.test.Web.TestClasses
             TestContext.WriteLine("Testing page state and navigation");
 
             // Page title verification
-            bool pageTitle = _beneficiariesPage.VerifyPageTitle();
+            bool pageTitle = _customersPage.VerifyPageTitle();
             TestContext.WriteLine($"Page title contains 'Letters of Credit': {pageTitle}");
 
             // Beneficiaries tab active state
-            bool beneficiariesTabActive = _beneficiariesPage.VerifyBeneficiariesTabActive();
+            bool beneficiariesTabActive = _customersPage.VerifyBeneficiariesTabActive();
             TestContext.WriteLine($"Beneficiaries tab is active/highlighted: {beneficiariesTabActive}");
 
             // Beneficiaries sub-header
-            bool beneficiariesHeader = _beneficiariesPage.VerifyBeneficiariesHeader();
+            bool beneficiariesHeader = _customersPage.VerifyBeneficiariesHeader();
             TestContext.WriteLine($"Beneficiaries sub-header is visible: {beneficiariesHeader}");
 
             // Assertions
@@ -255,16 +253,16 @@ namespace loc.test.Web.TestClasses
 
         [TestMethod]
         [Description("Verify search functionality and controls")]
-        public void Beneficiaries_VerifySearchFunctionality()
+        public void Customers_VerifySearchFunctionality()
         {
             TestContext.WriteLine("Testing search functionality and controls");
 
             // Search input field verification
-            bool searchInput = _beneficiariesPage.VerifySearchInput(); 
+            bool searchInput = _customersPage.VerifySearchInput();
             TestContext.WriteLine($"Search input field is visible: {searchInput}");
 
             // Story card requirement assertion
-            Assert.IsTrue(searchInput, "A search input field is visible above the data table, allowing users to search for beneficiaries");
+            Assert.IsTrue(searchInput, "A search input field is visible above the data table, allowing users to search for customers");
 
             // Test search functionality
             if (searchInput)
@@ -272,11 +270,11 @@ namespace loc.test.Web.TestClasses
                 try
                 {
                     TestContext.WriteLine("Testing search functionality with sample input...");
-                    _beneficiariesPage.SearchBeneficiaries("test");
+                    _customersPage.SearchCustomers("test");
                     TestContext.WriteLine("Search functionality test successful");
 
                     // Clear search
-                    _beneficiariesPage.SearchBeneficiaries("");
+                    _customersPage.SearchCustomers("");
                     TestContext.WriteLine("Search clear successful");
                 }
                 catch (Exception ex)
@@ -290,12 +288,12 @@ namespace loc.test.Web.TestClasses
 
         [TestMethod]
         [Description("Verify data table structure and columns")]
-        public void Beneficiaries_VerifyDataTableStructure()
+        public void Customers_VerifyDataTableStructure()
         {
             TestContext.WriteLine("Testing data table structure and columns");
 
             // Data table presence
-            bool dataTablePresent = _beneficiariesPage.VerifyDataTablePresent(); 
+            bool dataTablePresent = _customersPage.VerifyDataTablePresent();
             TestContext.WriteLine($"Data table grid is loaded: {dataTablePresent}");
 
             Assert.IsTrue(dataTablePresent, "A data table grid is loaded and populated with rows of data");
@@ -303,8 +301,8 @@ namespace loc.test.Web.TestClasses
             if (dataTablePresent)
             {
                 // Column headers verification
-                bool columnHeadersInOrder = _beneficiariesPage.VerifyColumnHeadersInOrder();
-                var actualHeaders = _beneficiariesPage.GetColumnHeaders();
+                bool columnHeadersInOrder = _customersPage.VerifyColumnHeadersInOrder();
+                var actualHeaders = _customersPage.GetColumnHeaders();
 
                 TestContext.WriteLine($"Column headers in correct order: {columnHeadersInOrder}");
                 TestContext.WriteLine($"Actual headers found: {string.Join(", ", actualHeaders)}");
@@ -316,17 +314,17 @@ namespace loc.test.Web.TestClasses
                 Assert.IsTrue(columnHeadersInOrder, "The table must display column headers exactly in this order: View, Beneficiary, Address, Address 2, Address 3, City, State, Zip Code");
 
                 // Check for View links in rows
-                bool viewLinksPresent = _beneficiariesPage.VerifyViewLinksInRows();
+                bool viewLinksPresent = _customersPage.VerifyViewLinksInRows();
                 TestContext.WriteLine($"View links present in rows: {viewLinksPresent}");
                 Assert.IsTrue(viewLinksPresent, "Each row in the 'View' column must contain a clickable 'View' link");
 
                 // Check for data
-                int rowCount = _beneficiariesPage.GetDataRowCount(); 
+                int rowCount = _customersPage.GetDataRowCount();
                 TestContext.WriteLine($"Data row count: {rowCount}");
 
                 if (rowCount == 0)
                 {
-                    bool noRecordsMessage = _beneficiariesPage.VerifyNoRecordsMessage(); 
+                    bool noRecordsMessage = _customersPage.VerifyNoRecordsMessage();
                     TestContext.WriteLine($"No records message displayed: {noRecordsMessage}");
                     Assert.IsTrue(noRecordsMessage, "If no records are returned, the table body must correctly display the message 'No records available'");
                 }
@@ -346,29 +344,29 @@ namespace loc.test.Web.TestClasses
             TestContext.WriteLine("Testing pagination controls and item count verification");
 
             // Pagination controls presence
-            bool paginationControls = _beneficiariesPage.VerifyPaginationControls(); 
+            bool paginationControls = _customersPage.VerifyPaginationControls();
             TestContext.WriteLine($"Pagination controls are visible: {paginationControls}");
 
             // Page status display
-            bool pageStatusDisplay = _beneficiariesPage.VerifyPageStatusDisplay(); 
+            bool pageStatusDisplay = _customersPage.VerifyPageStatusDisplay();
             TestContext.WriteLine($"Page status display is visible: {pageStatusDisplay}");
 
             // Items per page selector
-            bool itemsPerPageSelector = _beneficiariesPage.VerifyItemsPerPageSelector(); 
+            bool itemsPerPageSelector = _customersPage.VerifyItemsPerPageSelector();
             TestContext.WriteLine($"Items per page selector is visible: {itemsPerPageSelector}");
 
             // Multi-page data set verification
-            bool multiPageDataSet = _beneficiariesPage.VerifyMultiPageDataSet();
+            bool multiPageDataSet = _customersPage.VerifyMultiPageDataSet();
             TestContext.WriteLine($"Multi-page data set detected: {multiPageDataSet}");
 
             // Item count summary verification
-            bool itemCountSummary = _beneficiariesPage.VerifyItemCountSummary();
+            bool itemCountSummary = _customersPage.VerifyItemCountSummary();
             TestContext.WriteLine($"Item count summary present: {itemCountSummary}");
 
             // Get current page status
             if (pageStatusDisplay)
             {
-                string pageStatus = _beneficiariesPage.GetPageStatus(); 
+                string pageStatus = _customersPage.GetPageStatus();
                 TestContext.WriteLine($"Current page status: '{pageStatus}'");
             }
 
@@ -398,17 +396,17 @@ namespace loc.test.Web.TestClasses
         {
             TestContext.WriteLine("Testing View link functionality");
 
-            bool dataTablePresent = _beneficiariesPage.VerifyDataTablePresent(); 
+            bool dataTablePresent = _customersPage.VerifyDataTablePresent();
             TestContext.WriteLine($"Data table present: {dataTablePresent}");
 
             if (dataTablePresent)
             {
-                int rowCount = _beneficiariesPage.GetDataRowCount(); 
+                int rowCount = _customersPage.GetDataRowCount();
                 TestContext.WriteLine($"Data row count: {rowCount}");
 
                 if (rowCount > 0)
                 {
-                    bool viewLinksPresent = _beneficiariesPage.VerifyViewLinksInRows();
+                    bool viewLinksPresent = _customersPage.VerifyViewLinksInRows();
                     TestContext.WriteLine($"View links present: {viewLinksPresent}");
 
                     Assert.IsTrue(viewLinksPresent, "Each row in the 'View' column must contain a clickable 'View' link");
@@ -419,7 +417,7 @@ namespace loc.test.Web.TestClasses
                         {
                             TestContext.WriteLine("Testing click functionality of first View link...");
                             string currentUrl = Driver.Url;
-                            _beneficiariesPage.ClickFirstViewLink();
+                            _customersPage.ClickFirstViewLink();
 
                             // Wait a moment for potential navigation
                             Thread.Sleep(2000);
@@ -463,7 +461,7 @@ namespace loc.test.Web.TestClasses
             TestContext.WriteLine("Testing tab navigation functionality");
 
             // Verify on Beneficiaries tab
-            bool beneficiariesTabActive = _beneficiariesPage.VerifyBeneficiariesTabActive();
+            bool beneficiariesTabActive = _customersPage.VerifyBeneficiariesTabActive();
             TestContext.WriteLine($"Currently on Beneficiaries tab: {beneficiariesTabActive}");
 
             // Test navigation to other tabs and back
@@ -474,14 +472,14 @@ namespace loc.test.Web.TestClasses
                 try
                 {
                     TestContext.WriteLine($"Testing navigation to {tabName} tab...");
-                    _beneficiariesPage.ClickNavigationTab(tabName.ToLower());
+                    _customersPage.ClickNavigationTab(tabName.ToLower());
                     Thread.Sleep(2000);
 
                     TestContext.WriteLine($"Successfully navigated to {tabName} tab");
 
                     // Navigate back to Beneficiaries
                     TestContext.WriteLine("Navigating back to Beneficiaries tab...");
-                    _beneficiariesPage.ClickNavigationTab("beneficiaries");
+                    _customersPage.ClickNavigationTab("beneficiaries");
                     Thread.Sleep(2000);
 
                     TestContext.WriteLine("Successfully navigated back to Beneficiaries tab");
@@ -508,7 +506,7 @@ namespace loc.test.Web.TestClasses
             TestContext.WriteLine($"Current URL: {Driver.Url}");
             TestContext.WriteLine($"Page Title: {Driver.Title}");
 
-            bool pageLoaded = _beneficiariesPage.IsPageLoaded();
+            bool pageLoaded = _customersPage.IsPageLoaded();
             TestContext.WriteLine($"Beneficiaries page loaded: {pageLoaded}");
 
             Assert.IsTrue(pageLoaded, "Beneficiaries page should be loaded successfully");

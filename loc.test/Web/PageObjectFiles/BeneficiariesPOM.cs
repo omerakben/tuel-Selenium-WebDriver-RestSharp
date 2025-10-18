@@ -1,11 +1,15 @@
-﻿using OpenQA.Selenium;
-using loc.test.Web.Support;
+﻿using TUEL.TestFramework;
+using TUEL.TestFramework.Web.Support;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using OpenQA.Selenium.Keys;
 
-namespace loc.test.Web.PageObjectFiles
+namespace TUEL.TestFramework.Web.PageObjects
 {
     public class BeneficiariesPOM : BasePage
     {
@@ -13,24 +17,24 @@ namespace loc.test.Web.PageObjectFiles
         {
         }
 
-        // Primary page identifier - Beneficiaries header
-        protected override By UniqueLocator => By.XPath("//h3[contains(text(), 'Beneficiaries')] | //div[contains(text(), 'Beneficiaries')] | //h2[contains(text(), 'Beneficiaries')]");
+        // Primary page identifier - Customers header
+        protected override By UniqueLocator => By.XPath("//h3[contains(text(), 'Customers')] | //div[contains(text(), 'Customers')] | //h2[contains(text(), 'Customers')]");
 
         #region Page-Specific Elements
 
-        // Beneficiaries page specific elements
-        private readonly By beneficiariesHeader = By.XPath("//h3[contains(text(), 'Beneficiaries')] | //div[contains(text(), 'Beneficiaries')] | //h2[contains(text(), 'Beneficiaries')]");
-        private readonly By addNewBeneficiaryButton = By.XPath("//button[contains(text(), 'Add New Beneficiary')] | //*[contains(text(), 'Add New Beneficiary')]");
+        // Customers page specific elements
+        private readonly By customersHeader = By.XPath("//h3[contains(text(), 'Customers')] | //div[contains(text(), 'Customers')] | //h2[contains(text(), 'Customers')]");
+        private readonly By addNewCustomerButton = By.XPath("//button[contains(text(), 'Add New Customer')] | //*[contains(text(), 'Add New Customer')]");
 
-        // Expected column headers in exact order for Beneficiaries page
+        // Expected column headers in exact order for Customers page
         private readonly string[] expectedColumnHeaders = new string[]
         {
-            "View", "Beneficiary", "Address", "Address 2", "Address 3", "City", "State", "Zip Code"
+            "View", "Customer", "Address", "Address 2", "Address 3", "City", "State", "Zip Code"
         };
 
         // Specific column locators for validation - based on the HTML structure
         private readonly By viewColumn = By.XPath("//th[contains(.//span, 'View')] | //th[contains(@title, 'View')] | //span[contains(@class, 'k-column-title') and contains(text(), 'View')]");
-        private readonly By beneficiaryColumn = By.XPath("//th[contains(.//span, 'Beneficiary')] | //th[contains(@title, 'Beneficiary')] | //span[contains(@class, 'k-column-title') and contains(text(), 'Beneficiary')]");
+        private readonly By customerColumn = By.XPath("//th[contains(.//span, 'Customer')] | //th[contains(@title, 'Customer')] | //span[contains(@class, 'k-column-title') and contains(text(), 'Customer')]");
         private readonly By addressColumn = By.XPath("//th[contains(.//span, 'Address') and not(contains(.//span, 'Address 2')) and not(contains(.//span, 'Address 3'))] | //span[contains(@class, 'k-column-title') and text()='Address']");
         private readonly By address2Column = By.XPath("//th[contains(.//span, 'Address 2')] | //span[contains(@class, 'k-column-title') and contains(text(), 'Address 2')]");
         private readonly By address3Column = By.XPath("//th[contains(.//span, 'Address 3')] | //span[contains(@class, 'k-column-title') and contains(text(), 'Address 3')]");
@@ -44,9 +48,9 @@ namespace loc.test.Web.PageObjectFiles
         private readonly By kendoGridRows = By.XPath("//kendo-grid//tbody//tr[contains(@class, 'k-master-row')] | //*[contains(@class, 'k-grid')]//tbody//tr[contains(@class, 'k-master-row')]");
 
         // View links in the first column
-        private readonly By viewLinks = By.XPath("//a[contains(@class, 'grid-link') and contains(text(), 'View')] | //a[contains(@title, 'View this beneficiary')]");
+        private readonly By viewLinks = By.XPath("//a[contains(@class, 'grid-link') and contains(text(), 'View')] | //a[contains(@title, 'View this customer')]");
 
-        // Export to CSV specific to beneficiaries page
+        // Export to CSV specific to customers page
         private readonly By exportToCsvButton = By.XPath("//button[contains(text(), 'Export to CSV')] | //*[contains(text(), 'Export to CSV')]");
 
         // Kendo Pager specific elements - more specific locators based on HTML structure
@@ -129,7 +133,7 @@ namespace loc.test.Web.PageObjectFiles
                 var columnChecks = new[]
                 {
                     IsElementVisible(viewColumn),
-                    IsElementVisible(beneficiaryColumn),
+                    IsElementVisible(customerColumn),
                     IsElementVisible(addressColumn),
                     IsElementVisible(address2Column),
                     IsElementVisible(address3Column),
@@ -227,22 +231,22 @@ namespace loc.test.Web.PageObjectFiles
 
         #region Page-Specific Action Methods
 
-        public void ClickBeneficiariesTab()
+        public void ClickCustomersTab()
         {
             try
             {
                 Thread.Sleep(2000);
-                var tab = Driver.WaitClickable(beneficiariesTab, TimeSpan.FromSeconds(10));
+                var tab = Driver.WaitClickable(customersTab, TimeSpan.FromSeconds(10));
                 tab.Click();
-                
+
             }
             catch (Exception ex)
             {
-                throw new Exception($"Failed to click Beneficiaries tab: {ex.Message}");
+                throw new Exception($"Failed to click Customers tab: {ex.Message}");
             }
         }
 
-        public void SearchBeneficiaries(string searchText)
+        public void SearchCustomers(string searchText)
         {
             try
             {
@@ -255,22 +259,22 @@ namespace loc.test.Web.PageObjectFiles
             }
             catch (Exception ex)
             {
-                throw new Exception($"Failed to search beneficiaries: {ex.Message}");
+                throw new Exception($"Failed to search customers: {ex.Message}");
             }
         }
 
-        public void ClickAddNewBeneficiary()
+        public void ClickAddNewCustomer()
         {
             try
             {
-                var addButton = Driver.WaitClickable(addNewBeneficiaryButton, TimeSpan.FromSeconds(10));
+                var addButton = Driver.WaitClickable(addNewCustomerButton, TimeSpan.FromSeconds(10));
                 addButton.Click();
 
                 Thread.Sleep(2000);
             }
             catch (Exception ex)
             {
-                throw new Exception($"Failed to click Add New Beneficiary: {ex.Message}");
+                throw new Exception($"Failed to click Add New Customer: {ex.Message}");
             }
         }
 

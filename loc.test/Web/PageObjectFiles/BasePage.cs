@@ -1,12 +1,11 @@
-using fhlb.selenium.common.Extensions;
-using loc.test;
-using loc.test.Web.Support;
+using TUEL.TestFramework;
+using TUEL.TestFramework.Web.Support;
 using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace loc.test.Web.PageObjectFiles
+namespace TUEL.TestFramework.Web.PageObjects
 {
     // Abstract base for all Page Object Model (POM) classes.
     public abstract class BasePage
@@ -29,18 +28,18 @@ namespace loc.test.Web.PageObjectFiles
         // A locator unique to the page, used to confirm the page has loaded correctly.
         protected abstract By UniqueLocator { get; }
 
-        #region Common LOC Application Locators
+        #region Common Business Application Locators
 
-        // Common elements across LOC pages
-        protected readonly By mainHeader = By.XPath("//h1[contains(text(), 'Letters of Credit')] | //*[contains(text(), 'Letters of Credit') and contains(@class, 'title')] | //*[@title='Letters of Credit']");
+        // Common elements across business application pages
+        protected readonly By mainHeader = By.XPath("//h1[contains(text(), 'Business Application')] | //*[contains(text(), 'Business Application') and contains(@class, 'title')] | //*[@title='Business Application']");
 
         // Navigation Tabs (common across all pages)
-        protected readonly By navigationTabs = By.XPath("//nav//a | //div[contains(@class, 'nav')]//a | //*[contains(@class, 'tab')] | //a[contains(text(), 'Dashboard')] | //a[contains(text(), 'Completed')] | //a[contains(text(), 'Beneficiaries')]");
+        protected readonly By navigationTabs = By.XPath("//nav//a | //div[contains(@class, 'nav')]//a | //*[contains(@class, 'tab')] | //a[contains(text(), 'Dashboard')] | //a[contains(text(), 'Completed')] | //a[contains(text(), 'Customers')]");
         protected readonly By dashboardTab = By.XPath("//a[contains(text(), 'Dashboard')] | //button[contains(text(), 'Dashboard')]");
         protected readonly By completedTab = By.XPath("//a[contains(text(), 'Completed')] | //button[contains(text(), 'Completed')]");
-        protected readonly By beneficiariesTab = By.XPath("//a[contains(text(), 'Beneficiaries')] | //button[contains(text(), 'Beneficiaries')]");
+        protected readonly By customersTab = By.XPath("//a[contains(text(), 'Customers')] | //button[contains(text(), 'Customers')]");
         protected readonly By templatesTab = By.XPath("//a[contains(text(), 'Templates')] | //button[contains(text(), 'Templates')]");
-        protected readonly By feesTab = By.XPath("//a[contains(text(), 'Fees')] | //button[contains(text(), 'Fees')]");
+        protected readonly By pricingTab = By.XPath("//a[contains(text(), 'Pricing')] | //button[contains(text(), 'Pricing')]");
 
         // Common table elements
         protected readonly By dataTable = By.XPath("//table | //kendo-grid | //app-data-grid | //*[contains(@class, 'grid')] | //*[contains(@class, 'table')]");
@@ -60,7 +59,7 @@ namespace loc.test.Web.PageObjectFiles
 
         #endregion
 
-        #region Common LOC Application Methods
+        #region Common Business Application Methods
 
         // Common page verification methods
         public virtual bool VerifyPageTitle()
@@ -69,7 +68,7 @@ namespace loc.test.Web.PageObjectFiles
             {
                 WaitUntilPageIsLoaded();
                 var title = Driver.Title;
-                return !string.IsNullOrEmpty(title) && title.Contains("Letters of Credit");
+                return !string.IsNullOrEmpty(title) && title.Contains("Business Application");
             }
             catch
             {
@@ -219,16 +218,16 @@ namespace loc.test.Web.PageObjectFiles
                 {
                     "dashboard" => dashboardTab,
                     "completed" => completedTab,
-                    "beneficiaries" => beneficiariesTab,
+                    "customers" => customersTab,
                     "templates" => templatesTab,
-                    "fees" => feesTab,
+                    "pricing" => pricingTab,
                     _ => throw new ArgumentException($"Unknown tab: {tabName}")
                 };
 
                 Click(tabLocator);
 
-                // Wait for page transition
-                System.Threading.Thread.Sleep(2000);
+                // Wait for page transition using proper WebDriverWait
+                Driver.WaitForPageTransition(TimeSpan.FromSeconds(2));
             }
             catch (Exception ex)
             {
@@ -314,7 +313,7 @@ namespace loc.test.Web.PageObjectFiles
             return rowText.Split(' ', StringSplitOptions.RemoveEmptyEntries).FirstOrDefault();
         }
 
-        // First matching status keyword (e.g., Charged/Denied) else null
+        // First matching status keyword (e.g., Active/Inactive) else null
         protected static string? ExtractFirstStatus(string? rowText, params string[] keywords)
         {
             if (string.IsNullOrWhiteSpace(rowText) || keywords == null || keywords.Length == 0) return null;

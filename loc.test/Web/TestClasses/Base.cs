@@ -1,12 +1,12 @@
-using loc.test.Web.Support;
-using loc.test.Web.PageObjectFiles;
-using loc.test;
+using TUEL.TestFramework;
+using TUEL.TestFramework.Web.Support;
+using TUEL.TestFramework.Web.PageObjects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
 using System;
 using System.Threading;
 
-namespace loc.test.Web.TestClasses
+namespace TUEL.TestFramework.Web.TestClasses
 {
     // Serves as the base class for all UI test classes.
     // It handles the creation and disposal of the WebDriver for each test.

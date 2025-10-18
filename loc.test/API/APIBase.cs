@@ -1,7 +1,5 @@
-using fhlb.selenium.common.Extensions;
-using fhlb.selenium.common;
 using OpenQA.Selenium;
-using loc.test.API.Auth;
+using TUEL.TestFramework.API.Auth;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RestSharp;
 using System;
@@ -13,9 +11,8 @@ using System.Reflection.Metadata;
 using Newtonsoft.Json.Linq;
 using Octokit;
 using System.Text.RegularExpressions;
-using fhlb.selenium.common.builders;
 
-namespace loc.test.API
+namespace TUEL.TestFramework.API
 {
     [TestClass]
     public abstract class APIBase : TestBase
@@ -28,17 +25,17 @@ namespace loc.test.API
             {
                 var token = await EntraAuthHelper.GetAccessTokenAsync();
                 request.AddHeader("Authorization", $"Bearer {token}");
-                
+
                 Console.WriteLine($"Executing {request.Method} request to: {request.Resource}");
                 return await ApiClient.ExecuteAsync(request);
             }
             catch (Exception ex)
             {
                 Assert.Fail($"An exception occurred during the API call: {ex}");
-                return null; 
+                return null;
             }
         }
-        
+
         private async Task<RestResponse<T>> ExecuteRequestAsync<T>(RestRequest request)
         {
             try
@@ -52,7 +49,7 @@ namespace loc.test.API
             catch (Exception ex)
             {
                 Assert.Fail($"An exception occurred during the API call: {ex}");
-                return null; 
+                return null;
             }
         }
 
@@ -79,7 +76,7 @@ namespace loc.test.API
         protected async Task<RestResponse> ExecuteGetAsyncWithInvalidToken(string resource)
         {
             var request = new RestRequest(resource, Method.Get);
-            request.AddHeader("Authorization", "Bearer BOGUS_INVALID_TOKEN");
+            request.AddHeader("Authorization", "Bearer INVALID_TEST_TOKEN");
             return await ApiClient.ExecuteAsync(request);
         }
     }

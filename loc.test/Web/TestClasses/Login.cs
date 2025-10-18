@@ -1,8 +1,12 @@
-using loc.test.Web.PageObjectFiles;
+using TUEL.TestFramework;
+using TUEL.TestFramework.Web.PageObjects;
+using TUEL.TestFramework.Web.Support;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenQA.Selenium;
 using System;
+using System.Threading;
 
-namespace loc.test.Web.TestClasses
+namespace TUEL.TestFramework.Web.TestClasses
 {
     [TestClass]
     [TestCategory("UI")]
@@ -24,21 +28,21 @@ namespace loc.test.Web.TestClasses
             // Wait for dashboard to load after service principal authentication
             dashboardPage.WaitUntilPageIsLoaded();
 
-            // Verify on the Letters of Credit application
+            // Verify on the Business Application
             var currentUrl = Driver.Url;
             var pageTitle = Driver.Title;
 
             TestContext.WriteLine($"Post-authentication URL: {currentUrl}");
             TestContext.WriteLine($"Post-authentication Page Title: {pageTitle}");
 
-            // Verify successful authentication by checking on the LOC application
+            // Verify successful authentication by checking on the Business Application
             bool isOnApplication = currentUrl.Contains("as-badev-nc-loc-ui", StringComparison.OrdinalIgnoreCase) ||
-                                 currentUrl.Contains("letters-of-credit", StringComparison.OrdinalIgnoreCase);
+                                 currentUrl.Contains("business-application", StringComparison.OrdinalIgnoreCase);
 
-            bool hasValidTitle = pageTitle.Contains("Letters of Credit", StringComparison.OrdinalIgnoreCase);
+            bool hasValidTitle = pageTitle.Contains("Business Application", StringComparison.OrdinalIgnoreCase);
 
             Assert.IsTrue(isOnApplication || hasValidTitle,
-                $"Should be on Letters of Credit application after service principal authentication. URL: {currentUrl}, Title: {pageTitle}");
+                $"Should be on Business Application after service principal authentication. URL: {currentUrl}, Title: {pageTitle}");
 
             TestContext.WriteLine("Service principal authentication verification completed successfully");
         }

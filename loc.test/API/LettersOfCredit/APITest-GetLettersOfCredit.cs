@@ -1,4 +1,4 @@
-using loc.test.API;
+using TUEL.TestFramework.API;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using System;
@@ -7,29 +7,29 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace loc.test.API.LettersOfCredit
+namespace TUEL.TestFramework.API.Products
 {
     #region Response Models
 
-    public class LetterOfCreditListItem
+    public class ProductListItem
     {
-        [JsonProperty("letterOfCreditId")]
-        public Guid LetterOfCreditId { get; set; }
+        [JsonProperty("productId")]
+        public Guid ProductId { get; set; }
 
-        [JsonProperty("locDataId")]
-        public int? LocDataId { get; set; }
+        [JsonProperty("productDataId")]
+        public int? ProductDataId { get; set; }
 
-        [JsonProperty("locNumber")]
-        public string LocNumber { get; set; }
+        [JsonProperty("productNumber")]
+        public string ProductNumber { get; set; }
 
-        [JsonProperty("locType")]
-        public string LocType { get; set; }
+        [JsonProperty("productType")]
+        public string ProductType { get; set; }
 
         [JsonProperty("status")]
         public string Status { get; set; }
 
-        [JsonProperty("amount")]
-        public decimal? Amount { get; set; }
+        [JsonProperty("price")]
+        public decimal? Price { get; set; }
 
         [JsonProperty("createdDate")]
         public DateTimeOffset? CreatedDate { get; set; }
@@ -40,14 +40,14 @@ namespace loc.test.API.LettersOfCredit
         [JsonProperty("expirationDate")]
         public DateTimeOffset? ExpirationDate { get; set; }
 
-        [JsonProperty("beneficiaryName")]
-        public string BeneficiaryName { get; set; }
+        [JsonProperty("customerName")]
+        public string CustomerName { get; set; }
     }
 
-    public class GetLettersOfCreditResponse
+    public class GetProductsResponse
     {
         [JsonProperty("items")]
-        public List<LetterOfCreditListItem> Items { get; set; }
+        public List<ProductListItem> Items { get; set; }
 
         [JsonProperty("pageOffset")]
         public int PageOffset { get; set; }
@@ -68,13 +68,13 @@ namespace loc.test.API.LettersOfCredit
         public int TotalPages { get; set; }
     }
 
-    public class Beneficiary
+    public class Customer
     {
-        [JsonProperty("beneficiaryId")]
-        public int BeneficiaryId { get; set; }
+        [JsonProperty("customerId")]
+        public int CustomerId { get; set; }
 
-        [JsonProperty("beneficiaryName")]
-        public string BeneficiaryName { get; set; }
+        [JsonProperty("customerName")]
+        public string CustomerName { get; set; }
 
         [JsonProperty("street")]
         public string Street { get; set; }
@@ -91,14 +91,14 @@ namespace loc.test.API.LettersOfCredit
 
     public class StatusHistoryItem
     {
-        [JsonProperty("letterOfCreditId")]
-        public Guid LetterOfCreditId { get; set; }
+        [JsonProperty("productId")]
+        public Guid ProductId { get; set; }
 
-        [JsonProperty("locDataStatusChangeId")]
-        public int LocDataStatusChangeId { get; set; }
+        [JsonProperty("productDataStatusChangeId")]
+        public int ProductDataStatusChangeId { get; set; }
 
-        [JsonProperty("locDataStatusId")]
-        public int LocDataStatusId { get; set; }
+        [JsonProperty("productDataStatusId")]
+        public int ProductDataStatusId { get; set; }
 
         [JsonProperty("status")]
         public string Status { get; set; }
@@ -116,16 +116,16 @@ namespace loc.test.API.LettersOfCredit
         public List<StatusHistoryItem> Items { get; set; }
     }
 
-    public class LetterOfCreditDetail
+    public class ProductDetail
     {
-        [JsonProperty("letterOfCreditId")]
-        public Guid LetterOfCreditId { get; set; }
+        [JsonProperty("productId")]
+        public Guid ProductId { get; set; }
 
-        [JsonProperty("locDataId")]
-        public int LocDataId { get; set; }
+        [JsonProperty("productDataId")]
+        public int ProductDataId { get; set; }
 
-        [JsonProperty("locType")]
-        public string LocType { get; set; }
+        [JsonProperty("productType")]
+        public string ProductType { get; set; }
 
         [JsonProperty("createdDate")]
         public DateTimeOffset CreatedDate { get; set; }
@@ -151,20 +151,20 @@ namespace loc.test.API.LettersOfCredit
         [JsonProperty("submittedBy")]
         public string SubmittedBy { get; set; }
 
-        [JsonProperty("locNumber")]
-        public string LocNumber { get; set; }
+        [JsonProperty("productNumber")]
+        public string ProductNumber { get; set; }
 
-        [JsonProperty("amount")]
-        public decimal Amount { get; set; }
+        [JsonProperty("price")]
+        public decimal Price { get; set; }
 
-        [JsonProperty("dda")]
-        public string Dda { get; set; }
+        [JsonProperty("accountNumber")]
+        public string AccountNumber { get; set; }
 
-        [JsonProperty("memberInstitution")]
-        public string MemberInstitution { get; set; }
+        [JsonProperty("organization")]
+        public string Organization { get; set; }
 
-        [JsonProperty("beneficiary")]
-        public Beneficiary Beneficiary { get; set; }
+        [JsonProperty("customer")]
+        public Customer Customer { get; set; }
 
         [JsonProperty("statusHistory")]
         public StatusHistory StatusHistory { get; set; }
@@ -176,13 +176,13 @@ namespace loc.test.API.LettersOfCredit
     #endregion
 
     [TestClass]
-    public class APITest_GetLettersOfCredit : APIBase
+    public class APITest_GetProducts : APIBase
     {
-        private const string ApiPath = "/locs";
+        private const string ApiPath = "/products";
 
         [TestMethod]
-        [Description("Verifies that a GET request to the letters-of-credit endpoint returns a successful status code.")]
-        public async Task GetLettersOfCredit_Returns_Status_OK()
+        [Description("Verifies that a GET request to the products endpoint returns a successful status code.")]
+        public async Task GetProducts_Returns_Status_OK()
         {
             var response = await ExecuteGetAsync(ApiPath);
 
@@ -195,10 +195,10 @@ namespace loc.test.API.LettersOfCredit
         }
 
         [TestMethod]
-        [Description("Verifies that the response from the letters-of-credit endpoint can be successfully deserialized.")]
-        public async Task GetLettersOfCredit_Can_Parse_Response()
+        [Description("Verifies that the response from the products endpoint can be successfully deserialized.")]
+        public async Task GetProducts_Can_Parse_Response()
         {
-            var response = await ExecuteGetAsync<GetLettersOfCreditResponse>(ApiPath);
+            var response = await ExecuteGetAsync<GetProductsResponse>(ApiPath);
 
             // Log for debugging
             if (!response.IsSuccessful)
@@ -228,17 +228,17 @@ namespace loc.test.API.LettersOfCredit
             var firstItem = response.Data.Items.FirstOrDefault();
             if (firstItem != null)
             {
-                TestContext.WriteLine($"First LOC ID: {firstItem.LetterOfCreditId}");
-                TestContext.WriteLine($"First LOC Number: {firstItem.LocNumber}");
-                TestContext.WriteLine($"First LOC Status: {firstItem.Status}");
+                TestContext.WriteLine($"First Product ID: {firstItem.ProductId}");
+                TestContext.WriteLine($"First Product Number: {firstItem.ProductNumber}");
+                TestContext.WriteLine($"First Product Status: {firstItem.Status}");
             }
         }
 
         [TestMethod]
         [Description("Verifies that the items in the response have valid data.")]
-        public async Task GetLettersOfCredit_Items_Have_Valid_Data()
+        public async Task GetProducts_Items_Have_Valid_Data()
         {
-            var response = await ExecuteGetAsync<GetLettersOfCreditResponse>(ApiPath);
+            var response = await ExecuteGetAsync<GetProductsResponse>(ApiPath);
 
             Assert.IsTrue(response.IsSuccessful, "The API call was not successful.");
             Assert.IsNotNull(response.Data?.Items, "Response items are null.");
@@ -247,11 +247,11 @@ namespace loc.test.API.LettersOfCredit
             var firstItem = response.Data.Items.First();
 
             // Validate required fields
-            Assert.AreNotEqual(Guid.Empty, firstItem.LetterOfCreditId,
-                "Letter of Credit ID should not be empty GUID.");
+            Assert.AreNotEqual(Guid.Empty, firstItem.ProductId,
+                "Product ID should not be empty GUID.");
 
-            Assert.IsFalse(string.IsNullOrWhiteSpace(firstItem.LocNumber),
-                "LOC Number should not be null or empty.");
+            Assert.IsFalse(string.IsNullOrWhiteSpace(firstItem.ProductNumber),
+                "Product Number should not be null or empty.");
         }
     }
 }
