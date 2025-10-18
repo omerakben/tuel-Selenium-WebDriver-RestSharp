@@ -131,20 +131,15 @@ _ReSharper*/
 *.[Rr]e[Ss]harper
 *.DotSettings.user
 
-# TeamCity is a build add-in
-_TeamCity*
-
 # DotCover is a Code Coverage Tool
 *.dotCover
 
 # AxoCover is a Code Coverage Tool
-.axoCover/*
-!.axoCover/settings.json
+.axoCover/
+*.axoCover
 
 # Coverlet is a free, cross platform Code Coverage Tool
-coverage*.json
-coverage*.xml
-coverage*.info
+coverage*
 
 # Visual Studio code coverage results
 *.coverage
@@ -226,7 +221,7 @@ _pkginfo.txt
 # files ending in .cache can be ignored
 *.[Cc]ache
 # but keep track of directories ending in .cache
-!?*.[Cc]ache/
+!*.[Cc]ache/
 
 # Others
 ClientBin/

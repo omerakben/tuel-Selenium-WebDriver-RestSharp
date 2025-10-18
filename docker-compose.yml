@@ -17,7 +17,7 @@ services:
       - LogLevel=Information
     volumes:
       - ./test-results:/app/test-results
-      - ./loc.test/TUEL.TestFramework.local.runsettings:/app/loc.test/TUEL.TestFramework.local.runsettings
+      - ./tuel.test/TUEL.TestFramework.local.runsettings:/app/tuel.test/TUEL.TestFramework.local.runsettings
     networks:
       - test-network
 

@@ -1,4 +1,4 @@
-﻿using loc.test.Web.Support;
+﻿using TUEL.TestFramework.Web.Support;
 using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 
-namespace loc.test.Web.PageObjectFiles
+namespace TUEL.TestFramework.Web.PageObjects
 {
     // Page Object Model for the Completed > PUD Lines sub-tab.
     // Mirrors patterns used in CompletedPOM but with its own expected columns and sub-tab locators.
@@ -21,7 +21,7 @@ namespace loc.test.Web.PageObjectFiles
 
         // Sub-tabs within Completed context
         private readonly By pudLinesSubTab = By.XPath("//span[contains(text(),'PUD Lines')] | //*[contains(@class,'tab')][contains(text(),'PUD Lines')]");
-        private readonly By lettersOfCreditSubTab = By.XPath("//span[contains(text(),'Letters of Credit')]");
+        private readonly By tuelRecordsSubTab = By.XPath("//span[contains(text(),'TUEL Records')]");
 
         // Header (same union pattern as CompletedPOM)
         private readonly By completedItemsHeader = By.XPath("//*[contains(text(), 'Completed Items')] | //h3[contains(text(), 'Completed Items')]");
@@ -51,11 +51,11 @@ namespace loc.test.Web.PageObjectFiles
             }
         }
 
-        public bool VerifyLettersOfCreditSubTabVisible()
+        public bool VerifyTuelRecordsSubTabVisible()
         {
             try
             {
-                return IsElementVisible(lettersOfCreditSubTab);
+                return IsElementVisible(tuelRecordsSubTab);
             }
             catch
             {

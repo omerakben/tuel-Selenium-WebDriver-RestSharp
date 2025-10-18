@@ -40,7 +40,7 @@ namespace TUEL.TestFramework.Web.PageObjects
 
         // Default Template links (replaced card/view buttons)
         private readonly By templateLinkStandbyPud = By.CssSelector("a.template-link[title='Standby / PUD'], a.template-link[href*='templates/standby-pud']");
-        private readonly By templateLinkStandbyConfirming = By.CssSelector("a.template-link[title='Standby for Confirming LOCs'], a.template-link[href*='templates/standby-confirming']");
+        private readonly By templateLinkStandbyConfirming = By.CssSelector("a.template-link[title='Standby for Confirming TUEL Records'], a.template-link[href*='templates/standby-confirming']");
         private readonly By templateLinkDirectPay = By.CssSelector("a.template-link[title='Direct Pay'], a.template-link[href*='templates/direct-pay']");
         private readonly By allDefaultTemplateLinks = By.CssSelector(".left-container a.template-link");
 
@@ -62,11 +62,11 @@ namespace TUEL.TestFramework.Web.PageObjects
 
         #endregion
 
-        #region Special Letter Templates Section Elements
+        #region Special TUEL Templates Section Elements
 
-        // Special Letter Templates section
-        private readonly By specialLetterTemplatesSection = By.XPath("//h3[contains(text(), 'Special Letter Templates')] | //div[contains(@class, 'summit-section-header-text-title') and contains(text(), 'Special Letter Templates')]");
-        private readonly By specialLetterTemplatesHeader = By.XPath("//h3[contains(text(), 'Special Letter Templates')]");
+        // Special TUEL Templates section
+        private readonly By specialLetterTemplatesSection = By.XPath("//h3[contains(text(), 'Special TUEL Templates')] | //div[contains(@class, 'summit-section-header-text-title') and contains(text(), 'Special TUEL Templates')]");
+        private readonly By specialLetterTemplatesHeader = By.XPath("//h3[contains(text(), 'Special TUEL Templates')]");
 
         // Special templates content block
         private readonly By specialLetterTemplatesContentBlock = By.XPath("//summit-content-container | //div[contains(@class, 'summit-content-container')] | //div[contains(@class, 'special-letter-grid')]");
@@ -207,7 +207,7 @@ namespace TUEL.TestFramework.Web.PageObjects
                 return key switch
                 {
                     "standby / pud" or "standby/pud" or "standby-pud" => IsElementVisible(templateLinkStandbyPud),
-                    "standby for confirming locs" or "standby-confirming" or "confirming" => IsElementVisible(templateLinkStandbyConfirming),
+                    "standby for confirming tuel records" or "standby-confirming" or "confirming" => IsElementVisible(templateLinkStandbyConfirming),
                     "direct pay" or "direct-pay" => IsElementVisible(templateLinkDirectPay),
                     _ => false
                 };
@@ -274,7 +274,7 @@ namespace TUEL.TestFramework.Web.PageObjects
         {
             try
             {
-                var section = VerifyLetterOfCreditSignatoriesSection();
+                var section = VerifyBusinessDocumentSignatoriesSection();
                 var signersBlock = VerifySignersBlock();
                 var editLink = VerifyEditSignersLink();
 
@@ -288,9 +288,9 @@ namespace TUEL.TestFramework.Web.PageObjects
 
         #endregion
 
-        #region Special Letter Templates Section Verification Methods
+        #region Special TUEL Templates Section Verification Methods
 
-        public bool VerifySpecialLetterTemplatesSection()
+        public bool VerifySpecialTuelTemplatesSection()
         {
             try
             {
@@ -302,7 +302,7 @@ namespace TUEL.TestFramework.Web.PageObjects
             }
         }
 
-        public bool VerifySpecialLetterTemplatesContentBlock()
+        public bool VerifySpecialTuelTemplatesContentBlock()
         {
             try
             {
@@ -318,8 +318,8 @@ namespace TUEL.TestFramework.Web.PageObjects
         {
             try
             {
-                var section = VerifySpecialLetterTemplatesSection();
-                var contentBlock = VerifySpecialLetterTemplatesContentBlock();
+                var section = VerifySpecialTuelTemplatesSection();
+                var contentBlock = VerifySpecialTuelTemplatesContentBlock();
 
                 return section && contentBlock;
             }
@@ -354,7 +354,7 @@ namespace TUEL.TestFramework.Web.PageObjects
                 By link = key switch
                 {
                     "standby / pud" or "standby/pud" or "standby-pud" or "pud line-based" => templateLinkStandbyPud,
-                    "standby for confirming locs" or "standby-confirming" or "confirming" or "pud transaction-based" => templateLinkStandbyConfirming,
+                    "standby for confirming tuel records" or "standby-confirming" or "confirming" or "pud transaction-based" => templateLinkStandbyConfirming,
                     "direct pay" or "direct-pay" => templateLinkDirectPay,
                     _ => throw new ArgumentException($"Unknown template name: {templateName}")
                 };

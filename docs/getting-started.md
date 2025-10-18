@@ -20,19 +20,19 @@ This guide walks you through cloning the repository, configuring environments, a
 
 2. **Restore dependencies**
    ```bash
-   dotnet restore loc.test/loc.test.csproj
+   dotnet restore tuel.test/TUEL.TestFramework.csproj
    ```
 
 3. **Build the solution**
    ```bash
-   dotnet build loc.test/TUEL.TestFramework.sln
+   dotnet build tuel.test/TUEL.TestFramework.sln
    ```
 
 ## Configuration
 
 1. **Create a runsettings file**
    ```bash
-   cd loc.test
+   cd tuel.test
    cp TUEL.TestFramework.runsettings.example TUEL.TestFramework.runsettings
    ```
 
@@ -67,14 +67,14 @@ This guide walks you through cloning the repository, configuring environments, a
 From the repository root:
 
 ```bash
-dotnet test loc.test/TUEL.TestFramework.sln --settings loc.test/TUEL.TestFramework.runsettings
+dotnet test tuel.test/TUEL.TestFramework.sln --settings tuel.test/TUEL.TestFramework.runsettings
 ```
 
 ### Filter by category
 
 ```bash
-dotnet test loc.test/TUEL.TestFramework.sln --settings loc.test/TUEL.TestFramework.runsettings --filter "TestCategory=API"
-dotnet test loc.test/TUEL.TestFramework.sln --settings loc.test/TUEL.TestFramework.runsettings --filter "TestCategory=UI"
+dotnet test tuel.test/TUEL.TestFramework.sln --settings tuel.test/TUEL.TestFramework.runsettings --filter "TestCategory=API"
+dotnet test tuel.test/TUEL.TestFramework.sln --settings tuel.test/TUEL.TestFramework.runsettings --filter "TestCategory=UI"
 ```
 
 ### Select a browser at runtime
@@ -82,7 +82,7 @@ dotnet test loc.test/TUEL.TestFramework.sln --settings loc.test/TUEL.TestFramewo
 Specify the `Browser` parameter if your runsettings file includes browser overrides:
 
 ```bash
-dotnet test loc.test/TUEL.TestFramework.sln --settings loc.test/TUEL.TestFramework.runsettings -- TestRunParameters.Browser=local-chrome
+dotnet test tuel.test/TUEL.TestFramework.sln --settings tuel.test/TUEL.TestFramework.runsettings -- TestRunParameters.Browser=local-chrome
 ```
 
 ## Docker Setup (Optional)
@@ -107,12 +107,12 @@ dotnet test loc.test/TUEL.TestFramework.sln --settings loc.test/TUEL.TestFramewo
 ```
 transit-to-open-source-tuel/
 ├── docs/                     # Guides and references
-├── loc.test/                 # Main test project
+├── tuel.test/                 # Main test project
 │   ├── API/                  # API automation
 │   ├── Web/                  # UI automation
 │   ├── Configuration/        # Shared configuration helpers
 │   ├── TUEL.TestFramework.sln
-│   ├── loc.test.csproj
+│   ├── TUEL.TestFramework.csproj
 │   ├── TUEL.TestFramework.runsettings.example
 │   └── README.md
 ├── .github/                  # Community health files & workflows

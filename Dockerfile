@@ -6,8 +6,8 @@ WORKDIR /app
 
 # Copy project files
 COPY *.sln ./
-COPY loc.test/*.csproj ./loc.test/
-COPY loc.test/*.runsettings ./loc.test/
+COPY tuel.test/*.csproj ./tuel.test/
+COPY tuel.test/*.runsettings ./tuel.test/
 
 # Restore dependencies
 RUN dotnet restore
@@ -46,4 +46,4 @@ ENV DOTNET_ENVIRONMENT=Development
 EXPOSE 8080
 
 # Set the entry point
-ENTRYPOINT ["dotnet", "test", "loc.test/TUEL.TestFramework.csproj", "--logger", "trx", "--results-directory", "/app/test-results"]
+ENTRYPOINT ["dotnet", "test", "tuel.test/TUEL.TestFramework.csproj", "--logger", "trx", "--results-directory", "/app/test-results"]

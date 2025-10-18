@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace loc.test.Web.PageObjectFiles
+namespace TUEL.TestFramework.Web.PageObjects
 {
     public class HealthCheckPOM : BasePage
     {
@@ -64,7 +64,7 @@ namespace loc.test.Web.PageObjectFiles
             "Azure Blob Storage",
             "Cwf Domain Api",
             "DDA Domain Api",
-            "LOC Domain Api",
+            "TUEL Domain API",
             "Queues"
         ];
         #endregion

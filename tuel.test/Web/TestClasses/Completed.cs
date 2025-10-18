@@ -70,7 +70,7 @@ namespace TUEL.TestFramework.Web.TestClasses
                 if (!_dashboardPage.VerifyNavigationTabsPresent())
                 {
                     // Navigate to dashboard first if not on a page with tabs
-                    var dashboardUrl = $"{InitializeTestAssembly.UiUrl}/letters-of-credit/dashboard";
+                    var dashboardUrl = $"{InitializeTestAssembly.UiUrl}/tuel-records/dashboard";
                     Driver.Navigate().GoToUrl(dashboardUrl);
                     Thread.Sleep(2000);
                 }
@@ -81,7 +81,7 @@ namespace TUEL.TestFramework.Web.TestClasses
 
                 // Wait for URL to change to completed page
                 var completedPageLoaded = Driver.WaitForUrlContains("/completed", TimeSpan.FromSeconds(15)) ||
-                                        Driver.WaitForUrlContains("/letters-of-credit/completed", TimeSpan.FromSeconds(5));
+                                        Driver.WaitForUrlContains("/tuel-records/completed", TimeSpan.FromSeconds(5));
 
                 if (completedPageLoaded)
                 {
@@ -298,10 +298,10 @@ namespace TUEL.TestFramework.Web.TestClasses
                 TestContext.WriteLine($"Actual headers found: {string.Join(", ", actualHeaders)}");
 
                 // Expected headers as per story card
-                var expectedHeaders = new[] { "View", "DDA", "Member", "Issue Date", "Expiration Date", "Beneficiary", "Amount", "LOC #", "LOC Type", "Letter", "Status" };
+                var expectedHeaders = new[] { "View", "DDA", "Member", "Issue Date", "Expiration Date", "Beneficiary", "Amount", "TUEL #", "TUEL Type", "Document", "Status" };
                 TestContext.WriteLine($"Expected headers: {string.Join(", ", expectedHeaders)}");
 
-                Assert.IsTrue(columnHeadersInOrder, "The table must display column headers exactly in this order: View, DDA, Member, Issue Date, Expiration Date, Beneficiary, Amount, LOC #, LOC Type, Letter, Status");
+                Assert.IsTrue(columnHeadersInOrder, "The table must display column headers exactly in this order: View, DDA, Member, Issue Date, Expiration Date, Beneficiary, Amount, TUEL #, TUEL Type, Document, Status");
 
                 // Check for data or no records message
                 int rowCount = _completedPage.GetDataRowCount();

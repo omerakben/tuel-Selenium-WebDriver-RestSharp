@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace loc.test.Web.PageObjectFiles
+namespace TUEL.TestFramework.Web.PageObjects
 {
     public class MembersPOM : BasePage
     {
@@ -67,7 +67,7 @@ namespace loc.test.Web.PageObjectFiles
         // Expected column headers based on actual DOM structure
         private readonly string[] expectedColumnHeaders = new string[]
         {
-            "View", "DDA", "Member", "Address", "Address 2", "City", "State", "Zip Code", "LOC Address Override in Place?"
+            "View", "DDA", "Member", "Address", "Address 2", "City", "State", "Zip Code", "TUEL Address Override in Place?"
         };
 
         #endregion

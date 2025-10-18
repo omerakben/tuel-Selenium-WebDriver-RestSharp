@@ -306,7 +306,7 @@ namespace TUEL.TestFramework.Web.TestClasses
                 "Azure Blob Storage",
                 "Cwf Domain Api",
                 "DDA Domain Api",
-                "LOC Domain Api",
+                "TUEL Domain API",
                 "Queues"
             };
 

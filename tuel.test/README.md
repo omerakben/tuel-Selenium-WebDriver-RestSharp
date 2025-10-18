@@ -1,5 +1,5 @@
 # Transit to Fully Open-Source TUEL – Generic Testing Framework
-This repository contains the open community edition of the TUEL enterprise-grade automation testing framework. It evolved from a bespoke Letter of Credit solution and is now designed to be easily adaptable to a wide range of business applications.
+This repository contains the open community edition of the TUEL enterprise-grade automation testing framework. It evolved from a bespoke financial services solution and is now designed to be easily adaptable to a wide range of business applications.
 
 ## Prerequisites
 - .NET 8.0 SDK
@@ -22,13 +22,13 @@ This repository contains the open community edition of the TUEL enterprise-grade
 5.  Run all tests or select specific tests/categories.
 
 ### From Command Line
-Navigate to the `loc.test` directory and run:
+Navigate to the `tuel.test` directory and run:
 ```bash
 dotnet test TUEL.TestFramework.sln --settings TUEL.TestFramework.runsettings
 ```
 
 ## Project Structure
--   **`loc.test`**: The main test project folder in this repository.
+-   **`tuel.test`**: The main test project folder in this repository.
     -   **`API`**: Contains API test classes and related helpers.
         -   **`Auth`**: Authentication helpers (e.g., EntraAuthHelper).
         -   **`Products`**: API tests for product-related endpoints.

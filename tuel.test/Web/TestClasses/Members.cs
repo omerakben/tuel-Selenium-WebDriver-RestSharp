@@ -53,7 +53,7 @@ namespace TUEL.TestFramework.Web.TestClasses
                 }
 
                 // Try to navigate to Members page directly
-                if (currentUrl.Contains("loc-ui", StringComparison.OrdinalIgnoreCase))
+                if (currentUrl.Contains("tuel-ui", StringComparison.OrdinalIgnoreCase))
                 {
                     var baseUrl = ExtractBaseUrl(currentUrl);
                     var membersUrl = $"{baseUrl}/members";

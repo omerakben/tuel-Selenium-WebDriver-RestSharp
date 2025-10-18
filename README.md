@@ -1,6 +1,6 @@
 # Transit to Fully Open-Source TUEL Test Framework
 
-Modern C# test automation template, evolved from a legacy Letter of Credit solution into a vendor-neutral, community-ready baseline.
+Modern C# test automation template, evolved from a legacy financial services solution into a vendor-neutral, community-ready baseline.
 
 A comprehensive, enterprise-grade test automation framework built with .NET 8.0, Selenium WebDriver, and RestSharp. This framework demonstrates modern SDET architecture patterns and serves as a plug-and-play template for API and UI testing.
 
@@ -41,7 +41,7 @@ A comprehensive, enterprise-grade test automation framework built with .NET 8.0,
 
 ### Setup
 1. Clone the repository.
-2. Change into the test project directory: `cd loc.test`.
+2. Change into the test project directory: `cd tuel.test`.
 3. Copy `TUEL.TestFramework.runsettings.example` to `TUEL.TestFramework.runsettings`.
 4. Update the new file with your environment-specific values (or create `TUEL.TestFramework.local.runsettings` for machine-specific overrides).
 5. Review the core expectations in [`docs/testing-guidelines.md`](docs/testing-guidelines.md).
@@ -61,7 +61,7 @@ docker exec -it tuel-test-framework dotnet test
 ```
 .
 ├── docs/
-├── loc.test/
+├── tuel.test/
 │   ├── API/
 │   ├── Configuration/
 │   ├── Logging/
@@ -69,7 +69,7 @@ docker exec -it tuel-test-framework dotnet test
 │   ├── GlobalUsings.cs
 │   ├── InitializeTestAssembly.cs
 │   ├── TUEL.TestFramework.sln
-│   ├── loc.test.csproj
+│   ├── TUEL.TestFramework.csproj
 │   ├── TUEL.TestFramework.runsettings.example
 │   └── README.md
 ├── logs/

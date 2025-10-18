@@ -8,7 +8,7 @@ Provide a short description of the changes in this pull request.
 
 ## Testing
 
-- [ ] `dotnet test TUEL.TestFramework.sln --settings TUEL.TestFramework.runsettings`
+- [ ] `dotnet test tuel.test/TUEL.TestFramework.sln --settings tuel.test/TUEL.TestFramework.runsettings`
 - [ ] Additional validation (describe):
 
 ## Checklist

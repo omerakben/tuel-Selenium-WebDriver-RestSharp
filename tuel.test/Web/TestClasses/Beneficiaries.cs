@@ -202,7 +202,7 @@ namespace TUEL.TestFramework.Web.TestClasses
             TestContext.WriteLine($"Optional checks passed: {optionalPassed}/{optionalChecks.Length}");
 
             // Assertions
-            Assert.IsTrue(pageTitle, "The browser page title must remain 'Letters of Credit'");
+            Assert.IsTrue(pageTitle, "The browser page title must remain 'TUEL Records'");
             Assert.IsTrue(beneficiariesTabActive, "The 'Beneficiaries' tab must be highlighted as the active tab");
             Assert.IsTrue(beneficiariesHeader, "A sub-header with the text 'Beneficiaries' is visible on the page");
             Assert.IsTrue(searchInput, "A search input field is visible above the data table, allowing users to search for beneficiaries");
@@ -233,7 +233,7 @@ namespace TUEL.TestFramework.Web.TestClasses
 
             // Page title verification
             bool pageTitle = _customersPage.VerifyPageTitle();
-            TestContext.WriteLine($"Page title contains 'Letters of Credit': {pageTitle}");
+            TestContext.WriteLine($"Page title contains 'TUEL Records': {pageTitle}");
 
             // Beneficiaries tab active state
             bool beneficiariesTabActive = _customersPage.VerifyBeneficiariesTabActive();
@@ -244,7 +244,7 @@ namespace TUEL.TestFramework.Web.TestClasses
             TestContext.WriteLine($"Beneficiaries sub-header is visible: {beneficiariesHeader}");
 
             // Assertions
-            Assert.IsTrue(pageTitle, "The browser page title must remain 'Letters of Credit'");
+            Assert.IsTrue(pageTitle, "The browser page title must remain 'TUEL Records'");
             Assert.IsTrue(beneficiariesTabActive, "The 'Beneficiaries' tab must be highlighted as the active tab");
             Assert.IsTrue(beneficiariesHeader, "A sub-header with the text 'Beneficiaries' is visible on the page");
 

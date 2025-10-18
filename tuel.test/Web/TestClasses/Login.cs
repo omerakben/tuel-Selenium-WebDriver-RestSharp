@@ -36,7 +36,7 @@ namespace TUEL.TestFramework.Web.TestClasses
             TestContext.WriteLine($"Post-authentication Page Title: {pageTitle}");
 
             // Verify successful authentication by checking on the Business Application
-            bool isOnApplication = currentUrl.Contains("as-badev-nc-loc-ui", StringComparison.OrdinalIgnoreCase) ||
+            bool isOnApplication = currentUrl.Contains("as-badev-nc-tuel-ui", StringComparison.OrdinalIgnoreCase) ||
                                  currentUrl.Contains("business-application", StringComparison.OrdinalIgnoreCase);
 
             bool hasValidTitle = pageTitle.Contains("Business Application", StringComparison.OrdinalIgnoreCase);

@@ -1,9 +1,9 @@
-﻿using loc.test.Web.PageObjectFiles;
+﻿using TUEL.TestFramework.Web.PageObjects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 using System.Threading;
 
-namespace loc.test.Web.TestClasses
+namespace TUEL.TestFramework.Web.TestClasses
 {
     // Test class validating the Completed > PUD Lines sub-tab.
     [TestClass, TestCategory("UI"), TestCategory("Completed"), TestCategory("PudLines")]
@@ -62,7 +62,7 @@ namespace loc.test.Web.TestClasses
 
                 if (!_dashboardPage!.VerifyNavigationTabsPresent())
                 {
-                    var dashboardUrl = $"{InitializeTestAssembly.UiUrl}/letters-of-credit/dashboard";
+                    var dashboardUrl = $"{InitializeTestAssembly.UiUrl}/tuel-records/dashboard";
                     Driver!.Navigate().GoToUrl(dashboardUrl);
                     Thread.Sleep(1500);
                 }
@@ -94,12 +94,12 @@ namespace loc.test.Web.TestClasses
             bool pageTitle = _pudLinesPage!.VerifyPageTitle();
             bool completedItemsHeader = _pudLinesPage.VerifyCompletedItemsHeader();
             bool completedTabActive = _completedPage!.VerifyCompletedTabActive();
-            bool locSubTabVisible = _pudLinesPage.VerifyLettersOfCreditSubTabVisible();
+            bool tuelSubTabVisible = _pudLinesPage.VerifyTuelRecordsSubTabVisible();
 
             TestContext.WriteLine($"Page Title Valid: {pageTitle}");
             TestContext.WriteLine($"Completed Items Header: {completedItemsHeader}");
             TestContext.WriteLine($"Completed Tab Active: {completedTabActive}");
-            TestContext.WriteLine($"Letters Of Credit Sub-Tab Visible: {locSubTabVisible}");
+            TestContext.WriteLine($"TUEL Records Sub-Tab Visible: {tuelSubTabVisible}");
 
             // Search & Controls
             bool searchInput = _pudLinesPage.VerifySearchInput();
@@ -133,14 +133,14 @@ namespace loc.test.Web.TestClasses
             // Classification
             var critical = new[] { pageTitle, dataTablePresent };
             var important = new[] { completedItemsHeader, searchInput, headersInOrder };
-            var optional = new[] { completedTabActive, locSubTabVisible, exportToCsv, paginationControls, pageStatusDisplay, itemsPerPageSelector };
+            var optional = new[] { completedTabActive, tuelSubTabVisible, exportToCsv, paginationControls, pageStatusDisplay, itemsPerPageSelector };
 
             TestContext.WriteLine($"Critical passed: {critical.Count(x => x)}/{critical.Length}");
             TestContext.WriteLine($"Important passed: {important.Count(x => x)}/{important.Length}");
             TestContext.WriteLine($"Optional passed: {optional.Count(x => x)}/{optional.Length}");
 
             // Assertions
-            Assert.IsTrue(pageTitle, "Page title must contain 'Letters of Credit'");
+            Assert.IsTrue(pageTitle, "Page title must contain 'TUEL Records'");
             Assert.IsTrue(completedItemsHeader, "'Completed Items' header must be visible");
             Assert.IsTrue(completedTabActive, "Completed tab must be active");
             Assert.IsTrue(searchInput, "Search input must be visible above table");
@@ -161,15 +161,15 @@ namespace loc.test.Web.TestClasses
         {
             bool pageTitle = _pudLinesPage!.VerifyPageTitle();
             bool completedTabActive = _completedPage!.VerifyCompletedTabActive();
-            bool locTabVisible = _pudLinesPage.VerifyLettersOfCreditSubTabVisible();
+            bool tuelTabVisible = _pudLinesPage.VerifyTuelRecordsSubTabVisible();
             bool header = _pudLinesPage.VerifyCompletedItemsHeader();
 
             TestContext.WriteLine($"Page Title: {pageTitle}");
             TestContext.WriteLine($"Completed Tab Active: {completedTabActive}");
-            TestContext.WriteLine($"LOC Sub-Tab Visible: {locTabVisible}");
+            TestContext.WriteLine($"TUEL Sub-Tab Visible: {tuelTabVisible}");
             TestContext.WriteLine($"Completed Items Header: {header}");
 
-            Assert.IsTrue(pageTitle, "Title must contain 'Letters of Credit'");
+            Assert.IsTrue(pageTitle, "Title must contain 'TUEL Records'");
             Assert.IsTrue(completedTabActive, "Completed tab should be active");
             Assert.IsTrue(header, "Completed Items header must be visible");
         }

@@ -1,9 +1,9 @@
 using OpenQA.Selenium;
 using System;
 using fhlb.selenium.common.Extensions;
-using loc.test.Web.Support;
+using TUEL.TestFramework.Web.Support;
 
-namespace loc.test.Web.PageObjectFiles
+namespace TUEL.TestFramework.Web.PageObjects
 {
     public class LoginPOM : BasePage
     {
@@ -67,11 +67,11 @@ namespace loc.test.Web.PageObjectFiles
             {
                 var currentUrl = Driver.Url;
 
-                if (currentUrl.Contains("as-badev-nc-loc-ui", StringComparison.OrdinalIgnoreCase) ||
-                    currentUrl.Contains("letters-of-credit", StringComparison.OrdinalIgnoreCase))
+                if (currentUrl.Contains("as-badev-nc-tuel-ui", StringComparison.OrdinalIgnoreCase) ||
+                    currentUrl.Contains("tuel-records", StringComparison.OrdinalIgnoreCase))
                 {
                     // Dashboard landing page
-                    if (currentUrl.Contains("/letters-of-credit/dashboard", StringComparison.OrdinalIgnoreCase) ||
+                    if (currentUrl.Contains("/tuel-records/dashboard", StringComparison.OrdinalIgnoreCase) ||
                         currentUrl.Contains("/dashboard", StringComparison.OrdinalIgnoreCase))
                     {
                         return AuthenticationState.LoggedIn;

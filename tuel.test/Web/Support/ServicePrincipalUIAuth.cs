@@ -1,4 +1,4 @@
-﻿using loc.test.API.Auth;
+﻿using TUEL.TestFramework.API.Auth;
 using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace loc.test.Web.Support
+namespace TUEL.TestFramework.Web.Support
 {
     // Handles programmatic authentication for UI tests using service principal (same as API tests)
     // This eliminates the need for user credentials and interactive login
@@ -89,7 +89,7 @@ namespace loc.test.Web.Support
                 }
 
                 // Check for typical authenticated page indicators
-                var hasAuthenticatedContent = driver.PageSource.Contains("Letters of Credit") ||
+                var hasAuthenticatedContent = driver.PageSource.Contains("TUEL Records") ||
                                             driver.PageSource.Contains("Dashboard") ||
                                             driver.PageSource.Contains("logout", StringComparison.OrdinalIgnoreCase);
 
