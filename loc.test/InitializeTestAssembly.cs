@@ -3,6 +3,8 @@ using RestSharp;
 using System;
 using System.Globalization;
 using OpenQA.Selenium;
+using TUEL.TestFramework.Configuration;
+using TUEL.TestFramework.Logging;
 
 namespace TUEL.TestFramework
 {
@@ -46,17 +48,24 @@ namespace TUEL.TestFramework
         [AssemblyInitialize]
         public static void AssemblyInit(TestContext context)
         {
-            // 1. Load all configuration from .runsettings using the correct parameter names
-            LoadConfig(context);
-            Console.WriteLine($"--- Assembly Initialized ---");
-            Console.WriteLine($"Environment: {ENV}");
-            Console.WriteLine($"UI URL (from BaseURL): {UiUrl}");
-            Console.WriteLine($"API URL (from BaseurlAPI): {BaseApiUrl}");
+            // 1. Initialize configuration service
+            TestConfiguration.Initialize(context);
 
-            // 2. Prepare WebDriver configuration
+            // 2. Initialize structured logging
+            var logLevel = Enum.TryParse<LogLevel>(TestConfiguration.LogLevel, out var level) ? level : LogLevel.Information;
+            TestLogger.SetLogger(new ConsoleTestLogger(logLevel, TestConfiguration.MaskSensitiveDataInLogs));
+
+            // 3. Load all configuration from .runsettings using the correct parameter names
+            LoadConfig(context);
+            TestLogger.LogInformation("--- Assembly Initialized ---");
+            TestLogger.LogInformation("Environment: {0}", ENV);
+            TestLogger.LogInformation("UI URL (from BaseURL): {0}", UiUrl);
+            TestLogger.LogInformation("API URL (from BaseurlAPI): {0}", BaseApiUrl);
+
+            // 4. Prepare WebDriver configuration
             PrepareWebDriverConfiguration();
 
-            // 3. Initialize the RestSharp API client
+            // 5. Initialize the RestSharp API client
             InitializeApiClient();
         }
 
@@ -64,13 +73,13 @@ namespace TUEL.TestFramework
         {
             try
             {
-                Console.WriteLine("Preparing WebDriver configuration");
+                TestLogger.LogInformation("Preparing WebDriver configuration");
                 IsDriverInitialized = true;
-                Console.WriteLine("WebDriver configuration prepared successfully.");
+                TestLogger.LogInformation("WebDriver configuration prepared successfully.");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"WebDriver configuration failed. Local WebDriverFactory will be used as fallback. Error: {ex.Message}");
+                TestLogger.LogError("WebDriver configuration failed. Local WebDriverFactory will be used as fallback. Error: {0}", ex.Message);
                 IsDriverInitialized = false;
             }
         }
@@ -79,13 +88,13 @@ namespace TUEL.TestFramework
         {
             try
             {
-                Console.WriteLine("Creating WebDriver");
+                TestLogger.LogInformation("Creating WebDriver");
                 // This would be replaced with actual WebDriver creation logic
                 throw new NotImplementedException("WebDriver creation logic needs to be implemented");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Failed to create WebDriver: {ex.Message}");
+                TestLogger.LogError("Failed to create WebDriver: {0}", ex.Message);
                 throw;
             }
         }
@@ -102,7 +111,7 @@ namespace TUEL.TestFramework
 
             UiUrl = GetContextProperty(context, "BaseURL") ?? string.Empty;
             BaseApiUrl = GetContextProperty(context, "BaseurlAPI") ?? string.Empty;
-            DefaultTimeoutSeconds = GetIntContextProperty(context, "DefaultTimeoutSeconds", 60);
+            DefaultTimeoutSeconds = GetIntContextProperty(context, "DefaultTimeoutSeconds", TestConfiguration.DefaultTimeoutSeconds);
 
             Email = GetContextProperty(context, "UserName");
             Password = GetContextProperty(context, "UserPassword");
@@ -116,9 +125,9 @@ namespace TUEL.TestFramework
             EntraIdUseLocalJwt = GetBoolContextProperty(context, "EntraIdUseLocalJwt", false);
             EntraIdLocalJwtRole = GetContextProperty(context, "EntraIdLocalJwtRole");
 
-            ApiTimeoutSeconds = GetIntContextProperty(context, "ApiTimeoutSeconds", 30);
-            ApiMaxRetryAttempts = GetIntContextProperty(context, "ApiMaxRetryAttempts", 3);
-            ApiRetryIntervalMilliseconds = GetIntContextProperty(context, "ApiRetryIntervalMilliseconds", 1000);
+            ApiTimeoutSeconds = GetIntContextProperty(context, "ApiTimeoutSeconds", TestConfiguration.ApiTimeoutSeconds);
+            ApiMaxRetryAttempts = GetIntContextProperty(context, "ApiMaxRetryAttempts", TestConfiguration.MaxRetryAttempts);
+            ApiRetryIntervalMilliseconds = GetIntContextProperty(context, "ApiRetryIntervalMilliseconds", TestConfiguration.RetryDelayMilliseconds);
 
             EmailTo = GetContextProperty(context, "EMailTo");
 
@@ -141,7 +150,7 @@ namespace TUEL.TestFramework
                 //MaxTimeout = TimeSpan.FromSeconds(ApiTimeoutSeconds)
             };
             ApiClient = new RestClient(options);
-            Console.WriteLine($"API client initialized for Base URL: {BaseApiUrl}");
+            TestLogger.LogInformation("API client initialized for Base URL: {0}", BaseApiUrl);
         }
 
         #region Context Property Helpers
@@ -168,7 +177,7 @@ namespace TUEL.TestFramework
         public static void AssemblyCleanup()
         {
             ApiClient?.Dispose();
-            Console.WriteLine("AssemblyCleanup: API client disposed.");
+            TestLogger.LogInformation("AssemblyCleanup: API client disposed.");
         }
     }
 }

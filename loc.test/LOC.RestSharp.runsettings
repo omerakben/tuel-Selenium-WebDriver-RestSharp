@@ -20,10 +20,25 @@
 		<Parameter name="EntraIdApiScope" value="#{EntraIdApiScope}#" />
 		<Parameter name="EntraIdAuthority" value="https://login.microsoftonline.com" />
 
-		<!-- API Request Configuration -->
-		<Parameter name="ApiTimeoutSeconds" value="#{ApiTimeoutSeconds}#" />
-		<Parameter name="ApiMaxRetryAttempts" value="#{ApiMaxRetryAttempts}#" />
-		<Parameter name="ApiRetryIntervalMilliseconds" value="#{ApiRetryIntervalMilliseconds}#" />
+		<!-- Performance Configuration -->
+		<Parameter name="UseSmartWaitStrategies" value="true" />
+		<Parameter name="WaitForAjaxCompletion" value="true" />
+		<Parameter name="WaitForPageLoadState" value="true" />
+		<Parameter name="ElementVisibilityTimeoutSeconds" value="15" />
+		<Parameter name="ElementClickabilityTimeoutSeconds" value="10" />
+		<Parameter name="PageTransitionTimeoutSeconds" value="10" />
+		<Parameter name="RetryDelayMilliseconds" value="500" />
+		<Parameter name="MaxRetryAttempts" value="3" />
+
+		<!-- Logging Configuration -->
+		<Parameter name="EnableStructuredLogging" value="true" />
+		<Parameter name="LogLevel" value="Information" />
+		<Parameter name="MaskSensitiveDataInLogs" value="true" />
+
+		<!-- Security Configuration -->
+		<Parameter name="ForceHttps" value="false" />
+		<Parameter name="EnableSecureTokenStorage" value="false" />
+		<Parameter name="EnableAuditLogging" value="false" />
 
 		<!-- Email for Test Results -->
 		<Parameter name="EMailTo" value="#{EMailTo}#" />

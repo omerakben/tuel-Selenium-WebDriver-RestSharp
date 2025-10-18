@@ -6,12 +6,15 @@ services:
     container_name: tuel-test-framework
     environment:
       - ENV=Development
-      - BaseURL=http://localhost:3000
-      - BaseurlAPI=http://localhost:5000/api
+      - BaseURL=https://localhost:3000
+      - BaseurlAPI=https://localhost:5000/api
       - DefaultTimeoutSeconds=30
       - Browser=local-chrome
       - EntraIdUseLocalJwt=true
       - EntraIdLocalJwtRole=TestUser
+      - ForceHttps=true
+      - EnableStructuredLogging=true
+      - LogLevel=Information
     volumes:
       - ./test-results:/app/test-results
       - ./loc.test/TUEL.TestFramework.local.runsettings:/app/loc.test/TUEL.TestFramework.local.runsettings

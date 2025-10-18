@@ -148,6 +148,33 @@ When reporting an issue, please include:
 - Use meaningful test data
 - Clean up resources in test cleanup
 
+## Performance Guidelines
+
+### ⚡ Performance Best Practices
+
+1. **Never use Thread.Sleep**: Use WebDriverWait with proper conditions instead
+2. **Use centralized configuration**: Access timeouts through `TestConfiguration`
+3. **Implement smart waits**: Wait for specific conditions rather than arbitrary delays
+4. **Enable structured logging**: Use `TestLogger` instead of `Console.WriteLine`
+
+### Performance Optimization Examples
+
+```csharp
+// ❌ Bad: Fixed delay
+Thread.Sleep(2000);
+
+// ✅ Good: Wait for condition
+driver.WaitVisible(By.Id("element"), TestConfiguration.GetElementVisibilityTimeout());
+
+// ❌ Bad: Console logging
+Console.WriteLine("Element found");
+
+// ✅ Good: Structured logging
+TestLogger.LogInformation("Element found: {0}", elementId);
+```
+
+See [Performance Optimization Guide](docs/performance-optimization.md) for detailed migration examples.
+
 ### Code Organization
 
 - Keep classes focused and single-purpose
