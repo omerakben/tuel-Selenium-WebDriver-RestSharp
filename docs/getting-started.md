@@ -1,163 +1,138 @@
-# Getting Started with EnterpriseTestFramework
+# Getting Started with Transit to Fully Open-Source TUEL
 
-This guide will help you get up and running with EnterpriseTestFramework quickly and efficiently.
+This guide walks you through cloning the repository, configuring environments, and running the test suites that power the TUEL automation framework.
 
 ## Prerequisites
 
-Before you begin, ensure you have the following installed:
-
-- **.NET 8.0 SDK** - [Download here](https://dotnet.microsoft.com/download/dotnet/8.0)
-- **Visual Studio 2022** or **VS Code** - [Download VS Code](https://code.visualstudio.com/)
-- **Chrome** or **Edge** browser
-- **Git** - [Download here](https://git-scm.com/downloads)
+- [.NET 8.0 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
+- Visual Studio 2022 or VS Code with C# extensions
+- Chrome or Edge browser (for UI automation)
+- Git
+- Docker (optional, for containerized execution)
 
 ## Installation
 
-### 1. Clone the Repository
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/omerakben/transit-to-open-source-tuel.git
+   cd transit-to-open-source-tuel
+   ```
 
-```bash
-git clone https://github.com/yourusername/EnterpriseTestFramework.git
-cd EnterpriseTestFramework
-```
+2. **Restore dependencies**
+   ```bash
+   dotnet restore loc.test/loc.test.csproj
+   ```
 
-### 2. Restore Dependencies
-
-```bash
-dotnet restore
-```
-
-### 3. Build the Solution
-
-```bash
-dotnet build
-```
+3. **Build the solution**
+   ```bash
+   dotnet build loc.test/TUEL.TestFramework.sln
+   ```
 
 ## Configuration
 
-### 1. Copy Configuration File
+1. **Create a runsettings file**
+   ```bash
+   cd loc.test
+   cp TUEL.TestFramework.runsettings.example TUEL.TestFramework.runsettings
+   ```
 
-Copy the template configuration file:
+2. **Update the copied file** with your environment values:
+   ```xml
+   <?xml version="1.0" encoding="utf-8"?>
+   <RunSettings>
+     <TestRunParameters>
+       <!-- General Configuration -->
+       <Parameter name="ENV" value="Development" />
+       <Parameter name="BaseURL" value="https://your-app.example.com" />
+       <Parameter name="BaseurlAPI" value="https://your-api.example.com/api" />
+       <Parameter name="DefaultTimeoutSeconds" value="30" />
 
-```bash
-cp loc.test/EnterpriseTestFramework.runsettings loc.test/EnterpriseTestFramework.local.runsettings
-```
+       <!-- Azure AD / Entra ID -->
+       <Parameter name="EntraIdTenantId" value="your-tenant-id" />
+       <Parameter name="EntraIdClientId" value="your-client-id" />
+       <Parameter name="EntraIdClientSecret" value="your-client-secret" />
+       <Parameter name="EntraIdApiScope" value="api://your-resource/.default" />
 
-### 2. Configure Your Environment
+       <!-- Optional: ROPC credentials -->
+       <Parameter name="UserName" value="user@example.com" />
+       <Parameter name="UserPassword" value="your-password" />
+     </TestRunParameters>
+   </RunSettings>
+   ```
 
-Edit `EnterpriseTestFramework.local.runsettings` with your specific values:
-
-```xml
-<?xml version="1.0" encoding="utf-8"?>
-<RunSettings>
-    <TestRunParameters>
-        <!-- General Configuration -->
-        <Parameter name="ENV" value="Development" />
-        <Parameter name="BaseURL" value="https://your-app.com" />
-        <Parameter name="BaseurlAPI" value="https://your-api.com/api" />
-        <Parameter name="DefaultTimeoutSeconds" value="30" />
-
-        <!-- Authentication Configuration -->
-        <Parameter name="EntraIdTenantId" value="your-tenant-id" />
-        <Parameter name="EntraIdClientId" value="your-client-id" />
-        <Parameter name="EntraIdClientSecret" value="your-client-secret" />
-        <Parameter name="EntraIdApiScope" value="your-api-scope" />
-
-        <!-- Optional: User Credentials for ROPC Flow -->
-        <Parameter name="UserName" value="your-email@domain.com" />
-        <Parameter name="UserPassword" value="your-password" />
-    </TestRunParameters>
-</RunSettings>
-```
+3. **Smart wait strategies** are enabled by default. Adjust timeouts or retry counts in the same file to fit your application’s responsiveness.
 
 ## Running Tests
 
-### Run All Tests
+From the repository root:
 
 ```bash
-dotnet test loc.test/EnterpriseTestFramework.Tests.csproj --settings EnterpriseTestFramework.local.runsettings
+dotnet test loc.test/TUEL.TestFramework.sln --settings loc.test/TUEL.TestFramework.runsettings
 ```
 
-### Run Specific Test Categories
+### Filter by category
 
 ```bash
-# Run only API tests
-dotnet test --filter "TestCategory=API"
-
-# Run only UI tests
-dotnet test --filter "TestCategory=UI"
-
-# Run only authentication tests
-dotnet test --filter "TestCategory=Authentication"
+dotnet test loc.test/TUEL.TestFramework.sln --settings loc.test/TUEL.TestFramework.runsettings --filter "TestCategory=API"
+dotnet test loc.test/TUEL.TestFramework.sln --settings loc.test/TUEL.TestFramework.runsettings --filter "TestCategory=UI"
 ```
 
-### Run Tests with Specific Browser
+### Select a browser at runtime
+
+Specify the `Browser` parameter if your runsettings file includes browser overrides:
 
 ```bash
-# Run with Chrome
-dotnet test --settings EnterpriseTestFramework.local.runsettings -- TestRunParameters.Browser=local-chrome
-
-# Run with Edge
-dotnet test --settings EnterpriseTestFramework.local.runsettings -- TestRunParameters.Browser=local-edge
+dotnet test loc.test/TUEL.TestFramework.sln --settings loc.test/TUEL.TestFramework.runsettings -- TestRunParameters.Browser=local-chrome
 ```
 
 ## Docker Setup (Optional)
 
-### 1. Build Docker Image
+1. **Build the image**
+   ```bash
+    docker build -t tuel-test-framework .
+   ```
 
-```bash
-docker build -t enterprise-test-framework .
-```
+2. **Run tests inside the container**
+   ```bash
+   docker run --rm -v "$(pwd)/test-results:/app/test-results" tuel-test-framework
+   ```
 
-### 2. Run Tests in Docker
-
-```bash
-docker run --rm -v $(pwd)/test-results:/app/test-results enterprise-test-framework
-```
-
-### 3. Use Docker Compose
-
-```bash
-# Run tests only
-docker-compose up enterprise-test-framework
-
-# Run with sample API and web app
-docker-compose --profile with-api --profile with-web up
-```
+3. **Use Docker Compose**
+   ```bash
+   docker-compose up tuel-test-framework
+   ```
 
 ## Project Structure
 
 ```
-EnterpriseTestFramework/
-├── loc.test/                          # Main test project
-│   ├── API/                          # API test classes
-│   │   ├── Auth/                     # Authentication tests
-│   │   └── Products/                 # Product API tests
-│   ├── Web/                          # UI test classes
-│   │   ├── PageObjects/              # Page Object Models
-│   │   ├── TestClasses/              # UI test classes
-│   │   └── Support/                  # Helper classes
-│   ├── EnterpriseTestFramework.runsettings  # Configuration template
-│   └── EnterpriseTestFramework.Tests.csproj # Project file
-├── docs/                             # Documentation
-├── .github/workflows/                # CI/CD pipelines
-├── Dockerfile                        # Docker configuration
-├── docker-compose.yml               # Docker Compose setup
-├── LICENSE                          # MIT License
-├── CONTRIBUTING.md                  # Contribution guidelines
-└── README.md                        # Project overview
+transit-to-open-source-tuel/
+├── docs/                     # Guides and references
+├── loc.test/                 # Main test project
+│   ├── API/                  # API automation
+│   ├── Web/                  # UI automation
+│   ├── Configuration/        # Shared configuration helpers
+│   ├── TUEL.TestFramework.sln
+│   ├── loc.test.csproj
+│   ├── TUEL.TestFramework.runsettings.example
+│   └── README.md
+├── .github/                  # Community health files & workflows
+├── Dockerfile
+├── docker-compose.yml
+└── README.md
 ```
 
 ## Writing Your First Test
 
-### API Test Example
+### API Example
 
 ```csharp
 [TestClass]
-public class MyApiTests : APIBase
+public class ProductsApiTests : ApiTestBase
 {
     [TestMethod]
-    [Description("Verifies that the API returns a successful response")]
-    public async Task GetProducts_Returns_Status_OK()
+    [TestCategory("API")]
+    [Description("Validates that the products endpoint responds with HTTP 200.")]
+    public async Task GetProducts_Should_Return_Ok()
     {
         var response = await ExecuteGetAsync("/products");
 
@@ -167,91 +142,50 @@ public class MyApiTests : APIBase
 }
 ```
 
-### UI Test Example
+### UI Example
 
 ```csharp
 [TestClass]
-public class MyUiTests : Base
+public class DashboardSmokeTests : Base
 {
     [TestMethod]
-    [Description("Verifies that the dashboard loads correctly")]
-    public void Dashboard_Loads_Successfully()
+    [TestCategory("UI")]
+    [Description("Confirms the dashboard renders core widgets for authenticated users.")]
+    public void Dashboard_Should_Render_Core_Widgets()
     {
-        var dashboardPage = new DashboardPOM(Driver);
+        var dashboard = new DashboardPOM(Driver);
 
-        Assert.IsTrue(dashboardPage.VerifyPageTitle());
-        Assert.IsTrue(dashboardPage.VerifyMainHeader());
+        Assert.IsTrue(dashboard.VerifyPageTitle());
+        Assert.IsTrue(dashboard.VerifyMainHeader());
     }
 }
 ```
 
-## Authentication Setup
-
-### Option 1: Client Credentials Flow (Recommended for CI/CD)
-
-```xml
-<Parameter name="EntraIdTenantId" value="your-tenant-id" />
-<Parameter name="EntraIdClientId" value="your-client-id" />
-<Parameter name="EntraIdClientSecret" value="your-client-secret" />
-<Parameter name="EntraIdApiScope" value="your-api-scope" />
-```
-
-### Option 2: ROPC Flow (For interactive testing)
-
-```xml
-<Parameter name="UserName" value="your-email@domain.com" />
-<Parameter name="UserPassword" value="your-password" />
-<Parameter name="EntraIdTenantId" value="your-tenant-id" />
-<Parameter name="EntraIdClientId" value="your-client-id" />
-<Parameter name="EntraIdApiScope" value="your-api-scope" />
-```
-
-### Option 3: Local JWT (For development/testing)
-
-```xml
-<Parameter name="EntraIdUseLocalJwt" value="true" />
-<Parameter name="EntraIdLocalJwtRole" value="TestUser" />
-```
-
 ## Troubleshooting
 
-### Common Issues
+1. **Authentication failures**
+   - Confirm Entra ID credentials and scopes.
+   - Use `EntraIdUseLocalJwt=true` for local smoke testing when appropriate.
 
-1. **Tests fail with authentication errors**
-   - Verify your Azure AD configuration
-   - Check that the API scope is correct
-   - Ensure the client secret is valid
+2. **UI element not found**
+   - Ensure the application under test is reachable at `BaseURL`.
+   - Validate browser drivers are installed or allow WebDriverManager to download them.
 
-2. **UI tests fail with element not found**
-   - Check that the application is running
-   - Verify the BaseURL configuration
-   - Ensure the browser is properly installed
+3. **Timeouts**
+   - Increase `DefaultTimeoutSeconds` or the explicit wait values in runsettings.
+   - Inspect network stability; leverage structured logs in `logs/`.
 
-3. **Tests timeout**
-   - Increase the DefaultTimeoutSeconds value
-   - Check network connectivity
-   - Verify the application is responsive
+## Getting Help
 
-### Getting Help
+- Review [`SUPPORT.md`](../SUPPORT.md) for preferred channels.
+- Create issues in the GitHub repository with the provided templates.
+- Check the discussions board (once enabled) for community Q&A.
 
-- Check the [Troubleshooting Guide](troubleshooting.md)
-- Review the [Examples](examples/)
-- Open an issue on [GitHub](https://github.com/yourusername/EnterpriseTestFramework/issues)
+## Maintainer Contact
 
-## Next Steps
+- **Maintainer**: Omer “Ozzy” Akben — Full-Stack Developer • AI Engineer • SDET
+- **Email**: [me@omerakben.com](mailto:me@omerakben.com)
+- **Phone**: [(267) 512-4566](tel:+12675124566)
+- **Portfolio**: [omerakben.com](https://omerakben.com)
 
-- Read the [Architecture Overview](architecture.md)
-- Learn about [Page Object Model](page-object-model.md)
-- Explore [Best Practices](best-practices.md)
-- Check out [Examples](examples/)
-
-## Support
-
-- 📖 [Documentation](docs/)
-- 🐛 [Report Issues](https://github.com/yourusername/EnterpriseTestFramework/issues)
-- 💬 [Discussions](https://github.com/yourusername/EnterpriseTestFramework/discussions)
-- 📧 [Contact](mailto:your-email@example.com)
-
----
-
-**Happy Testing! 🚀**
+Thank you for building with TUEL! Contributions that align with the project [vision](../VISION.md) are always welcome.

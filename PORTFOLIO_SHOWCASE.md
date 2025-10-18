@@ -1,8 +1,8 @@
-# EnterpriseTestFramework - Portfolio Showcase
+# Transit to Fully Open-Source TUEL – Portfolio Showcase
 
 ## 🚀 Project Overview
 
-**EnterpriseTestFramework** is a comprehensive, enterprise-grade test automation framework built with .NET 8.0, demonstrating modern SDET architecture patterns and best practices. This framework serves as a plug-and-play template for API and UI testing, showcasing advanced automation techniques and scalable design patterns.
+**Transit to Fully Open-Source TUEL** is a comprehensive, enterprise-grade test automation framework built with .NET 8.0, demonstrating modern SDET architecture patterns and best practices. This framework serves as a plug-and-play template for API and UI testing, showcasing advanced automation techniques and scalable design patterns.
 
 ## 🏆 Key Achievements
 
@@ -65,9 +65,9 @@
 ## 🎯 Domain Transformation
 
 ### Original Project
-- **Domain**: Federal Home Loan Bank (FHLB) Letters of Credit
-- **Scope**: Financial services automation
-- **Complexity**: Domain-specific business logic
+- **Domain**: Legacy financial services letter-of-credit platform
+- **Scope**: Highly specialized enterprise workflows
+- **Complexity**: Deeply domain-specific business rules
 
 ### Transformed Framework
 - **Domain**: Generic Enterprise Business Application
@@ -75,8 +75,8 @@
 - **Flexibility**: Adaptable to any business domain
 
 ### Transformation Achievements
-- ✅ Removed all FHLB-specific content and branding
-- ✅ Replaced LOC terminology with generic business terms
+- ✅ Neutralized client-identifying language and branding
+- ✅ Abstracted letter-of-credit concepts into reusable domain terms
 - ✅ Created reusable domain models (Products, Orders, Customers)
 - ✅ Implemented plug-and-play configuration system
 - ✅ Added comprehensive documentation and examples
@@ -202,17 +202,17 @@ public static void LoadConfig(TestContext context)
 ## 📞 Contact & Collaboration
 
 ### Portfolio Links
-- **GitHub Repository**: [EnterpriseTestFramework](https://github.com/yourusername/EnterpriseTestFramework)
-- **Live Demo**: [Framework Demo](https://your-demo-site.com)
-- **Documentation**: [Comprehensive Docs](https://your-docs-site.com)
-- **Portfolio**: [Omer Akben Portfolio](https://omerakben.com)
+- **GitHub Repository**: [Transit to Fully Open-Source TUEL](https://github.com/omerakben/transit-to-open-source-tuel)
+- **Documentation**: [Project Docs](https://github.com/omerakben/transit-to-open-source-tuel/tree/main/docs)
+- **Portfolio**: [omerakben.com](https://omerakben.com)
 
 ### Professional Information
-- **Name**: Omer Akben
-- **Title**: Enterprise SDET Architect
-- **Email**: [your-email@example.com](mailto:your-email@example.com)
-- **LinkedIn**: [Professional Profile](https://linkedin.com/in/omerakben)
-- **Location**: [Your Location]
+- **Name**: Omer “Ozzy” Akben
+- **Title**: Full-Stack Developer • AI Engineer • SDET
+- **Email**: [me@omerakben.com](mailto:me@omerakben.com)
+- **Phone**: [(267) 512-4566](tel:+12675124566)
+- **LinkedIn**: [linkedin.com/in/omerakben](https://linkedin.com/in/omerakben)
+- **Location**: Raleigh, NC (EST/UTC-5)
 
 ## 🏅 Recognition & Achievements
 
@@ -232,4 +232,4 @@ public static void LoadConfig(TestContext context)
 
 **This framework represents the culmination of modern test automation best practices, demonstrating expertise in enterprise software development, quality assurance, and DevOps integration. It serves as both a practical tool and a comprehensive learning resource for the testing community.**
 
-**Built with ❤️ by [Omer Akben](https://omerakben.com) - Enterprise SDET Architect**
+**Built with ❤️ by [Omer “Ozzy” Akben](https://omerakben.com) — Full-Stack Developer • AI Engineer • SDET**

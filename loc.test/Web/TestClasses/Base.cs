@@ -78,7 +78,7 @@ namespace TUEL.TestFramework.Web.TestClasses
 
             if (string.IsNullOrEmpty(InitializeTestAssembly.UiUrl))
             {
-                throw new InvalidOperationException("UI Url ('LOC_UiUrl') is not configured in the .runsettings file.");
+                throw new InvalidOperationException("UI Url ('BaseURL') is not configured in the .runsettings file.");
             }
 
             NavigateToApplicationWithRetry();

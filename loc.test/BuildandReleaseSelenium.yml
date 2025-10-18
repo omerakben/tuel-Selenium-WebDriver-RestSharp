@@ -1,13 +1,13 @@
 name: 1.0.$(Year:yy)$(DayOfYear)$(rev:.r)
 
 variables:
-  - group: 'AutomatedTestingSecrets'
-  - group: 'AutomatedTesting'
-  - group: 'Loc-Selenium-dev'
+  - group: 'TransitTUEL-Secrets'          # replace with your secure variable group
+  - group: 'TransitTUEL-Shared'           # shared non-secret configuration
+  - group: 'TransitTUEL-Environment'      # environment-specific values
   - name: buildConfiguration
     value: 'Release'
   - name: appPrefix
-    value: 'LOCRestSharp' # this is used to find the nuspec name $(appPrefix).nuspec and also is the name of the package in the release_feed $(appPrefix).nupkg
+    value: 'TUELTestFramework'            # keeps nuspec/package names aligned with the TUEL branding
 
 resources:
   repositories:

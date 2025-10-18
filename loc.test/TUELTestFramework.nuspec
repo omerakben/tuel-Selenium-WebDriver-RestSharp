@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+	<metadata>
+		<id>TUELTestFramework</id>
+		<version>#{buildNumber}#</version>
+		<title>TUEL Test Framework</title>
+		<authors>Omer Akben</authors>
+		<owners>TUEL</owners>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<description>Transit to Fully Open-Source TUEL test automation framework packaging metadata.</description>
+		<copyright>Copyright © TUEL 2024</copyright>
+		<dependencies />
+	</metadata>
+</package>

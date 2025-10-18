@@ -15,7 +15,7 @@ Thank you for your interest in contributing to TUEL Test Framework! This documen
 
 ## Code of Conduct
 
-This project adheres to a code of conduct that we expect all contributors to follow. Please be respectful, inclusive, and constructive in all interactions.
+This project adheres to the [Contributor Covenant](CODE_OF_CONDUCT.md). Please be respectful, inclusive, and constructive in all interactions.
 
 ## Getting Started
 
@@ -39,8 +39,8 @@ This project adheres to a code of conduct that we expect all contributors to fol
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/TUEL-TestFramework.git
-   cd TUEL-TestFramework
+   git clone https://github.com/omerakben/transit-to-open-source-tuel.git
+   cd transit-to-open-source-tuel
    ```
 
 2. Restore dependencies:
@@ -119,7 +119,7 @@ We welcome several types of contributions:
 
 ### Issue Template
 
-When reporting an issue, please include:
+Use the issue templates provided in `.github/ISSUE_TEMPLATE/`. When reporting an issue, please include:
 
 - **Description**: Clear description of the issue
 - **Steps to Reproduce**: Detailed steps to reproduce the issue
@@ -260,8 +260,8 @@ public async Task GetProducts_Returns_Status_OK()
 
 If you need help or have questions:
 
-- Open an issue for bugs or feature requests
-- Use GitHub Discussions for general questions
+- Follow the channels described in [`SUPPORT.md`](SUPPORT.md)
+- Use GitHub Discussions for general questions (once enabled)
 - Check existing documentation
 - Review existing code for examples
 

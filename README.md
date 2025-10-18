@@ -1,4 +1,6 @@
-# TUEL Test Framework - Modern C# Test Automation Template
+# Transit to Fully Open-Source TUEL Test Framework
+
+Modern C# test automation template, evolved from a legacy Letter of Credit solution into a vendor-neutral, community-ready baseline.
 
 A comprehensive, enterprise-grade test automation framework built with .NET 8.0, Selenium WebDriver, and RestSharp. This framework demonstrates modern SDET architecture patterns and serves as a plug-and-play template for API and UI testing.
 
@@ -38,13 +40,14 @@ A comprehensive, enterprise-grade test automation framework built with .NET 8.0,
 - Docker (optional)
 
 ### Setup
-1. Clone the repository
-2. Copy `TUEL.TestFramework.runsettings` to `TUEL.TestFramework.local.runsettings`
-3. Configure your environment-specific values
-4. Run tests:
+1. Clone the repository.
+2. Change into the test project directory: `cd loc.test`.
+3. Copy `TUEL.TestFramework.runsettings.example` to `TUEL.TestFramework.runsettings`.
+4. Update the new file with your environment-specific values (or create `TUEL.TestFramework.local.runsettings` for machine-specific overrides).
+5. Review the core expectations in [`docs/testing-guidelines.md`](docs/testing-guidelines.md).
+6. Run tests:
    ```bash
-   cd TUEL.TestFramework
-   dotnet test TUEL.TestFramework.sln --settings TUEL.TestFramework.local.runsettings
+   dotnet test TUEL.TestFramework.sln --settings TUEL.TestFramework.runsettings
    ```
 
 ### Docker Setup
@@ -56,29 +59,23 @@ docker exec -it tuel-test-framework dotnet test
 ## 📁 Project Structure
 
 ```
-TUEL-TestFramework/
-├── src/
-│   ├── TUEL.TestFramework/
-│   │   ├── API/
-│   │   │   ├── Products/
-│   │   │   ├── Orders/
-│   │   │   └── Customers/
-│   │   ├── Web/
-│   │   │   ├── PageObjects/
-│   │   │   ├── TestClasses/
-│   │   │   └── Support/
-│   │   └── Common/
-│   │       ├── Configuration/
-│   │       ├── Data/
-│   │       └── Utilities/
-│   └── TUEL.TestFramework.Core/
-│       ├── Authentication/
-│       ├── Reporting/
-│       └── Extensions/
+.
 ├── docs/
-├── samples/
-├── docker/
-└── .github/
+├── loc.test/
+│   ├── API/
+│   ├── Configuration/
+│   ├── Logging/
+│   ├── Web/
+│   ├── GlobalUsings.cs
+│   ├── InitializeTestAssembly.cs
+│   ├── TUEL.TestFramework.sln
+│   ├── loc.test.csproj
+│   ├── TUEL.TestFramework.runsettings.example
+│   └── README.md
+├── logs/
+├── Dockerfile
+├── docker-compose.yml
+└── README.md
 ```
 
 ## 🔧 Configuration
@@ -136,12 +133,24 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **Regression Testing**: Continuous integration pipelines
 - **Performance Testing**: Load and stress testing
 
+## 🤝 Community
+
+- Read the [`VISION.md`](VISION.md) to understand the long-term roadmap and decision-making principles.
+- All contributors must follow the [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md).
+- Contribution steps, coding standards, and review expectations live in [`CONTRIBUTING.md`](CONTRIBUTING.md).
+- Testing expectations are detailed in [`docs/testing-guidelines.md`](docs/testing-guidelines.md).
+
+## 🆘 Support & Security
+
+- Need help? Check [`SUPPORT.md`](SUPPORT.md) for the right channel.
+- Report security issues privately via the process in [`SECURITY.md`](SECURITY.md). Do not open public issues for vulnerabilities.
+
 ## 🔗 Links
 
 - [Documentation](docs/)
 - [Examples](samples/)
-- [Issues](https://github.com/yourusername/TUEL-TestFramework/issues)
-- [Portfolio](https://tuel.com)
+- [Issues](https://github.com/omerakben/transit-to-open-source-tuel/issues)
+- [Portfolio](https://omerakben.com)
 
 ## 📈 Metrics
 
@@ -152,4 +161,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-Built with ❤️ by [TUEL](https://tuel.com) - Enterprise Test Automation Solutions
+Built with ❤️ by [Omer “Ozzy” Akben](https://omerakben.com) — Full-Stack Developer • AI Engineer • SDET • me@omerakben.com • (267) 512-4566

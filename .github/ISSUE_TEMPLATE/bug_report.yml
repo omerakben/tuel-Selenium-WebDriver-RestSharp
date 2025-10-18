@@ -1,0 +1,70 @@
+name: Bug report
+description: Report a bug to help us improve the TUEL test framework.
+title: "[Bug]: "
+labels:
+  - bug
+  - needs-triage
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report! Please provide as much detail as possible so we can help quickly.
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the bug
+      description: A clear and concise description of what the bug is.
+      placeholder: When I run ...
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      description: Provide numbered steps describing how to reproduce the issue.
+      placeholder: |
+        1. Go to '...'
+        2. Run '...'
+        3. Observe '...'
+    validations:
+      required: true
+  - type: input
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What did you expect to happen?
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs and screenshots
+      description: Attach relevant logs, stack traces, screenshots, or videos.
+      render: shell
+  - type: dropdown
+    id: area
+    attributes:
+      label: Affected area
+      options:
+        - UI automation
+        - API automation
+        - Authentication
+        - Configuration
+        - Build / CI
+        - Documentation
+  - type: input
+    id: env
+    attributes:
+      label: Environment details
+      description: OS, .NET version, browser version, and any other relevant environment info.
+      placeholder: macOS 14.6 / .NET 8.0.303 / Chrome 129
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      options:
+        - label: I have searched existing issues
+          required: true
+        - label: I have read the CONTRIBUTING guide
+        - label: I am willing to submit a fix for this bug

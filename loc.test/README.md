@@ -1,5 +1,5 @@
-# TUEL Test Framework - Generic Testing Framework
-This repository contains a generic, enterprise-grade automation testing framework for API and UI components. It is designed to be easily adaptable to various business applications.
+# Transit to Fully Open-Source TUEL – Generic Testing Framework
+This repository contains the open community edition of the TUEL enterprise-grade automation testing framework. It evolved from a bespoke Letter of Credit solution and is now designed to be easily adaptable to a wide range of business applications.
 
 ## Prerequisites
 - .NET 8.0 SDK
@@ -9,7 +9,7 @@ This repository contains a generic, enterprise-grade automation testing framewor
 ## Configuration
 1.  **Runsettings File**:
     -   Copy `TUEL.TestFramework.runsettings.example` to `TUEL.TestFramework.runsettings`.
-    -   Update the `TUEL.TestFramework.runsettings` file with your environment-specific values. This file contains parameters for API and UI base URLs, user credentials, Azure AD (Entra ID) configurations, and timeouts.
+    -   Update the new file with your environment-specific values. These parameters cover API and UI base URLs, user credentials, Azure AD (Entra ID) configurations, and timeouts.
     -   **Important**: For local development, you might create `TUEL.TestFramework.local.runsettings` and configure your IDE to use it.
 
 ## How to Run Tests
@@ -22,13 +22,13 @@ This repository contains a generic, enterprise-grade automation testing framewor
 5.  Run all tests or select specific tests/categories.
 
 ### From Command Line
-Navigate to the `TUEL.TestFramework` directory and run:
+Navigate to the `loc.test` directory and run:
 ```bash
-dotnet test TUEL.TestFramework.csproj --settings TUEL.TestFramework.runsettings
+dotnet test TUEL.TestFramework.sln --settings TUEL.TestFramework.runsettings
 ```
 
 ## Project Structure
--   **`TUEL.TestFramework`**: The main test project.
+-   **`loc.test`**: The main test project folder in this repository.
     -   **`API`**: Contains API test classes and related helpers.
         -   **`Auth`**: Authentication helpers (e.g., EntraAuthHelper).
         -   **`Products`**: API tests for product-related endpoints.
