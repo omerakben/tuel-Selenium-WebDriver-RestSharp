@@ -1,0 +1,265 @@
+using loc.test.Web.Support;
+using loc.test.Web.PageObjectFiles;
+using loc.test;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenQA.Selenium;
+using System;
+using System.Threading;
+
+namespace loc.test.Web.TestClasses
+{
+    // Serves as the base class for all UI test classes.
+    // It handles the creation and disposal of the WebDriver for each test.
+    [TestClass]
+    public abstract class Base
+    {
+        // It is initialized before each test and disposed of after each test.
+        protected IWebDriver? Driver { get; private set; }
+
+        // Gets or sets the test context which provides information
+        public TestContext TestContext { get; set; }
+
+        // Runs before each test method. Initializes the WebDriver and navigates to the base URL.
+        [TestInitialize]
+        public void TestSetup()
+        {
+            TestContext.WriteLine($"Starting Web test: {TestContext.TestName}. Environment: {InitializeTestAssembly.ENV}");
+
+            // Check if we're in pipeline environment
+            bool isPipelineEnvironment = UIHelper.IsPipelineEnvironment();
+
+            try
+            {
+                if (InitializeTestAssembly.Browser.Equals("edge", StringComparison.OrdinalIgnoreCase))
+                {
+                    Driver = InitializeTestAssembly.CreateEdgeDriver();
+                }
+                else if (InitializeTestAssembly.Browser.Equals("local-edge", StringComparison.OrdinalIgnoreCase))
+                {
+                    Driver = WebDriverFactory.CreateDriver(); //msedgedriver.exe on local PC.
+                }
+                else
+                {
+                    throw new NotSupportedException($"The configured browser '{InitializeTestAssembly.Browser}' is not supported by this test framework setup.");
+                }
+            }
+            catch (Exception ex)
+            {
+                if (isPipelineEnvironment)
+                {
+                    // In pipeline
+                    TestContext.WriteLine($"Pipeline environment detected");
+                    TestContext.WriteLine($"fhlb.common EdgeDriverManager failed: {ex.Message}");
+                    throw new InvalidOperationException($"fhlb.common EdgeDriverManager failed in pipeline. Error: {ex.Message}", ex);
+                }
+
+                // Local environment only, allow fallback
+                TestContext.WriteLine($"Local environment - attempting fallback to local-edge driver");
+                TestContext.WriteLine($"Primary driver creation failed: {ex.Message}");
+
+                try
+                {
+                    Driver = WebDriverFactory.CreateDriver();
+                    TestContext.WriteLine("Successfully created fallback local-edge driver");
+                }
+                catch (Exception fallbackEx)
+                {
+                    throw new InvalidOperationException($"Both primary and fallback driver creation failed. Primary: {ex.Message}, Fallback: {fallbackEx.Message}");
+                }
+            }
+
+            if (Driver == null)
+            {
+                throw new InvalidOperationException("Driver creation failed");
+            }
+
+            Driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(InitializeTestAssembly.DefaultTimeoutSeconds);
+            Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10); // Reduced to rely more on explicit waits
+
+            if (string.IsNullOrEmpty(InitializeTestAssembly.UiUrl))
+            {
+                throw new InvalidOperationException("UI Url ('LOC_UiUrl') is not configured in the .runsettings file.");
+            }
+
+            NavigateToApplicationWithRetry();
+
+            // Perform login using LoginPOM ROPC
+            PerformLogin();
+        }
+
+        private void PerformLogin()
+        {
+            try
+            {
+                TestContext.WriteLine("Starting Login Process");
+
+                if (Driver == null)
+                {
+                    throw new InvalidOperationException("Driver is not initialized");
+                }
+
+                var loginPOM = new LoginPOM(Driver);
+
+                // Check if already on the login page or need to navigate
+                var currentState = loginPOM.GetCurrentAuthenticationState();
+                TestContext.WriteLine($"Current authentication state: {currentState}");
+
+                if (currentState == AuthenticationState.LoggedIn)
+                {
+                    TestContext.WriteLine("Already logged in no authentication needed");
+                    return;
+                }
+
+                // Wait for login page if needed
+                if (!loginPOM.IsLoginPageDisplayed(TimeSpan.FromSeconds(10)))
+                {
+                    TestContext.WriteLine("Login page waiting for redirect...");
+                    Thread.Sleep(2_000); // Allow time for redirect to login page
+                }
+
+                // Get credentials from configuration
+                var username = InitializeTestAssembly.Email;
+                var password = InitializeTestAssembly.Password;
+
+                if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+                {
+                    throw new InvalidOperationException("Username or password not configured in .runsettings");
+                }
+
+                TestContext.WriteLine($"Attempting login with username(Email): {username}");
+                loginPOM.LoginToApplication(username, password);
+
+                TestContext.WriteLine("Login process completed");
+            }
+            catch (Exception ex)
+            {
+                TestContext.WriteLine($"Error during login: {ex.Message}");
+                TestContext.WriteLine($"Stack trace: {ex.StackTrace}");
+                throw new InvalidOperationException($"Login failed: {ex.Message}", ex);
+            }
+        }
+
+        private void NavigateToApplicationWithRetry()
+        {
+            const int maxAttempts = 3;
+            Exception? lastException = null;
+
+            if (Driver == null)
+            {
+                throw new InvalidOperationException("Driver is not initialized");
+            }
+
+            for (int attempt = 1; attempt <= maxAttempts; attempt++)
+            {
+                try
+                {
+                    TestContext.WriteLine($"Navigation attempt {attempt}/{maxAttempts} to: {InitializeTestAssembly.UiUrl}");
+                    var startTime = DateTime.Now;
+
+                    Driver.Navigate().GoToUrl(InitializeTestAssembly.UiUrl);
+
+                    if (WaitForPageStabilization())
+                    {
+                        var loadTime = DateTime.Now - startTime;
+                        TestContext.WriteLine($"Page navigation completed in: {loadTime.TotalSeconds:F2} seconds");
+                        return;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    lastException = ex;
+                    TestContext.WriteLine($"Navigation attempt {attempt} failed: {ex.Message}");
+
+                    if (attempt < maxAttempts)
+                    {
+                        TestContext.WriteLine($"Waiting before retry attempt {attempt + 1}...");
+                        Thread.Sleep(2000);
+                    }
+                }
+            }
+
+            throw new InvalidOperationException($"Failed to navigate to application after {maxAttempts} attempts. Last error: {lastException?.Message}", lastException);
+        }
+
+        private bool WaitForPageStabilization()
+        {
+            const int maxWaitSeconds = 10;
+            var startTime = DateTime.Now;
+
+            if (Driver == null) return false;
+
+            while ((DateTime.Now - startTime).TotalSeconds < maxWaitSeconds)
+            {
+                try
+                {
+                    var currentUrl = Driver.Url;
+
+                    // Handle data: URL - wait for redirect
+                    if (currentUrl.StartsWith("data:"))
+                    {
+                        Thread.Sleep(1000);
+                        continue;
+                    }
+
+                    Driver.WaitForPageTransition(TimeSpan.FromSeconds(5));
+
+                    if (IsPageStable())
+                    {
+                        return true;
+                    }
+
+                    Thread.Sleep(500);
+                }
+                catch (Exception ex)
+                {
+                    TestContext.WriteLine($"Page stabilization check failed: {ex.Message}");
+                    Thread.Sleep(1000);
+                }
+            }
+
+            return false;
+        }
+
+        private bool IsPageStable()
+        {
+            try
+            {
+                if (Driver == null) return false;
+
+                var currentUrl = Driver.Url;
+
+                // Check page (not data: or blank)
+                if (string.IsNullOrEmpty(currentUrl) || currentUrl.StartsWith("data:") || currentUrl == "about:blank")
+                {
+                    return false;
+                }
+
+                var hasTitle = !string.IsNullOrEmpty(Driver.Title);
+                var hasBody = Driver.FindElements(By.TagName("body")).Count > 0;
+
+                return hasTitle && hasBody;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        // Runs after each test method. Cleans up by closing and quitting the WebDriver.
+        [TestCleanup]
+        public void TestCleanup()
+        {
+            try
+            {
+                TestContext.WriteLine($"Finished Web test: {TestContext.TestName}");
+                Driver?.Close();
+                Driver?.Quit();
+
+            }
+            catch (Exception ex)
+            {
+                TestContext.WriteLine($"An error occurred during WebDriver cleanup: {ex.Message}");
+            }
+        }
+    }
+}

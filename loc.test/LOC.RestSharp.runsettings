@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RunSettings>
+	<DataCollectionRunSettings></DataCollectionRunSettings>
+	<TestRunParameters>
+		<!-- General Configuration -->
+		<Parameter name="ENV" value="#{ENV}#" />
+		<Parameter name="BaseURL" value="#{BaseURL}#" />
+		<Parameter name="BaseurlAPI" value="#{BaseurlAPI}#" />
+		<Parameter name="DefaultTimeoutSeconds" value="#{DefaultTimeoutSeconds}#" />
+		<Parameter name="WaitTimeoutInMinutes" value="#{WaitTimeoutInMinutes}#" />
+
+		<!-- User Credentials for ROPC Flow -->
+		<Parameter name="UserName" value="#{UserNameAzure}#" />
+		<Parameter name="UserPassword" value="#{AzureNonProdUserPassword}#" />
+
+		<!-- Entra ID Configuration (Specific to this project) -->
+		<Parameter name="EntraIdTenantId" value="#{EntraIdTenantId}#" />
+		<Parameter name="EntraIdClientId" value="#{EntraIdClientId}#" />
+		<Parameter name="EntraIdClientSecret" value="#{EntraIdClientSecret}#" />
+		<Parameter name="EntraIdApiScope" value="#{EntraIdApiScope}#" />
+		<Parameter name="EntraIdAuthority" value="https://login.microsoftonline.com" />
+
+		<!-- API Request Configuration -->
+		<Parameter name="ApiTimeoutSeconds" value="#{ApiTimeoutSeconds}#" />
+		<Parameter name="ApiMaxRetryAttempts" value="#{ApiMaxRetryAttempts}#" />
+		<Parameter name="ApiRetryIntervalMilliseconds" value="#{ApiRetryIntervalMilliseconds}#" />
+
+		<!-- Email for Test Results -->
+		<Parameter name="EMailTo" value="#{EMailTo}#" />
+	</TestRunParameters>
+	<MSTest>
+	</MSTest>
+</RunSettings>

@@ -1,0 +1,28 @@
+name: 1.0.$(Year:yy)$(DayOfYear)$(rev:.r)
+
+variables:
+  - group: 'AutomatedTestingSecrets'
+  - group: 'AutomatedTesting'
+  - group: 'Loc-Selenium-dev'
+  - name: buildConfiguration
+    value: 'Release'
+  - name: appPrefix
+    value: 'LOCRestSharp' # this is used to find the nuspec name $(appPrefix).nuspec and also is the name of the package in the release_feed $(appPrefix).nupkg
+
+resources:
+  repositories:
+    - repository: Pipeline-Templates
+      type: git
+      name: Infrastructure/Pipeline-Templates
+      ref: main
+
+pool:
+  name: dop-hub-nc-azure-managed-01
+  vmImage: ubuntu-22.04
+
+stages:
+- template: 'template-selenium-test.yml@Pipeline-Templates'  # Template reference
+  parameters:
+    buildConfiguration: $(buildConfiguration)
+    testingDll: $(testingDll)
+    runSettingName: $(runSettingName)

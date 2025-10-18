@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+	<metadata>
+		<id>LOCRestSharp</id>
+		<version>#{buildNumber}#</version>
+		<title>LOCRestSharp</title>
+		<authors>FHLB</authors>
+		<owners>FHLB</owners>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<description>Description</description>
+		<copyright>Copyright � FHLB 2020</copyright>
+		<dependencies />
+	</metadata>
+</package>
