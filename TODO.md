@@ -1,6 +1,6 @@
-# 🚀 LOCSelenium - Professional Open Source Roadmap
+# 🚀 TUEL Test Framework - Professional Open Source Roadmap
 
-> **Mission**: Transform LOCSelenium into an A++ 100/100 professional-grade, enterprise-ready test automation framework that sets the industry standard for modern SDET practices.
+> **Mission**: Transform TUEL Test Framework into an A++ 100/100 professional-grade, enterprise-ready test automation framework that sets the industry standard for modern SDET practices.
 
 ## 📊 Current Status: B+ (Good to Very Good)
 **Target**: A++ (100/100 Professional Grade)
@@ -9,7 +9,7 @@
 
 ## 🎯 Executive Summary
 
-This roadmap outlines the transformation of LOCSelenium from a solid B+ framework to an A++ industry-leading test automation solution. Our goal is to create a framework that exemplifies best practices, security, performance, and maintainability while fostering a thriving open-source community.
+This roadmap outlines the transformation of TUEL Test Framework from a solid B+ framework to an A++ industry-leading test automation solution. Our goal is to create a framework that exemplifies best practices, security, performance, and maintainability while fostering a thriving open-source community.
 
 ---
 
@@ -555,9 +555,9 @@ This roadmap outlines the transformation of LOCSelenium from a solid B+ framewor
 - **🏔️ Mountain**: 100+ contributions
 
 ### 🎁 Rewards Program
-- **Swag**: LOCSelenium branded merchandise
+- **Swag**: TUEL Test Framework branded merchandise
 - **Conference**: Speaking opportunities at conferences
-- **Certification**: Official LOCSelenium certification
+- **Certification**: Official TUEL Test Framework certification
 - **Employment**: Job opportunities with partner companies
 
 ---
@@ -591,7 +591,7 @@ This roadmap represents our commitment to creating the world's best test automat
 
 **Questions?** Join our discussions or reach out to the maintainers.
 
-**Let's make LOCSelenium the gold standard for test automation! 🎯**
+**Let's make TUEL Test Framework the gold standard for test automation! 🎯**
 
 ---
 

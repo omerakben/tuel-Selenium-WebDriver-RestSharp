@@ -39,8 +39,8 @@ This project adheres to the [Contributor Covenant](CODE_OF_CONDUCT.md). Please b
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/omerakben/transit-to-open-source-tuel.git
-   cd transit-to-open-source-tuel
+   git clone https://github.com/omerakben/tuel-Selenium-WebDriver-RestSharp.git
+   cd tuel-Selenium-WebDriver-RestSharp
    ```
 
 2. Restore dependencies:

@@ -163,7 +163,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - [Documentation](docs/)
 - [Examples](samples/)
-- [Issues](https://github.com/omerakben/transit-to-open-source-tuel/issues)
+- [Issues](https://github.com/omerakben/tuel-Selenium-WebDriver-RestSharp/issues)
 - [Portfolio](https://omerakben.com)
 
 ## 📈 Metrics

@@ -61,8 +61,8 @@
 ### Installation
 ```bash
 # Clone the repository
-git clone https://github.com/your-org/LOCSelenium.git
-cd LOCSelenium
+git clone https://github.com/omerakben/tuel-Selenium-WebDriver-RestSharp.git
+cd tuel-Selenium-WebDriver-RestSharp
 
 # Navigate to test project
 cd tuel.test
@@ -302,8 +302,8 @@ dotnet run --project QualityAnalysis -- --output QualityReport.html
 
 ## 🆘 Support & Community
 
-- **Issues**: [GitHub Issues](https://github.com/your-org/LOCSelenium/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/your-org/LOCSelenium/discussions)
+- **Issues**: [GitHub Issues](https://github.com/omerakben/tuel-Selenium-WebDriver-RestSharp/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/omerakben/tuel-Selenium-WebDriver-RestSharp/discussions)
 - **Security**: [Security Policy](SECURITY.md)
 - **Contributing**: [Contributing Guide](CONTRIBUTING.md)
 

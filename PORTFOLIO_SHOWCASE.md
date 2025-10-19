@@ -202,8 +202,8 @@ public static void LoadConfig(TestContext context)
 ## 📞 Contact & Collaboration
 
 ### Portfolio Links
-- **GitHub Repository**: [Transit to Fully Open-Source TUEL](https://github.com/omerakben/transit-to-open-source-tuel)
-- **Documentation**: [Project Docs](https://github.com/omerakben/transit-to-open-source-tuel/tree/main/docs)
+- **GitHub Repository**: [TUEL Test Framework](https://github.com/omerakben/tuel-Selenium-WebDriver-RestSharp)
+- **Documentation**: [Project Docs](https://github.com/omerakben/tuel-Selenium-WebDriver-RestSharp/tree/main/docs)
 - **Portfolio**: [omerakben.com](https://omerakben.com)
 
 ### Professional Information

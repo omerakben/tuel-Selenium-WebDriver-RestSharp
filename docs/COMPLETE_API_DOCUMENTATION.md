@@ -883,8 +883,8 @@ Driver.WaitVisible(element, TimeSpan.FromSeconds(15));
 
 - **Documentation**: [Complete API Reference](docs/api-reference.md)
 - **Examples**: [Code Samples](examples/)
-- **Issues**: [GitHub Issues](https://github.com/your-org/LOCSelenium/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/your-org/LOCSelenium/discussions)
+- **Issues**: [GitHub Issues](https://github.com/omerakben/tuel-Selenium-WebDriver-RestSharp/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/omerakben/tuel-Selenium-WebDriver-RestSharp/discussions)
 
 ---
 
