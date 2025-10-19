@@ -52,15 +52,4 @@
 		</None>
 	</ItemGroup>
 
-	<ItemGroup>
-		<Compile Include="Support\ErrorHandlingUtility.cs" />
-		<Compile Include="Monitoring\PerformanceMonitor.cs" />
-		<Compile Include="Security\SecurityHardeningUtility.cs" />
-		<Compile Include="Testing\TestCoverageValidator.cs" />
-		<Compile Include="Architecture\AdvancedPatterns.cs" />
-		<Compile Include="Security\Advanced\AdvancedSecurityManager.cs" />
-		<Compile Include="Performance\Advanced\AdvancedPerformanceEngine.cs" />
-		<Compile Include="Examples\ComprehensiveTestExamples.cs" />
-	</ItemGroup>
-
 </Project>

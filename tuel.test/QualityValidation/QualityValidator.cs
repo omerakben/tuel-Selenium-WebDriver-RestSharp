@@ -141,7 +141,7 @@ namespace TUEL.TestFramework.QualityValidation
             var projectPath = GetProjectPath();
 
             // Check HTTPS compliance
-            analysis.HttpsCompliant = !CountPatternInFiles(projectPath, @"http://") > 0;
+            analysis.HttpsCompliant = CountPatternInFiles(projectPath, @"http://") == 0;
 
             // Check secret management
             analysis.SecretManagementSecure = CountPatternInFiles(projectPath, @"env://|kv://|enc://") > 0;
@@ -266,7 +266,29 @@ namespace TUEL.TestFramework.QualityValidation
 
         private static string GetProjectPath()
         {
-            return Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? "";
+            var directory = AppContext.BaseDirectory;
+            while (!string.IsNullOrEmpty(directory))
+            {
+                if (File.Exists(Path.Combine(directory, "TUEL.TestFramework.csproj")))
+                {
+                    return directory;
+                }
+
+                if (Directory.GetFiles(directory, "*.sln", SearchOption.TopDirectoryOnly).Length > 0)
+                {
+                    return directory;
+                }
+
+                var parent = Directory.GetParent(directory);
+                if (parent is null)
+                {
+                    break;
+                }
+
+                directory = parent.FullName;
+            }
+
+            return AppContext.BaseDirectory;
         }
 
         private static string GetFrameworkVersion()
