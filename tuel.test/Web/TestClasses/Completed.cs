@@ -72,7 +72,7 @@ namespace TUEL.TestFramework.Web.TestClasses
                     // Navigate to dashboard first if not on a page with tabs
                     var dashboardUrl = $"{InitializeTestAssembly.UiUrl}/tuel-records/dashboard";
                     Driver.Navigate().GoToUrl(dashboardUrl);
-                    Thread.Sleep(2000);
+                    Driver.WaitForPageTransition(TimeSpan.FromSeconds(2));
                 }
 
                 // Click on Completed tab
@@ -125,7 +125,8 @@ namespace TUEL.TestFramework.Web.TestClasses
                     if (attempt < maxRetries)
                     {
                         TestContext.WriteLine($"Waiting {waitBetweenRetries}ms before retry...");
-                        Thread.Sleep(waitBetweenRetries);
+                        // Use Task.Delay instead of Thread.Sleep for async compatibility
+                        Task.Delay(waitBetweenRetries).Wait();
                     }
                     else
                     {
@@ -403,14 +404,14 @@ namespace TUEL.TestFramework.Web.TestClasses
                 {
                     TestContext.WriteLine($"Testing navigation to {tabName} tab...");
                     _completedPage.ClickNavigationTab(tabName.ToLower());
-                    Thread.Sleep(2000);
+                    Driver.WaitForPageTransition(TimeSpan.FromSeconds(2));
 
                     TestContext.WriteLine($"Successfully navigated to {tabName} tab");
 
                     // Navigate back to Completed
                     TestContext.WriteLine("Navigating back to Completed tab...");
                     _completedPage.ClickNavigationTab("completed");
-                    Thread.Sleep(2000);
+                    Driver.WaitForPageTransition(TimeSpan.FromSeconds(2));
 
                     TestContext.WriteLine("Successfully navigated back to Completed tab");
                 }

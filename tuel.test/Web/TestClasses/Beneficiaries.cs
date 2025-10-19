@@ -72,7 +72,7 @@ namespace TUEL.TestFramework.Web.TestClasses
                     // Navigate to dashboard first
                     var dashboardUrl = $"{InitializeTestAssembly.UiUrl}/business-application/dashboard";
                     Driver.Navigate().GoToUrl(dashboardUrl);
-                    Thread.Sleep(2000);
+                    Driver.WaitForPageTransition(TimeSpan.FromSeconds(2));
                 }
 
                 // Click on Customers tab
@@ -125,7 +125,8 @@ namespace TUEL.TestFramework.Web.TestClasses
                     if (attempt < maxRetries)
                     {
                         TestContext.WriteLine($"Waiting {waitBetweenRetries}ms before retry...");
-                        Thread.Sleep(waitBetweenRetries);
+                        // Use Task.Delay instead of Thread.Sleep for async compatibility
+                        Task.Delay(waitBetweenRetries).Wait();
                     }
                     else
                     {

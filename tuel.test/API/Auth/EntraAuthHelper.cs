@@ -38,7 +38,7 @@ namespace TUEL.TestFramework.API.Auth
             {
                 if (!string.IsNullOrEmpty(_cachedToken) && _tokenExpiry.HasValue && _tokenExpiry.Value > DateTimeOffset.UtcNow.AddMinutes(5))
                 {
-                    Console.WriteLine("Using cached token");
+                    TestLogger.LogDebug("Using cached token");
                     return _cachedToken!;
                 }
             }
@@ -51,19 +51,19 @@ namespace TUEL.TestFramework.API.Auth
         {
             if (InitializeTestAssembly.EntraIdUseLocalJwt)
             {
-                Console.WriteLine($"Using local JWT for role: {InitializeTestAssembly.EntraIdLocalJwtRole ?? "DefaultRole"}");
+                TestLogger.LogInformation("Using local JWT for role: {0}", InitializeTestAssembly.EntraIdLocalJwtRole ?? "DefaultRole");
                 _cachedToken = GetLocalJwtToken(InitializeTestAssembly.EntraIdLocalJwtRole);
                 _tokenExpiry = DateTimeOffset.UtcNow.AddHours(1);
                 return _cachedToken;
             }
             if (!string.IsNullOrEmpty(InitializeTestAssembly.Email) && !string.IsNullOrEmpty(InitializeTestAssembly.Password))
             {
-                Console.WriteLine("Using Resource Owner Password Credentials (ROPC) flow via direct HTTP");
+                TestLogger.LogInformation("Using Resource Owner Password Credentials (ROPC) flow via direct HTTP");
                 return await GetTokenUsingROPCAsync();
             }
             else
             {
-                Console.WriteLine("Using Client Credentials flow");
+                TestLogger.LogInformation("Using Client Credentials flow");
                 return await GetTokenUsingClientCredentialsAsync();
             }
         }

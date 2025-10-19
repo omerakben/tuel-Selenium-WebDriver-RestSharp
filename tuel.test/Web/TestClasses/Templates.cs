@@ -218,7 +218,7 @@ namespace TUEL.TestFramework.Web.TestClasses
             // Default Templates Section Verification
             TestContext.WriteLine("Default Templates Section Verification");
             bool defaultTemplatesSection = _templatesPage.VerifyDefaultTemplatesSection();
-            bool defaultTemplateOptions = _templatesPage.VerifyDefaultTemplateOptionsDisplayed(); //TODO
+            bool defaultTemplateOptions = _templatesPage.VerifyDefaultTemplateOptionsDisplayed();
             bool allViewButtons = _templatesPage.VerifyAllTemplateViewButtons();
             int templateCount = _templatesPage.GetTemplateCardCount();
             int viewButtonCount = _templatesPage.GetViewButtonCount();

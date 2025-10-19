@@ -253,7 +253,8 @@ namespace TUEL.TestFramework.Web.PageObjects
         {
             try
             {
-                Thread.Sleep(2000);
+                // Wait for page to stabilize before clicking
+                Driver.WaitForPageTransition(TimeSpan.FromSeconds(2));
                 var tab = Driver.WaitClickable(customersTab, TimeSpan.FromSeconds(10));
                 tab.Click();
 
@@ -273,7 +274,8 @@ namespace TUEL.TestFramework.Web.PageObjects
                 searchField.SendKeys(searchText);
                 searchField.SendKeys(Keys.Enter);
 
-                Thread.Sleep(1000);
+                // Wait for search results to load
+                Driver.WaitForPageTransition(TimeSpan.FromSeconds(1));
             }
             catch (Exception ex)
             {
@@ -288,7 +290,8 @@ namespace TUEL.TestFramework.Web.PageObjects
                 var addButton = Driver.WaitClickable(addNewCustomerButton, TimeSpan.FromSeconds(10));
                 addButton.Click();
 
-                Thread.Sleep(2000);
+                // Wait for modal or page transition
+                Driver.WaitForPageTransition(TimeSpan.FromSeconds(2));
             }
             catch (Exception ex)
             {
@@ -303,7 +306,8 @@ namespace TUEL.TestFramework.Web.PageObjects
                 var exportButton = Driver.WaitClickable(exportToCsvButton, TimeSpan.FromSeconds(10));
                 exportButton.Click();
 
-                Thread.Sleep(2000);
+                // Wait for export process to complete
+                Driver.WaitForPageTransition(TimeSpan.FromSeconds(2));
             }
             catch (Exception ex)
             {
@@ -318,7 +322,8 @@ namespace TUEL.TestFramework.Web.PageObjects
                 var firstViewLink = Driver.WaitClickable(viewLinks, TimeSpan.FromSeconds(10));
                 firstViewLink.Click();
 
-                Thread.Sleep(2000);
+                // Wait for navigation to complete
+                Driver.WaitForPageTransition(TimeSpan.FromSeconds(2));
             }
             catch (Exception ex)
             {

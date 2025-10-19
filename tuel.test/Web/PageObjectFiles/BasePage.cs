@@ -1,5 +1,7 @@
 using TUEL.TestFramework;
 using TUEL.TestFramework.Web.Support;
+using TUEL.TestFramework.Support;
+using TUEL.TestFramework.Monitoring;
 using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
@@ -61,32 +63,24 @@ namespace TUEL.TestFramework.Web.PageObjects
 
         #region Common Business Application Methods
 
-        // Common page verification methods
+        // Common page verification methods with enhanced error handling
         public virtual bool VerifyPageTitle()
         {
-            try
+            return ErrorHandlingUtility.SafeExecute(() =>
             {
                 WaitUntilPageIsLoaded();
                 var title = Driver.Title;
                 return !string.IsNullOrEmpty(title) && title.Contains("Business Application");
-            }
-            catch
-            {
-                return false;
-            }
+            }, "VerifyPageTitle", false);
         }
 
         public virtual bool VerifyMainHeader()
         {
-            try
+            return ErrorHandlingUtility.SafeExecute(() =>
             {
                 Driver.WaitVisible(mainHeader);
                 return IsElementVisible(mainHeader);
-            }
-            catch
-            {
-                return false;
-            }
+            }, "VerifyMainHeader", false);
         }
 
         public virtual bool VerifyNavigationTabsPresent()
@@ -209,30 +203,33 @@ namespace TUEL.TestFramework.Web.PageObjects
             }
         }
 
-        // Common navigation methods
+        // Common navigation methods with performance monitoring
         public virtual void ClickNavigationTab(string tabName)
         {
-            try
+            PerformanceMonitor.TimeOperation($"ClickNavigationTab_{tabName}", () =>
             {
-                By tabLocator = tabName.ToLower() switch
+                try
                 {
-                    "dashboard" => dashboardTab,
-                    "completed" => completedTab,
-                    "customers" => customersTab,
-                    "templates" => templatesTab,
-                    "pricing" => pricingTab,
-                    _ => throw new ArgumentException($"Unknown tab: {tabName}")
-                };
+                    By tabLocator = tabName.ToLower() switch
+                    {
+                        "dashboard" => dashboardTab,
+                        "completed" => completedTab,
+                        "customers" => customersTab,
+                        "templates" => templatesTab,
+                        "pricing" => pricingTab,
+                        _ => throw new ArgumentException($"Unknown tab: {tabName}")
+                    };
 
-                Click(tabLocator);
+                    Click(tabLocator);
 
-                // Wait for page transition using proper WebDriverWait
-                Driver.WaitForPageTransition(TimeSpan.FromSeconds(2));
-            }
-            catch (Exception ex)
-            {
-                throw new InvalidOperationException($"Failed to click {tabName} tab: {ex.Message}");
-            }
+                    // Wait for page transition using proper WebDriverWait
+                    Driver.WaitForPageTransition(TimeSpan.FromSeconds(2));
+                }
+                catch (Exception ex)
+                {
+                    throw new InvalidOperationException($"Failed to click {tabName} tab: {ex.Message}");
+                }
+            });
         }
 
         // Common utility methods
