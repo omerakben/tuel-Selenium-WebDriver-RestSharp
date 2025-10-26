@@ -11,12 +11,12 @@ This guide summarizes expectations for writing and maintaining tests in the Tran
 
 ## Test Layers
 
-| Layer | Purpose | Recommendations |
-|-------|---------|-----------------|
-| Unit | Verify small pieces of logic | Use xUnit/MSTest attributes, mock external dependencies |
-| API | Validate service endpoints | Use RestSharp clients, assert on status codes + payload shape |
-| UI | Validate end-to-end flows | Use Page Object Models, explicit waits, stable selectors |
-| Integration | Exercise component boundaries | Set up environment-specific data, clean up after tests |
+| Layer       | Purpose                       | Recommendations                                               |
+| ----------- | ----------------------------- | ------------------------------------------------------------- |
+| Unit        | Verify small pieces of logic  | Use xUnit/MSTest attributes, mock external dependencies       |
+| API         | Validate service endpoints    | Use RestSharp clients, assert on status codes + payload shape |
+| UI          | Validate end-to-end flows     | Use Page Object Models, explicit waits, stable selectors      |
+| Integration | Exercise component boundaries | Set up environment-specific data, clean up after tests        |
 
 ## Naming
 
