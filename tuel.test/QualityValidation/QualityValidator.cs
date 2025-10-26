@@ -32,7 +32,7 @@ namespace TUEL.TestFramework.QualityValidation
 
             // 1. Code Quality Analysis
             var codeQuality = AnalyzeCodeQuality();
-            report.AppendLine("## 📊 Code Quality Analysis");
+            report.AppendLine("## Code Quality Analysis");
             report.AppendLine($"Thread.Sleep Instances: {codeQuality.ThreadSleepCount} (Target: 0)");
             report.AppendLine($"Console.WriteLine Instances: {codeQuality.ConsoleWriteLineCount} (Target: 0)");
             report.AppendLine($"TODO Comments: {codeQuality.TodoCount} (Target: 0)");
@@ -43,34 +43,34 @@ namespace TUEL.TestFramework.QualityValidation
 
             // 2. Security Analysis
             var securityAnalysis = AnalyzeSecurity();
-            report.AppendLine("## 🔒 Security Analysis");
-            report.AppendLine($"HTTPS Validation: {(securityAnalysis.HttpsCompliant ? "✅ PASS" : "❌ FAIL")}");
-            report.AppendLine($"Secret Management: {(securityAnalysis.SecretManagementSecure ? "✅ PASS" : "❌ FAIL")}");
-            report.AppendLine($"Input Sanitization: {(securityAnalysis.InputSanitizationPresent ? "✅ PASS" : "❌ FAIL")}");
+            report.AppendLine("## Security Analysis");
+            report.AppendLine($"HTTPS Validation: {(securityAnalysis.HttpsCompliant ? "PASS" : "FAIL")}");
+            report.AppendLine($"Secret Management: {(securityAnalysis.SecretManagementSecure ? "PASS" : "FAIL")}");
+            report.AppendLine($"Input Sanitization: {(securityAnalysis.InputSanitizationPresent ? "PASS" : "FAIL")}");
             report.AppendLine($"Security Score: {securityAnalysis.Score}/100");
             report.AppendLine();
 
             // 3. Performance Analysis
             var performanceAnalysis = AnalyzePerformance();
-            report.AppendLine("## ⚡ Performance Analysis");
+            report.AppendLine("## Performance Analysis");
             report.AppendLine($"WebDriverWait Usage: {performanceAnalysis.WebDriverWaitCount} instances");
-            report.AppendLine($"Performance Monitoring: {(performanceAnalysis.PerformanceMonitoringEnabled ? "✅ ENABLED" : "❌ DISABLED")}");
+            report.AppendLine($"Performance Monitoring: {(performanceAnalysis.PerformanceMonitoringEnabled ? "ENABLED" : "DISABLED")}");
             report.AppendLine($"Async Patterns: {performanceAnalysis.AsyncPatternCount} instances");
             report.AppendLine($"Performance Score: {performanceAnalysis.Score}/100");
             report.AppendLine();
 
             // 4. Architecture Analysis
             var architectureAnalysis = AnalyzeArchitecture();
-            report.AppendLine("## 🏗️ Architecture Analysis");
+            report.AppendLine("## Architecture Analysis");
             report.AppendLine($"Design Patterns: {architectureAnalysis.DesignPatternCount} implemented");
-            report.AppendLine($"Separation of Concerns: {(architectureAnalysis.SeparationOfConcerns ? "✅ GOOD" : "❌ NEEDS IMPROVEMENT")}");
-            report.AppendLine($"Dependency Management: {(architectureAnalysis.DependencyManagementGood ? "✅ GOOD" : "❌ NEEDS IMPROVEMENT")}");
+            report.AppendLine($"Separation of Concerns: {(architectureAnalysis.SeparationOfConcerns ? "GOOD" : "NEEDS IMPROVEMENT")}");
+            report.AppendLine($"Dependency Management: {(architectureAnalysis.DependencyManagementGood ? "GOOD" : "NEEDS IMPROVEMENT")}");
             report.AppendLine($"Architecture Score: {architectureAnalysis.Score}/100");
             report.AppendLine();
 
             // 5. Test Coverage Analysis
             var testCoverage = AnalyzeTestCoverage();
-            report.AppendLine("## 🧪 Test Coverage Analysis");
+            report.AppendLine("## Test Coverage Analysis");
             report.AppendLine($"Test Classes: {testCoverage.TestClassCount}");
             report.AppendLine($"Test Methods: {testCoverage.TestMethodCount}");
             report.AppendLine($"Coverage Percentage: {testCoverage.CoveragePercentage:F1}%");
@@ -79,9 +79,9 @@ namespace TUEL.TestFramework.QualityValidation
 
             // 6. Documentation Analysis
             var documentationAnalysis = AnalyzeDocumentation();
-            report.AppendLine("## 📚 Documentation Analysis");
+            report.AppendLine("## Documentation Analysis");
             report.AppendLine($"XML Documentation: {documentationAnalysis.XmlDocumentationCount} methods");
-            report.AppendLine($"README Quality: {(documentationAnalysis.ReadmeQualityGood ? "✅ EXCELLENT" : "❌ NEEDS IMPROVEMENT")}");
+            report.AppendLine($"README Quality: {(documentationAnalysis.ReadmeQualityGood ? "EXCELLENT" : "NEEDS IMPROVEMENT")}");
             report.AppendLine($"Code Comments: {documentationAnalysis.CodeCommentCount} instances");
             report.AppendLine($"Documentation Score: {documentationAnalysis.Score}/100");
             report.AppendLine();
@@ -90,13 +90,13 @@ namespace TUEL.TestFramework.QualityValidation
             var overallScore = CalculateOverallScore(codeQuality, securityAnalysis, performanceAnalysis,
                 architectureAnalysis, testCoverage, documentationAnalysis);
 
-            report.AppendLine("## 🏆 Overall Quality Assessment");
+            report.AppendLine("## Overall Quality Assessment");
             report.AppendLine($"Overall Quality Score: {overallScore}/100");
             report.AppendLine($"Quality Grade: {GetQualityGrade(overallScore)}");
             report.AppendLine();
 
             // 8. Recommendations
-            report.AppendLine("## 💡 Recommendations");
+            report.AppendLine("## Recommendations");
             GenerateRecommendations(report, codeQuality, securityAnalysis, performanceAnalysis,
                 architectureAnalysis, testCoverage, documentationAnalysis);
 
@@ -338,39 +338,39 @@ namespace TUEL.TestFramework.QualityValidation
         {
             if (codeQuality.ThreadSleepCount > 0)
             {
-                report.AppendLine("⚠️  Replace remaining Thread.Sleep instances with WebDriverWait");
+                report.AppendLine("WARNING: Replace remaining Thread.Sleep instances with WebDriverWait");
             }
 
             if (codeQuality.ConsoleWriteLineCount > 0)
             {
-                report.AppendLine("⚠️  Replace Console.WriteLine with TestLogger for structured logging");
+                report.AppendLine("WARNING: Replace Console.WriteLine with TestLogger for structured logging");
             }
 
             if (!securityAnalysis.HttpsCompliant)
             {
-                report.AppendLine("🔒 Ensure all URLs use HTTPS in production environments");
+                report.AppendLine("SECURITY: Ensure all URLs use HTTPS in production environments");
             }
 
             if (!performanceAnalysis.PerformanceMonitoringEnabled)
             {
-                report.AppendLine("📊 Enable performance monitoring for better insights");
+                report.AppendLine("PERFORMANCE: Enable performance monitoring for better insights");
             }
 
             if (testCoverage.CoveragePercentage < 90)
             {
-                report.AppendLine("🧪 Increase test coverage to 90% or higher");
+                report.AppendLine("TESTING: Increase test coverage to 90% or higher");
             }
 
             if (!documentationAnalysis.ReadmeQualityGood)
             {
-                report.AppendLine("📚 Enhance documentation quality and completeness");
+                report.AppendLine("DOCUMENTATION: Enhance documentation quality and completeness");
             }
 
             if (codeQuality.ThreadSleepCount == 0 && codeQuality.ConsoleWriteLineCount == 0 &&
                 securityAnalysis.HttpsCompliant && performanceAnalysis.PerformanceMonitoringEnabled)
             {
-                report.AppendLine("🎉 Excellent! All major quality metrics are met.");
-                report.AppendLine("🏆 This repository meets A++ quality standards!");
+                report.AppendLine("EXCELLENT: All major quality metrics are met.");
+                report.AppendLine("SUCCESS: This repository meets A++ quality standards!");
             }
         }
 

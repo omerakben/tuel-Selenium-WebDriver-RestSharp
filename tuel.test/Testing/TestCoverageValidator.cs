@@ -159,11 +159,11 @@ namespace TUEL.TestFramework.Testing
             report.AppendLine("## Critical Coverage Validation");
             if (validation.IsValid)
             {
-                report.AppendLine("✅ All critical classes have test coverage");
+                report.AppendLine("PASS: All critical classes have test coverage");
             }
             else
             {
-                report.AppendLine("⚠️  Missing test coverage for critical classes:");
+                report.AppendLine("WARNING: Missing test coverage for critical classes:");
                 foreach (var missingClass in validation.MissingCriticalTests)
                 {
                     report.AppendLine($"- {missingClass}");
@@ -175,20 +175,20 @@ namespace TUEL.TestFramework.Testing
             report.AppendLine("## Recommendations");
             if (analysis.CoveragePercentage < 80)
             {
-                report.AppendLine("⚠️  Test coverage is below 80%. Consider adding more tests.");
+                report.AppendLine("WARNING: Test coverage is below 80%. Consider adding more tests.");
             }
             else if (analysis.CoveragePercentage < 90)
             {
-                report.AppendLine("📈 Test coverage is good but could be improved to reach 90%.");
+                report.AppendLine("INFO: Test coverage is good but could be improved to reach 90%.");
             }
             else
             {
-                report.AppendLine("✅ Excellent test coverage!");
+                report.AppendLine("PASS: Excellent test coverage!");
             }
 
             if (validation.MissingCriticalTests.Any())
             {
-                report.AppendLine("🔒 Add tests for critical security and business logic classes.");
+                report.AppendLine("SECURITY: Add tests for critical security and business logic classes.");
             }
 
             return report.ToString();

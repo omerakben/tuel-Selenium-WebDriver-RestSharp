@@ -1,6 +1,6 @@
-# 📚 TUEL Test Framework - Complete API Documentation
+# TUEL Test Framework - Complete API Documentation
 
-## 🏆 A+++ Quality Enterprise Test Automation Framework
+## A+++ Quality Enterprise Test Automation Framework
 
 > **Complete API Reference** for the TUEL Test Framework - A+++ quality enterprise-grade test automation solution.
 
@@ -20,7 +20,7 @@
 
 ---
 
-## 🏗️ Core Framework
+## Core Framework
 
 ### `TUEL.TestFramework.TestBase`
 
@@ -94,7 +94,7 @@ public static class InitializeTestAssembly
 
 ---
 
-## 🏛️ Architecture Patterns
+## Architecture Patterns
 
 ### Command Pattern
 
@@ -222,7 +222,7 @@ public class CompositeDecorator : TestMethodDecorator
 
 ---
 
-## 🔒 Security Features
+## Security Features
 
 ### Advanced Security Manager
 
@@ -268,7 +268,7 @@ public static class AuthenticationSecurity
 
 ---
 
-## ⚡ Performance Engine
+## Performance Engine
 
 ### Advanced Performance Engine
 
@@ -332,7 +332,7 @@ public static class PerformanceMonitor
 
 ---
 
-## 🛠️ Error Handling
+## Error Handling
 
 ### Error Handling Utility
 
@@ -354,7 +354,7 @@ public static class ErrorHandlingUtility
 
 ---
 
-## 📊 Monitoring & Analytics
+## Monitoring & Analytics
 
 ### Test Logger
 
@@ -400,7 +400,7 @@ public static class QualityValidator
 
 ---
 
-## 🧪 Testing Utilities
+## Testing Utilities
 
 ### Test Coverage Validator
 
@@ -419,7 +419,7 @@ public static class TestCoverageValidator
 
 ---
 
-## ⚙️ Configuration Management
+## Configuration Management
 
 ### Test Configuration
 
@@ -651,7 +651,7 @@ public static class EntraAuthHelper
 
 ---
 
-## 📝 Examples & Usage
+## Examples & Usage
 
 ### Basic Test Implementation
 
@@ -771,27 +771,27 @@ public async Task PerformanceMonitoringExample()
 
 ---
 
-## 🎯 Best Practices
+## Best Practices
 
 ### 1. **Always Use Structured Logging**
 ```csharp
-// ✅ Good
+// Good
 TestLogger.LogInformation("User {0} logged in successfully", userId);
 
-// ❌ Avoid
+// Avoid
 Console.WriteLine($"User {userId} logged in");
 ```
 
 ### 2. **Implement Proper Error Handling**
 ```csharp
-// ✅ Good
+// Good
 var result = await ErrorHandlingUtility.ExecuteWithRetryAsync(
     async () => await RiskyOperationAsync(),
     "RiskyOperation",
     maxRetries: 3
 );
 
-// ❌ Avoid
+// Avoid
 try
 {
     await RiskyOperationAsync();
@@ -804,13 +804,13 @@ catch (Exception ex)
 
 ### 3. **Use Performance Monitoring**
 ```csharp
-// ✅ Good
+// Good
 await PerformanceMonitor.TimeOperationAsync("DatabaseQuery", async () =>
 {
     return await database.QueryAsync(query);
 });
 
-// ❌ Avoid
+// Avoid
 var stopwatch = Stopwatch.StartNew();
 await database.QueryAsync(query);
 stopwatch.Stop();
@@ -818,29 +818,29 @@ stopwatch.Stop();
 
 ### 4. **Implement Security Validation**
 ```csharp
-// ✅ Good
+// Good
 var validation = await AdvancedSecurityManager.ValidateOperationAsync(
     "UserInput",
     new Dictionary<string, object> { ["Input"] = userInput }
 );
 
-// ❌ Avoid
+// Avoid
 // Direct use without validation
 ```
 
 ### 5. **Use Configuration Management**
 ```csharp
-// ✅ Good
+// Good
 var timeout = TestConfiguration.GetElementVisibilityTimeout();
 Driver.WaitVisible(element, timeout);
 
-// ❌ Avoid
+// Avoid
 Driver.WaitVisible(element, TimeSpan.FromSeconds(15));
 ```
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 1. **Install Dependencies**
    ```bash
@@ -879,7 +879,7 @@ Driver.WaitVisible(element, TimeSpan.FromSeconds(15));
 
 ---
 
-## 📞 Support & Community
+## Support & Community
 
 - **Documentation**: [Complete API Reference](docs/api-reference.md)
 - **Examples**: [Code Samples](examples/)
@@ -888,9 +888,9 @@ Driver.WaitVisible(element, TimeSpan.FromSeconds(15));
 
 ---
 
-**Built with ❤️ by [Omer "Ozzy" Akben](https://omerakben.com)**
+**Built by [Omer "Ozzy" Akben](https://omerakben.com)**
 *Full-Stack Developer • AI Engineer • SDET*
-📧 me@omerakben.com • 📞 (267) 512-4566
+me@omerakben.com • (267) 512-4566
 
 ---
 

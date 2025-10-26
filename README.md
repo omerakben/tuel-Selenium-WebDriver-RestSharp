@@ -4,7 +4,7 @@ Modern C# test automation template, evolved from a legacy financial services sol
 
 A comprehensive, enterprise-grade test automation framework built with .NET 8.0, Selenium WebDriver, and RestSharp. This framework demonstrates modern SDET architecture patterns and serves as a plug-and-play template for API and UI testing.
 
-## 🚀 Features
+## Features
 
 - **Modern .NET 8.0** with latest C# features
 - **Comprehensive Testing**: API + UI test coverage
@@ -17,7 +17,7 @@ A comprehensive, enterprise-grade test automation framework built with .NET 8.0,
 - **WebDriver Lifecycle**: Pooling, health checks, and Selenium Grid support
 - **Docker Ready**: Containerized setup for easy deployment
 
-## 🏗️ Architecture
+## Architecture
 
 ### Test Layers
 - **API Tests**: RESTful API testing with RestSharp
@@ -33,7 +33,7 @@ A comprehensive, enterprise-grade test automation framework built with .NET 8.0,
 - **Templates**: Reusable configurations
 - **Pricing**: Fee and cost management
 
-## 🛠️ Quick Start
+## Quick Start
 
 ### Prerequisites
 - .NET 8.0 SDK
@@ -58,7 +58,7 @@ docker-compose up -d
 docker exec -it tuel-test-framework dotnet test
 ```
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 .
@@ -80,7 +80,7 @@ docker exec -it tuel-test-framework dotnet test
 └── README.md
 ```
 
-## 🔧 Configuration
+## Configuration
 
 ### Environment Variables
 - `ENV`: Environment name (dev, staging, prod)
@@ -105,7 +105,7 @@ docker exec -it tuel-test-framework dotnet test
 - Configure Key Vault access through `SecretManagement__KeyVaultUri`, optional managed identity, and disable plaintext fallback for production.
 - Generate encrypted references with `ConfigurationEncryptionUtility.EncryptToReference`.
 
-## 🧪 Test Categories
+## Test Categories
 
 ### API Tests
 - Product management endpoints
@@ -120,14 +120,14 @@ docker exec -it tuel-test-framework dotnet test
 - Customer management
 - Template configuration
 
-## 📊 Reporting
+## Reporting
 
 - **Test Results**: Detailed test execution reports
 - **Performance Metrics**: Execution time tracking
 - **Screenshots**: Failure capture and analysis
 - **Logs**: Comprehensive logging for debugging
 
-## 🤝 Contributing
+## Contributing
 
 1. Fork the repository
 2. Create a feature branch
@@ -135,11 +135,11 @@ docker exec -it tuel-test-framework dotnet test
 4. Add tests for new functionality
 5. Submit a pull request
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🎯 Use Cases
+## Use Cases
 
 - **Enterprise Applications**: CRM, ERP, e-commerce platforms
 - **API Testing**: RESTful services and microservices
@@ -147,26 +147,26 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **Regression Testing**: Continuous integration pipelines
 - **Performance Testing**: Load and stress testing
 
-## 🤝 Community
+## Community
 
 - Read the [`VISION.md`](VISION.md) to understand the long-term roadmap and decision-making principles.
 - All contributors must follow the [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md).
 - Contribution steps, coding standards, and review expectations live in [`CONTRIBUTING.md`](CONTRIBUTING.md).
 - Testing expectations are detailed in [`docs/testing-guidelines.md`](docs/testing-guidelines.md).
 
-## 🆘 Support & Security
+## Support & Security
 
 - Need help? Check [`SUPPORT.md`](SUPPORT.md) for the right channel.
 - Report security issues privately via the process in [`SECURITY.md`](SECURITY.md). Do not open public issues for vulnerabilities.
 
-## 🔗 Links
+## Links
 
 - [Documentation](docs/)
 - [Examples](samples/)
 - [Issues](https://github.com/omerakben/tuel-Selenium-WebDriver-RestSharp/issues)
 - [Portfolio](https://omerakben.com)
 
-## 📈 Metrics
+## Metrics
 
 - **Test Coverage**: 95%+ code coverage
 - **Execution Time**: < 5 minutes for full suite
@@ -175,4 +175,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-Built with ❤️ by [Omer “Ozzy” Akben](https://omerakben.com) — Full-Stack Developer • AI Engineer • SDET • me@omerakben.com • (267) 512-4566
+Built by [Omer "Ozzy" Akben](https://omerakben.com) — Full-Stack Developer • AI Engineer • SDET • me@omerakben.com • (267) 512-4566

@@ -150,7 +150,7 @@ Use the issue templates provided in `.github/ISSUE_TEMPLATE/`. When reporting an
 
 ## Performance Guidelines
 
-### ⚡ Performance Best Practices
+### Performance Best Practices
 
 1. **Never use Thread.Sleep**: Use WebDriverWait with proper conditions instead
 2. **Use centralized configuration**: Access timeouts through `TestConfiguration`
@@ -160,16 +160,16 @@ Use the issue templates provided in `.github/ISSUE_TEMPLATE/`. When reporting an
 ### Performance Optimization Examples
 
 ```csharp
-// ❌ Bad: Fixed delay
+// Bad: Fixed delay
 Thread.Sleep(2000);
 
-// ✅ Good: Wait for condition
+// Good: Wait for condition
 driver.WaitVisible(By.Id("element"), TestConfiguration.GetElementVisibilityTimeout());
 
-// ❌ Bad: Console logging
+// Bad: Console logging
 Console.WriteLine("Element found");
 
-// ✅ Good: Structured logging
+// Good: Structured logging
 TestLogger.LogInformation("Element found: {0}", elementId);
 ```
 
@@ -273,4 +273,4 @@ Contributors will be recognized in:
 - Release notes
 - Project documentation
 
-Thank you for contributing to TUEL Test Framework! 🚀
+Thank you for contributing to TUEL Test Framework!

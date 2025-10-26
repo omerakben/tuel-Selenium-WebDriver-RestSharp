@@ -4,7 +4,7 @@
 
 This guide provides examples of how to replace `Thread.Sleep` calls with proper WebDriverWait strategies for better performance and reliability.
 
-### ❌ Before (Using Thread.Sleep)
+### Before (Using Thread.Sleep)
 ```csharp
 // Bad: Fixed delay regardless of actual page state
 Thread.Sleep(2000); // Always waits 2 seconds
@@ -16,7 +16,7 @@ Thread.Sleep(500);
 element.Click();
 ```
 
-### ✅ After (Using WebDriverWait)
+### After (Using WebDriverWait)
 ```csharp
 // Good: Wait for specific condition
 driver.WaitVisible(By.Id("button"), TimeSpan.FromSeconds(10));

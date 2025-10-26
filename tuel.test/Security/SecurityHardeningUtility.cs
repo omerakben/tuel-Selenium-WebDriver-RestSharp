@@ -354,7 +354,7 @@ namespace TUEL.TestFramework.Security
                 {
                     if (!ValidateHttpsUrl(value, environment))
                     {
-                        report.AppendLine($"⚠️  HTTP URL detected: {key} = {value}");
+                        report.AppendLine($"WARNING: HTTP URL detected: {key} = {value}");
                         httpsIssues++;
                     }
                 }
@@ -362,7 +362,7 @@ namespace TUEL.TestFramework.Security
 
             if (httpsIssues == 0)
             {
-                report.AppendLine("✅ All URLs use HTTPS");
+                report.AppendLine("PASS: All URLs use HTTPS");
             }
 
             // Check sensitive configuration
@@ -371,14 +371,14 @@ namespace TUEL.TestFramework.Security
             {
                 if (!ValidateConfigurationSecurity(key, value, environment))
                 {
-                    report.AppendLine($"⚠️  Sensitive configuration may contain plaintext: {key}");
+                    report.AppendLine($"WARNING: Sensitive configuration may contain plaintext: {key}");
                     sensitiveIssues++;
                 }
             }
 
             if (sensitiveIssues == 0)
             {
-                report.AppendLine("✅ All sensitive configurations are properly secured");
+                report.AppendLine("PASS: All sensitive configurations are properly secured");
             }
 
             report.AppendLine();

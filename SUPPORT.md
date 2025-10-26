@@ -31,4 +31,4 @@ Thanks for your interest in Transit to Fully Open-Source TUEL! We want to make i
 
 This project is maintained on a best-effort basis. Response times may vary, but we aim to review new issues and pull requests within **5 business days**.
 
-We appreciate your patience and contributions! 🚀
+We appreciate your patience and contributions!
