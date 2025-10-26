@@ -26,7 +26,7 @@ namespace TUEL.TestFramework.API
                 var token = await EntraAuthHelper.GetAccessTokenAsync();
                 request.AddHeader("Authorization", $"Bearer {token}");
 
-                Console.WriteLine($"Executing {request.Method} request to: {request.Resource}");
+                TestLogger.LogInformation("Executing {0} request to: {1}", request.Method, request.Resource);
                 return await ApiClient.ExecuteAsync(request);
             }
             catch (Exception ex)
@@ -43,7 +43,7 @@ namespace TUEL.TestFramework.API
                 var token = await EntraAuthHelper.GetAccessTokenAsync();
                 request.AddHeader("Authorization", $"Bearer {token}");
 
-                Console.WriteLine($"Executing {request.Method} request to: {request.Resource}");
+                TestLogger.LogInformation("Executing {0} request to: {1}", request.Method, request.Resource);
                 return await ApiClient.ExecuteAsync<T>(request);
             }
             catch (Exception ex)

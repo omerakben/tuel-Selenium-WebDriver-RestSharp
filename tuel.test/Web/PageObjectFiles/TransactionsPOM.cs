@@ -157,10 +157,18 @@ namespace TUEL.TestFramework.Web.PageObjects
         {
             try
             {
+                var previousUrl = Driver.Url;
                 var tab = Driver.WaitClickable(transactionsTab, TimeSpan.FromSeconds(10));
                 tab.Click();
 
-                Thread.Sleep(2000);
+                var navigated = Driver.WaitForUrlContains("/transactions", TimeSpan.FromSeconds(5)) ||
+                                 Driver.WaitForUrlChange(previousUrl, TimeSpan.FromSeconds(5)) ||
+                                 Driver.WaitForPageTransition(TimeSpan.FromSeconds(5));
+
+                if (!navigated)
+                {
+                    Driver.WaitVisible(dataTable, TimeSpan.FromSeconds(5));
+                }
             }
             catch (Exception ex)
             {
@@ -177,7 +185,7 @@ namespace TUEL.TestFramework.Web.PageObjects
                 searchField.SendKeys(searchText);
                 searchField.SendKeys(Keys.Enter);
 
-                Thread.Sleep(1000);
+                Driver.WaitForPageTransition(TimeSpan.FromSeconds(3));
             }
             catch (Exception ex)
             {
@@ -192,7 +200,7 @@ namespace TUEL.TestFramework.Web.PageObjects
                 var exportButton = Driver.WaitClickable(exportToCsvButton, TimeSpan.FromSeconds(10));
                 exportButton.Click();
 
-                Thread.Sleep(2000);
+                Driver.WaitForPageTransition(TimeSpan.FromSeconds(5));
             }
             catch (Exception ex)
             {

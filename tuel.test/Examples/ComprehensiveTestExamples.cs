@@ -43,7 +43,7 @@ namespace TUEL.TestFramework.Examples
         }
 
         [TestCleanup]
-        public async Task TestCleanup()
+        public new async Task TestCleanup()
         {
             await _eventPublisher.NotifyTestCompletedAsync(TestContext.TestName, true);
 
@@ -395,7 +395,7 @@ namespace TUEL.TestFramework.Examples
                         throw new InvalidOperationException($"Simulated failure on attempt {attemptCount}");
                     }
 
-                    return true; // Success on third attempt
+                    // Success on third attempt
                 },
                 "RetryTest",
                 maxRetries: maxRetries,
@@ -520,7 +520,6 @@ namespace TUEL.TestFramework.Examples
                         );
 
                         Assert.AreEqual("Integration test data", cachedData);
-                        return true;
                     },
                     "IntegrationOperation",
                     maxRetries: 3

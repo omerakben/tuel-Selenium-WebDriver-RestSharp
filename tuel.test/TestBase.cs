@@ -20,7 +20,7 @@ namespace TUEL.TestFramework
         [TestInitialize]
         public virtual void TestInitialize()
         {
-            Console.WriteLine($"Starting test: {TestContext?.TestName}");
+            TestLogger.LogInformation("Starting test: {0}", TestContext?.TestName);
         }
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace TUEL.TestFramework
         [TestCleanup]
         public virtual void TestCleanup()
         {
-            Console.WriteLine($"Completed test: {TestContext?.TestName}");
+            TestLogger.LogInformation("Completed test: {0}", TestContext?.TestName);
         }
     }
 }

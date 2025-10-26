@@ -16,7 +16,7 @@ namespace TUEL.TestFramework.API.Auth
         public void TestInit()
         {
             // TestConfig is initialized by AssemblyInitializer.
-            Console.WriteLine($"Executing EntraAuthTest: {TestContext?.TestName}. Environment: {InitializeTestAssembly.ENV}");
+            TestLogger.LogInformation("Executing EntraAuthTest: {0}. Environment: {1}", TestContext?.TestName, InitializeTestAssembly.ENV);
             EntraAuthHelper.ClearCache(); // Clear cache before each auth test
         }
 
@@ -24,7 +24,7 @@ namespace TUEL.TestFramework.API.Auth
         [TestCategory("Authentication")]
         public async Task GetAccessToken_ShouldReturnValidToken()
         {
-            Console.WriteLine("Attempting to acquire access token...");
+            TestLogger.LogInformation("Attempting to acquire access token...");
             string accessToken = string.Empty;
 
             try
@@ -37,7 +37,7 @@ namespace TUEL.TestFramework.API.Auth
             }
 
             Assert.IsFalse(string.IsNullOrEmpty(accessToken), "Access token should not be null or empty.");
-            Console.WriteLine("Access token acquired successfully (first attempt).");
+            TestLogger.LogInformation("Access token acquired successfully (first attempt).");
 
             // Call again to test caching
             string cachedToken = string.Empty;
@@ -51,7 +51,7 @@ namespace TUEL.TestFramework.API.Auth
             }
 
             Assert.AreEqual(accessToken, cachedToken, "Cached token should be the same as the initially acquired token.");
-            Console.WriteLine("Cached token retrieved successfully and matches the original.");
+            TestLogger.LogInformation("Cached token retrieved successfully and matches the original.");
         }
 
         [TestMethod]
@@ -61,11 +61,11 @@ namespace TUEL.TestFramework.API.Auth
             // First acquisition
             string token1 = await EntraAuthHelper.GetAccessTokenAsync();
             Assert.IsFalse(string.IsNullOrEmpty(token1), "First token should not be null or empty.");
-            Console.WriteLine("First token acquired.");
+            TestLogger.LogInformation("First token acquired.");
 
             // Clear cache
             EntraAuthHelper.ClearCache();
-            Console.WriteLine("Token cache cleared.");
+            TestLogger.LogInformation("Token cache cleared.");
 
             // Second acquisition after cache clear
             string token2 = string.Empty;
@@ -79,7 +79,7 @@ namespace TUEL.TestFramework.API.Auth
             }
 
             Assert.IsFalse(string.IsNullOrEmpty(token2), "Second token (after cache clear) should not be null or empty.");
-            Console.WriteLine("Second token acquired after cache clear.");
+            TestLogger.LogInformation("Second token acquired after cache clear.");
 
             // The primary check is that a valid token is returned.
             Assert.IsTrue(token2.Split('.').Length == 3, "Second token does not appear to be in a valid JWT format.");
@@ -94,7 +94,7 @@ namespace TUEL.TestFramework.API.Auth
             string authInfo = EntraAuthHelper.GetAuthenticationInfoForTestContext();
 
             Assert.IsFalse(string.IsNullOrEmpty(authInfo), "Authentication info string should not be null or empty.");
-            Console.WriteLine("Authentication Info:\n" + authInfo);
+            TestLogger.LogInformation("Authentication Info:\n{0}", authInfo);
 
             // Check for presence of key configuration details (using TestConfig for verification)
             StringAssert.Contains(authInfo, InitializeTestAssembly.ENV, "Auth info should contain the Environment.");

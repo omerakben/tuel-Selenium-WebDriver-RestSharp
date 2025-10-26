@@ -1,7 +1,8 @@
-﻿using TUEL.TestFramework.Web.PageObjects;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
-using System.Threading;
+using System.Threading.Tasks;
+using TUEL.TestFramework.Web.PageObjects;
+using TUEL.TestFramework.Web.Support;
 
 namespace TUEL.TestFramework.Web.TestClasses
 {
@@ -20,30 +21,18 @@ namespace TUEL.TestFramework.Web.TestClasses
             try
             {
                 TestContext.WriteLine("Initializing Transaction Details test components...");
-                _completedPage = new TransactionsPOM(Driver!);
-                _pudLinesPage = new TransactionDetailsPOM(Driver!);
-                _dashboardPage = new DashboardPOM(Driver!);
-                _loginPage = new LoginPOM(Driver!);
+                _completedPage = new TransactionsPOM(Driver);
+                _pudLinesPage = new TransactionDetailsPOM(Driver);
+                _dashboardPage = new DashboardPOM(Driver);
+                _loginPage = new LoginPOM(Driver);
 
                 if (!string.IsNullOrEmpty(InitializeTestAssembly.Email) && !string.IsNullOrEmpty(InitializeTestAssembly.Password))
                 {
-                    var authState = _loginPage!.GetCurrentAuthenticationState();
-                    TestContext.WriteLine($"Current authentication state: {authState}");
-                    if (authState != AuthenticationState.LoggedIn)
-                    {
-                        _loginPage.LoginToApplication(InitializeTestAssembly.Email, InitializeTestAssembly.Password);
-                        TestContext.WriteLine("Authentication completed");
-                    }
-
-                    NavigateToTransactionDetails();
-                }
-                else
-                {
-                    TestContext.WriteLine("No credentials provided; navigation actions may fail.");
+                    _loginPage.LoginToApplication(InitializeTestAssembly.Email, InitializeTestAssembly.Password);
+                    TestContext.WriteLine("Authentication flow completed");
                 }
 
-                _pudLinesPage!.WaitForTransactionDetailsPage();
-                TestContext.WriteLine("Transaction Details test setup completed successfully");
+                NavigateToTransactionDetailsAsync().GetAwaiter().GetResult();
             }
             catch (Exception ex)
             {
@@ -54,7 +43,7 @@ namespace TUEL.TestFramework.Web.TestClasses
             }
         }
 
-        private void NavigateToTransactionDetails()
+        private async Task NavigateToTransactionDetailsAsync()
         {
             try
             {
@@ -64,7 +53,7 @@ namespace TUEL.TestFramework.Web.TestClasses
                 {
                     var dashboardUrl = $"{InitializeTestAssembly.UiUrl}/application/dashboard";
                     Driver!.Navigate().GoToUrl(dashboardUrl);
-                    Thread.Sleep(1500);
+                    Driver.WaitForPageTransition(TimeSpan.FromSeconds(5));
                 }
 
                 _dashboardPage.ClickTransactionsTab();

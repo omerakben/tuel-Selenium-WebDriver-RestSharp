@@ -273,26 +273,34 @@ namespace TUEL.TestFramework.Web.PageObjects
         // Polling wait for search/pagination stabilization
         private void WaitForSearchResults(TimeSpan timeout)
         {
-            var end = DateTime.UtcNow + timeout;
-            int lastCount = -1;
-            while (DateTime.UtcNow < end)
+            var wait = new WebDriverWait(Driver, timeout)
             {
-                try
+                PollingInterval = TimeSpan.FromMilliseconds(200)
+            };
+            try
+            {
+                wait.Until(_ =>
                 {
-                    var rows = GetAllRowTexts();
-                    if (rows.Count != lastCount)
+                    try
                     {
-                        // First stabilization (count changed) – allow one more pass to settle
-                        lastCount = rows.Count;
-                        Thread.Sleep(150); // minimal sleep to avoid tight loop
+                        var rows = GetAllRowTexts();
+                        if (rows.Count > 0)
+                        {
+                            return true;
+                        }
+
+                        return VerifyNoRecordsMessageVisible();
                     }
-                    else if (rows.Count > 0 || VerifyNoRecordsMessageVisible())
+                    catch
                     {
-                        return; // stable enough
+                        return false;
                     }
-                }
-                catch { }
-                Thread.Sleep(100);
+                });
+            }
+            catch (WebDriverTimeoutException)
+            {
+                // Surface a warning but do not throw hard – some environments may take longer
+                TestLogger.LogWarning("Fees search results did not stabilize within {0} seconds", timeout.TotalSeconds);
             }
         }
         #endregion

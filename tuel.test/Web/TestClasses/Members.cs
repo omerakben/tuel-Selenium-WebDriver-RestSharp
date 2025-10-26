@@ -6,7 +6,7 @@ using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
+using System.Threading.Tasks;
 
 namespace TUEL.TestFramework.Web.TestClasses
 {
@@ -39,6 +39,11 @@ namespace TUEL.TestFramework.Web.TestClasses
         }
 
         private void NavigateToMembersPage()
+        {
+            NavigateToMembersPageAsync().GetAwaiter().GetResult();
+        }
+
+        private async Task NavigateToMembersPageAsync()
         {
             try
             {
@@ -81,7 +86,15 @@ namespace TUEL.TestFramework.Web.TestClasses
                     }
                 }
 
-                Thread.Sleep(2000);
+                // Wait for navigation to complete
+                var navigated = Driver.WaitForPageTransition(TimeSpan.FromSeconds(5)) ||
+                                 Driver.WaitForUrlContains("/members", TimeSpan.FromSeconds(5));
+
+                if (!navigated)
+                {
+                    await Task.Delay(TimeSpan.FromSeconds(2));
+                }
+
                 TestContext.WriteLine($"Navigation completed. Current URL: {Driver.Url}");
             }
             catch (Exception ex)
@@ -124,8 +137,13 @@ namespace TUEL.TestFramework.Web.TestClasses
 
         private void WaitForMembersPageReady()
         {
+            WaitForMembersPageReadyAsync().GetAwaiter().GetResult();
+        }
+
+        private async Task WaitForMembersPageReadyAsync()
+        {
             const int maxRetries = 3;
-            const int waitBetweenRetries = 2000;
+            var retryDelay = TimeSpan.FromSeconds(2);
 
             for (int attempt = 1; attempt <= maxRetries; attempt++)
             {
@@ -148,8 +166,8 @@ namespace TUEL.TestFramework.Web.TestClasses
 
                     if (attempt < maxRetries)
                     {
-                        TestContext.WriteLine($"Waiting {waitBetweenRetries}ms before retry...");
-                        Thread.Sleep(waitBetweenRetries);
+                        TestContext.WriteLine($"Retrying in {retryDelay.TotalSeconds:F1}s...");
+                        await Task.Delay(retryDelay);
                     }
                     else
                     {
@@ -454,8 +472,9 @@ namespace TUEL.TestFramework.Web.TestClasses
             // Clear search to restore original state
             try
             {
-                _membersPage.ClearSearch();
-                TestContext.WriteLine("Search cleared successfully");
+                    _membersPage.ClearSearch();
+                    Driver.WaitForPageTransition(TimeSpan.FromSeconds(3));
+                    TestContext.WriteLine("Search cleared successfully");
             }
             catch (Exception ex)
             {
@@ -489,7 +508,7 @@ namespace TUEL.TestFramework.Web.TestClasses
                     string currentUrl = Driver.Url;
                     _membersPage.ClickViewButton(0);
 
-                    Thread.Sleep(2_000);
+                    Driver.WaitForPageTransition(TimeSpan.FromSeconds(5));
 
                     string newUrl = Driver.Url;
                     TestContext.WriteLine($"Original URL: {currentUrl}");

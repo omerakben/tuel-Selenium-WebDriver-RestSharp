@@ -333,8 +333,14 @@ namespace TUEL.TestFramework.Web.PageObjects
         {
             try
             {
-                Thread.Sleep(2000);
+                var previousUrl = Driver.Url;
                 ClickNavigationTab("transactions");
+
+                if (!Driver.WaitForUrlContains("/transactions", TimeSpan.FromSeconds(5)) &&
+                    !Driver.WaitForUrlChange(previousUrl, TimeSpan.FromSeconds(5)))
+                {
+                    Driver.WaitForPageTransition(TimeSpan.FromSeconds(5));
+                }
             }
             catch (Exception ex)
             {
@@ -356,7 +362,10 @@ namespace TUEL.TestFramework.Web.PageObjects
                     _ => throw new ArgumentException($"Unknown tab: {tabName}")
                 };
 
+                var previousUrl = Driver.Url;
                 Click(tabLocator);
+
+                Driver.WaitForUrlChange(previousUrl, TimeSpan.FromSeconds(5));
             }
             catch (Exception ex)
             {
@@ -413,7 +422,7 @@ namespace TUEL.TestFramework.Web.PageObjects
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Failed to Page Load: {ex.Message}");
+                TestLogger.LogWarning("Dashboard page load verification failed: {0}", ex.Message);
                 return false;
             }
         }

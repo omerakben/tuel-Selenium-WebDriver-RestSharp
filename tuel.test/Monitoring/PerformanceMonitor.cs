@@ -136,6 +136,31 @@ namespace TUEL.TestFramework.Monitoring
         }
 
         /// <summary>
+        /// Records a performance metric with automatic timing for operations that return a value.
+        /// </summary>
+        /// <typeparam name="T">Return type of the function</typeparam>
+        /// <param name="operationName">Name of the operation</param>
+        /// <param name="action">Async function to execute and time</param>
+        /// <param name="additionalData">Additional data to associate with the metric</param>
+        public static async Task<T> TimeOperationAsync<T>(string operationName, Func<Task<T>> action, Dictionary<string, object>? additionalData = null)
+        {
+            if (!_enabled)
+            {
+                return await action();
+            }
+
+            var stopwatch = Stopwatch.StartNew();
+            try
+            {
+                return await action();
+            }
+            finally
+            {
+                stopwatch.Stop();
+                RecordMetric(operationName, stopwatch.ElapsedMilliseconds, additionalData);
+            }
+        }
+
         /// Records a performance metric with automatic timing for functions that return values.
         /// </summary>
         /// <typeparam name="T">Return type of the function</typeparam>
@@ -249,7 +274,7 @@ namespace TUEL.TestFramework.Monitoring
         public List<long> Durations { get; }
         public List<Dictionary<string, object>?> AdditionalData { get; }
         public DateTime FirstRecorded { get; }
-        public DateTime LastRecorded { get; }
+        public DateTime LastRecorded { get; private set; }
 
         public PerformanceMetric(string operationName, long durationMs, Dictionary<string, object>? additionalData = null)
         {

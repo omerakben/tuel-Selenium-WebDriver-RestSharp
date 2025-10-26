@@ -353,14 +353,14 @@ namespace TUEL.TestFramework.Web.TestClasses
                 if (expandAllButton)
                 {
                     _healthCheckPage.ClickExpandAllButton();
-                    Thread.Sleep(1000);
+                    Driver.WaitForPageTransition(TimeSpan.FromSeconds(3));
                     toggleFunctionality = true;
                     TestContext.WriteLine("Successfully tested Expand All functionality");
                 }
                 else if (collapseAllButton)
                 {
                     _healthCheckPage.ClickCollapseAllButton();
-                    Thread.Sleep(1000);
+                    Driver.WaitForPageTransition(TimeSpan.FromSeconds(3));
                     toggleFunctionality = true;
                     TestContext.WriteLine("Successfully tested Collapse All functionality");
                 }
@@ -369,7 +369,7 @@ namespace TUEL.TestFramework.Web.TestClasses
                 {
                     var firstComponent = componentNames.First();
                     _healthCheckPage.ExpandComponent(firstComponent);
-                    Thread.Sleep(500);
+                    Driver.WaitForPageTransition(TimeSpan.FromSeconds(2));
                     TestContext.WriteLine($"Successfully tested individual component expansion for: {firstComponent}");
                 }
             }
@@ -415,7 +415,7 @@ namespace TUEL.TestFramework.Web.TestClasses
                 if (_healthCheckPage.VerifyExpandAllButton())
                 {
                     _healthCheckPage.ClickExpandAllButton();
-                    Thread.Sleep(2000);
+                    Driver.WaitForPageTransition(TimeSpan.FromSeconds(5));
                     TestContext.WriteLine("Expanded all components to view details");
                 }
                 else
@@ -496,7 +496,7 @@ namespace TUEL.TestFramework.Web.TestClasses
                 {
                     TestContext.WriteLine($"Testing expansion for component: {componentName}");
                     _healthCheckPage.ExpandComponent(componentName);
-                    Thread.Sleep(1000);
+                    Driver.WaitForPageTransition(TimeSpan.FromSeconds(3));
 
                     // Verify component details are now visible
                     var componentDetails = _healthCheckPage.GetComponentDetails();

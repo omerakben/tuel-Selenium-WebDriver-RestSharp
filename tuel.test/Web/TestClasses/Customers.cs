@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
 using System;
 using System.Linq;
-using System.Threading;
+using System.Threading.Tasks;
 
 namespace TUEL.TestFramework.Web.TestClasses
 {
@@ -62,6 +62,11 @@ namespace TUEL.TestFramework.Web.TestClasses
 
         private void NavigateToCustomersPage()
         {
+            NavigateToCustomersPageAsync().GetAwaiter().GetResult();
+        }
+
+        private async Task NavigateToCustomersPageAsync()
+        {
             try
             {
                 TestContext.WriteLine("Navigating to Customers page...");
@@ -72,7 +77,7 @@ namespace TUEL.TestFramework.Web.TestClasses
                     // Navigate to dashboard first
                     var dashboardUrl = $"{InitializeTestAssembly.UiUrl}/business-application/dashboard";
                     Driver.Navigate().GoToUrl(dashboardUrl);
-                    Driver.WaitForPageTransition(TimeSpan.FromSeconds(2));
+                    Driver.WaitForPageTransition(TimeSpan.FromSeconds(5));
                 }
 
                 // Click on Customers tab
@@ -89,6 +94,7 @@ namespace TUEL.TestFramework.Web.TestClasses
                 }
                 else
                 {
+                    await Task.Delay(TimeSpan.FromSeconds(2));
                     TestContext.WriteLine($"Warning: Expected customers page, current URL: {Driver.Url}");
                 }
             }
@@ -101,8 +107,13 @@ namespace TUEL.TestFramework.Web.TestClasses
 
         private void WaitForCustomersPageReady()
         {
+            WaitForCustomersPageReadyAsync().GetAwaiter().GetResult();
+        }
+
+        private async Task WaitForCustomersPageReadyAsync()
+        {
             const int maxRetries = 3;
-            const int waitBetweenRetries = 2000;
+            var retryDelay = TimeSpan.FromSeconds(2);
 
             for (int attempt = 1; attempt <= maxRetries; attempt++)
             {
@@ -124,9 +135,8 @@ namespace TUEL.TestFramework.Web.TestClasses
 
                     if (attempt < maxRetries)
                     {
-                        TestContext.WriteLine($"Waiting {waitBetweenRetries}ms before retry...");
-                        // Use Task.Delay instead of Thread.Sleep for async compatibility
-                        Task.Delay(waitBetweenRetries).Wait();
+                        TestContext.WriteLine($"Retrying in {retryDelay.TotalSeconds:F1}s...");
+                        await Task.Delay(retryDelay);
                     }
                     else
                     {
@@ -420,8 +430,7 @@ namespace TUEL.TestFramework.Web.TestClasses
                             string currentUrl = Driver.Url;
                             _customersPage.ClickFirstViewLink();
 
-                            // Wait a moment for potential navigation
-                            Thread.Sleep(2000);
+                            Driver.WaitForPageTransition(TimeSpan.FromSeconds(5));
                             string newUrl = Driver.Url;
 
                             TestContext.WriteLine($"URL before click: {currentUrl}");
@@ -433,7 +442,7 @@ namespace TUEL.TestFramework.Web.TestClasses
                             {
                                 TestContext.WriteLine("Navigating back to Customers page...");
                                 Driver.Navigate().Back();
-                                Thread.Sleep(2000);
+                                Driver.WaitForPageTransition(TimeSpan.FromSeconds(5));
                             }
                         }
                         catch (Exception ex)
@@ -473,15 +482,17 @@ namespace TUEL.TestFramework.Web.TestClasses
                 try
                 {
                     TestContext.WriteLine($"Testing navigation to {tabName} tab...");
+                    string currentUrl = Driver.Url;
                     _customersPage.ClickNavigationTab(tabName.ToLower());
-                    Thread.Sleep(2000);
+                    Driver.WaitForUrlChange(currentUrl, TimeSpan.FromSeconds(5));
 
                     TestContext.WriteLine($"Successfully navigated to {tabName} tab");
 
                     // Navigate back to Customers
                     TestContext.WriteLine("Navigating back to Customers tab...");
+                    currentUrl = Driver.Url;
                     _customersPage.ClickNavigationTab("customers");
-                    Thread.Sleep(2000);
+                    Driver.WaitForUrlChange(currentUrl, TimeSpan.FromSeconds(5));
 
                     TestContext.WriteLine("Successfully navigated back to Customers tab");
                 }

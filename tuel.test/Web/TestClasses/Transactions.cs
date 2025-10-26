@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
 using System;
 using System.Linq;
-using System.Threading;
+using System.Threading.Tasks;
 
 namespace TUEL.TestFramework.Web.TestClasses
 {
@@ -62,6 +62,11 @@ namespace TUEL.TestFramework.Web.TestClasses
 
         private void NavigateToTransactionsPage()
         {
+            NavigateToTransactionsPageAsync().GetAwaiter().GetResult();
+        }
+
+        private async Task NavigateToTransactionsPageAsync()
+        {
             try
             {
                 TestContext.WriteLine("Navigating to Transactions page...");
@@ -72,7 +77,7 @@ namespace TUEL.TestFramework.Web.TestClasses
                     // Navigate to dashboard first if not on a page with tabs
                     var dashboardUrl = $"{InitializeTestAssembly.UiUrl}/application/dashboard";
                     Driver.Navigate().GoToUrl(dashboardUrl);
-                    Driver.WaitForPageTransition(TimeSpan.FromSeconds(2));
+                    Driver.WaitForPageTransition(TimeSpan.FromSeconds(5));
                 }
 
                 // Click on Transactions tab
@@ -81,7 +86,7 @@ namespace TUEL.TestFramework.Web.TestClasses
 
                 // Wait for URL to change to transactions page
                 var transactionsPageLoaded = Driver.WaitForUrlContains("/transactions", TimeSpan.FromSeconds(15)) ||
-                                        Driver.WaitForUrlContains("/application/transactions", TimeSpan.FromSeconds(5));
+                                              Driver.WaitForUrlContains("/application/transactions", TimeSpan.FromSeconds(5));
 
                 if (transactionsPageLoaded)
                 {
@@ -89,6 +94,7 @@ namespace TUEL.TestFramework.Web.TestClasses
                 }
                 else
                 {
+                    await Task.Delay(TimeSpan.FromSeconds(2));
                     TestContext.WriteLine($"Warning: Expected transactions page, current URL: {Driver.Url}");
                 }
             }
@@ -101,8 +107,13 @@ namespace TUEL.TestFramework.Web.TestClasses
 
         private void WaitForTransactionsPageReady()
         {
+            WaitForTransactionsPageReadyAsync().GetAwaiter().GetResult();
+        }
+
+        private async Task WaitForTransactionsPageReadyAsync()
+        {
             const int maxRetries = 3;
-            const int waitBetweenRetries = 2000;
+            var retryDelay = TimeSpan.FromSeconds(2);
 
             for (int attempt = 1; attempt <= maxRetries; attempt++)
             {
@@ -124,9 +135,8 @@ namespace TUEL.TestFramework.Web.TestClasses
 
                     if (attempt < maxRetries)
                     {
-                        TestContext.WriteLine($"Waiting {waitBetweenRetries}ms before retry...");
-                        // Use Task.Delay instead of Thread.Sleep for async compatibility
-                        Task.Delay(waitBetweenRetries).Wait();
+                        TestContext.WriteLine($"Retrying in {retryDelay.TotalSeconds:F1}s...");
+                        await Task.Delay(retryDelay);
                     }
                     else
                     {

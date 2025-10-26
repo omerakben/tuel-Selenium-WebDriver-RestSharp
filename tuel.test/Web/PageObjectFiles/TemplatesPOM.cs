@@ -337,8 +337,16 @@ namespace TUEL.TestFramework.Web.PageObjects
         {
             try
             {
+                var previousUrl = Driver.Url;
                 Click(templatesTab);
-                Thread.Sleep(2000); // Wait for navigation
+
+                var navigated = Driver.WaitForUrlContains("/templates", TimeSpan.FromSeconds(5)) ||
+                                 Driver.WaitForUrlChange(previousUrl, TimeSpan.FromSeconds(5));
+
+                if (!navigated)
+                {
+                    Driver.WaitForPageTransition(TimeSpan.FromSeconds(5));
+                }
             }
             catch (Exception ex)
             {
@@ -359,8 +367,16 @@ namespace TUEL.TestFramework.Web.PageObjects
                     _ => throw new ArgumentException($"Unknown template name: {templateName}")
                 };
 
+                var previousUrl = Driver.Url;
                 Click(link);
-                Thread.Sleep(2000);
+
+                var navigated = Driver.WaitForUrlChange(previousUrl, TimeSpan.FromSeconds(5)) ||
+                                 Driver.WaitForPageTransition(TimeSpan.FromSeconds(5));
+
+                if (!navigated)
+                {
+                    Driver.WaitVisibleWithRetry(By.CssSelector(".template-detail"), TimeSpan.FromSeconds(5));
+                }
             }
             catch (Exception ex)
             {
@@ -372,8 +388,16 @@ namespace TUEL.TestFramework.Web.PageObjects
         {
             try
             {
+                var previousUrl = Driver.Url;
                 Click(editSignersLink);
-                Thread.Sleep(2000);
+
+                var navigated = Driver.WaitForUrlChange(previousUrl, TimeSpan.FromSeconds(5)) ||
+                                 Driver.WaitForPageTransition(TimeSpan.FromSeconds(5));
+
+                if (!navigated)
+                {
+                    Driver.WaitVisibleWithRetry(By.CssSelector(".signers-modal"), TimeSpan.FromSeconds(5));
+                }
             }
             catch (Exception ex)
             {

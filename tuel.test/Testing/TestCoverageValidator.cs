@@ -93,7 +93,7 @@ namespace TUEL.TestFramework.Testing
 
                 if (isCritical)
                 {
-                    var hasTest = HasCorrespondingTest(businessClass, allTypes);
+                    var hasTest = HasCorrespondingTest(businessClass, allTypes.ToList());
                     if (!hasTest)
                     {
                         result.MissingCriticalTests.Add(businessClass.Name);
@@ -263,12 +263,12 @@ namespace TUEL.TestFramework.Testing
                     var hasSetup = method.Name.Contains("Setup") || method.Name.Contains("Initialize");
                     var hasCleanup = method.Name.Contains("Cleanup") || method.Name.Contains("TearDown");
 
-                    if (hasSetup && !method.GetCustomAttribute<TestInitializeAttribute>() != null)
+                    if (hasSetup && method.GetCustomAttribute<TestInitializeAttribute>() == null)
                     {
                         analysis.IncorrectSetupMethod.Add($"{testClass.Name}.{method.Name}");
                     }
 
-                    if (hasCleanup && !method.GetCustomAttribute<TestCleanupAttribute>() != null)
+                    if (hasCleanup && method.GetCustomAttribute<TestCleanupAttribute>() == null)
                     {
                         analysis.IncorrectCleanupMethod.Add($"{testClass.Name}.{method.Name}");
                     }

@@ -1,6 +1,8 @@
 using OpenQA.Selenium;
 using System;
+using System.Threading.Tasks;
 using TUEL.TestFramework.Web.Support;
+using TUEL.TestFramework.Logging;
 
 namespace TUEL.TestFramework.Web.PageObjects
 {
@@ -114,13 +116,19 @@ namespace TUEL.TestFramework.Web.PageObjects
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Auth state detection error: {ex.Message}");
+                TestLogger.LogWarning($"Auth state detection error: {ex.Message}");
                 return AuthenticationState.Unknown;
             }
         }
 
-        // Login flow with state management and retry logic
+        // Login flow with state management and retry logic (synchronous version for backwards compatibility)
         public void LoginToApplication(string username, string password)
+        {
+            LoginToApplicationAsync(username, password).GetAwaiter().GetResult();
+        }
+
+        // Login flow with state management and retry logic (async version)
+        public async Task LoginToApplicationAsync(string username, string password)
         {
             const int maxRetries = 3;
             var currentState = GetCurrentAuthenticationState();
@@ -134,7 +142,7 @@ namespace TUEL.TestFramework.Web.PageObjects
             // Wait for login page if in transitioning state
             if (currentState == AuthenticationState.Transitioning)
             {
-                WaitForLoginPageWithRetry(TimeSpan.FromSeconds(5));
+                await WaitForLoginPageWithRetryAsync(TimeSpan.FromSeconds(5));
                 currentState = GetCurrentAuthenticationState();
             }
 
@@ -143,19 +151,19 @@ namespace TUEL.TestFramework.Web.PageObjects
             {
                 try
                 {
-                    if (PerformAuthenticationFlow(username, password))
+                    if (await PerformAuthenticationFlowAsync(username, password))
                     {
-                        Console.WriteLine("Authentication completed successfully");
+                        TestLogger.LogInformation("Authentication completed successfully");
                         return;
                     }
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Login attempt {attempt} failed: {ex.Message}");
+                    TestLogger.LogWarning($"Login attempt {attempt} failed: {ex.Message}");
 
                     if (attempt < maxRetries)
                     {
-                        Thread.Sleep(2000);
+                        await Task.Delay(2000);
                         currentState = GetCurrentAuthenticationState();
                     }
                     else
@@ -166,7 +174,7 @@ namespace TUEL.TestFramework.Web.PageObjects
             }
         }
 
-        private bool PerformAuthenticationFlow(string username, string password)
+        private async Task<bool> PerformAuthenticationFlowAsync(string username, string password)
         {
             var currentState = GetCurrentAuthenticationState();
 
@@ -181,7 +189,7 @@ namespace TUEL.TestFramework.Web.PageObjects
             currentState = GetCurrentAuthenticationState();
             if (currentState == AuthenticationState.PasswordRequired)
             {
-                if (!EnterPasswordWithRetry(password))
+                if (!await EnterPasswordWithRetryAsync(password))
                 {
                     return false;
                 }
@@ -190,11 +198,11 @@ namespace TUEL.TestFramework.Web.PageObjects
             currentState = GetCurrentAuthenticationState();
             if (currentState == AuthenticationState.StaySignedInPrompt)
             {
-                HandleStaySignedInPrompt();
+                await HandleStaySignedInPromptAsync();
             }
 
             // Verify successful authentication
-            return WaitForAuthenticationCompletion();
+            return await WaitForAuthenticationCompletionAsync();
         }
 
         private bool EnterUsernameWithRetry(string username)
@@ -219,12 +227,12 @@ namespace TUEL.TestFramework.Web.PageObjects
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Username entry failed: {ex.Message}");
+                TestLogger.LogWarning($"Username entry failed: {ex.Message}");
                 return false;
             }
         }
 
-        private bool EnterPasswordWithRetry(string password)
+        private async Task<bool> EnterPasswordWithRetryAsync(string password)
         {
             try
             {
@@ -236,17 +244,17 @@ namespace TUEL.TestFramework.Web.PageObjects
                 signInElement.Click();
 
                 // Wait for authentication to process
-                Thread.Sleep(2000);
+                await Task.Delay(2000);
                 return true;
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Password entry failed: {ex.Message}");
+                TestLogger.LogWarning($"Password entry failed: {ex.Message}");
                 return false;
             }
         }
 
-        private void HandleStaySignedInPrompt()
+        private async Task HandleStaySignedInPromptAsync()
         {
             try
             {
@@ -254,15 +262,15 @@ namespace TUEL.TestFramework.Web.PageObjects
                 staySignedInElement.Click();
 
                 // Wait for prompt to be processed
-                Thread.Sleep(2000);
+                await Task.Delay(2000);
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Stay signed in prompt handling failed: {ex.Message}");
+                TestLogger.LogWarning($"Stay signed in prompt handling failed: {ex.Message}");
             }
         }
 
-        private bool WaitForAuthenticationCompletion()
+        private async Task<bool> WaitForAuthenticationCompletionAsync()
         {
             const int maxWaitSeconds = 10;
             var startTime = DateTime.Now;
@@ -272,7 +280,7 @@ namespace TUEL.TestFramework.Web.PageObjects
                 try
                 {
                     var currentState = GetCurrentAuthenticationState();
-                    Console.WriteLine($"Current auth state: {currentState}");
+                    TestLogger.LogDebug($"Current auth state: {currentState}");
 
                     if (currentState == AuthenticationState.LoggedIn)
                     {
@@ -281,21 +289,21 @@ namespace TUEL.TestFramework.Web.PageObjects
 
                     if (currentState == AuthenticationState.StaySignedInPrompt)
                     {
-                        HandleStaySignedInPrompt();
+                        await HandleStaySignedInPromptAsync();
                     }
 
-                    Thread.Sleep(1000);
+                    await Task.Delay(1000);
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Auth completion check failed: {ex.Message}");
-                    Thread.Sleep(1000);
+                    TestLogger.LogWarning($"Auth completion check failed: {ex.Message}");
+                    await Task.Delay(1000);
                 }
             }
             return true;
         }
 
-        private bool WaitForLoginPageWithRetry(TimeSpan timeout)
+        private async Task<bool> WaitForLoginPageWithRetryAsync(TimeSpan timeout)
         {
             var endTime = DateTime.Now.Add(timeout);
 
@@ -305,7 +313,7 @@ namespace TUEL.TestFramework.Web.PageObjects
                 {
                     return true;
                 }
-                Thread.Sleep(1000);
+                await Task.Delay(1000);
             }
 
             return false;

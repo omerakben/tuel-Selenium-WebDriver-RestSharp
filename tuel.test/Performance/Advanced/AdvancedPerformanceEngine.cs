@@ -329,7 +329,9 @@ namespace TUEL.TestFramework.Performance.Advanced
             ThreadPool.SetMaxThreads(Environment.ProcessorCount * 2, Environment.ProcessorCount * 2);
 
             // Configure optimal GC settings
-            GCSettings.LatencyMode = GCLatencyMode.Batch;
+            GC.Collect(2, GCCollectionMode.Forced, true);
+            GC.WaitForPendingFinalizers();
+            GC.Collect(2, GCCollectionMode.Forced, true);
 
             TestLogger.LogInformation("Configured optimal performance settings");
         }

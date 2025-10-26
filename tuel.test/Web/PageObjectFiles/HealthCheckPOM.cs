@@ -4,6 +4,7 @@ using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using TUEL.TestFramework.Web.Support;
 
 namespace TUEL.TestFramework.Web.PageObjects
 {
@@ -389,7 +390,7 @@ namespace TUEL.TestFramework.Web.PageObjects
                 if (IsElementVisible(expandCollapseButton))
                 {
                     Click(expandCollapseButton);
-                    Thread.Sleep(1000);
+                    Driver.WaitForPageTransition(TimeSpan.FromSeconds(3));
                 }
             }
             catch (Exception ex)
@@ -405,7 +406,7 @@ namespace TUEL.TestFramework.Web.PageObjects
                 if (VerifyExpandAllButton())
                 {
                     Click(expandCollapseButton);
-                    Thread.Sleep(1000);
+                    Driver.WaitForPageTransition(TimeSpan.FromSeconds(3));
                 }
                 else
                 {
@@ -425,7 +426,7 @@ namespace TUEL.TestFramework.Web.PageObjects
                 if (VerifyCollapseAllButton())
                 {
                     Click(expandCollapseButton);
-                    Thread.Sleep(1000);
+                    Driver.WaitForPageTransition(TimeSpan.FromSeconds(3));
                 }
                 else
                 {
@@ -456,7 +457,7 @@ namespace TUEL.TestFramework.Web.PageObjects
                             // Find the chevron icon and click it to expand
                             var chevronIcon = accordion.FindElement(accordionChevronIcon);
                             chevronIcon.Click();
-                            Thread.Sleep(500); // Allow time for expansion
+                            Driver.WaitForPageTransition(TimeSpan.FromSeconds(2));
                             return;
                         }
                     }
@@ -666,7 +667,7 @@ namespace TUEL.TestFramework.Web.PageObjects
                     try
                     {
                         Driver.Navigate().Refresh();
-                        Thread.Sleep(3000);
+                        Driver.WaitForPageTransition(TimeSpan.FromSeconds(5));
                     }
                     catch
                     {

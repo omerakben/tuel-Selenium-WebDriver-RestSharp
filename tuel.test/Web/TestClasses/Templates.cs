@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
 using System;
 using System.Linq;
-using System.Threading;
+using System.Threading.Tasks;
 
 namespace TUEL.TestFramework.Web.TestClasses
 {
@@ -88,6 +88,11 @@ namespace TUEL.TestFramework.Web.TestClasses
 
         private void NavigateToTemplatesPage()
         {
+            NavigateToTemplatesPageAsync().GetAwaiter().GetResult();
+        }
+
+        private async Task NavigateToTemplatesPageAsync()
+        {
             try
             {
                 TestContext.WriteLine("Navigating to Templates page...");
@@ -108,7 +113,7 @@ namespace TUEL.TestFramework.Web.TestClasses
                 catch (Exception ex)
                 {
                     TestContext.WriteLine($"Templates tab click failed: {ex.Message}");
-                    NavigateToTemplatesDirectly();
+                    await NavigateToTemplatesDirectlyAsync();
                 }
 
                 // Verify navigation success
@@ -119,6 +124,7 @@ namespace TUEL.TestFramework.Web.TestClasses
                 }
                 else
                 {
+                    await Task.Delay(TimeSpan.FromSeconds(2));
                     TestContext.WriteLine($"Templates navigation warning - current URL: {Driver.Url}");
                 }
             }
@@ -144,7 +150,7 @@ namespace TUEL.TestFramework.Web.TestClasses
             }
         }
 
-        private void NavigateToTemplatesDirectly()
+        private async Task NavigateToTemplatesDirectlyAsync()
         {
             try
             {
@@ -155,6 +161,14 @@ namespace TUEL.TestFramework.Web.TestClasses
                     var templatesUrl = $"{baseUrl}/business-application/templates";
                     TestContext.WriteLine($"Attempting direct navigation to: {templatesUrl}");
                     Driver.Navigate().GoToUrl(templatesUrl);
+
+                    var navigated = Driver.WaitForUrlContains("/templates", TimeSpan.FromSeconds(5)) ||
+                                     Driver.WaitForPageTransition(TimeSpan.FromSeconds(5));
+
+                    if (!navigated)
+                    {
+                        await Task.Delay(TimeSpan.FromSeconds(1.5));
+                    }
                 }
             }
             catch (Exception ex)
@@ -165,8 +179,13 @@ namespace TUEL.TestFramework.Web.TestClasses
 
         private void WaitForTemplatesPageReady()
         {
+            WaitForTemplatesPageReadyAsync().GetAwaiter().GetResult();
+        }
+
+        private async Task WaitForTemplatesPageReadyAsync()
+        {
             const int maxRetries = 3;
-            const int waitBetweenRetries = 2000;
+            var retryDelay = TimeSpan.FromSeconds(2);
 
             for (int attempt = 1; attempt <= maxRetries; attempt++)
             {
@@ -188,8 +207,8 @@ namespace TUEL.TestFramework.Web.TestClasses
 
                     if (attempt < maxRetries)
                     {
-                        TestContext.WriteLine($"Waiting {waitBetweenRetries}ms before retry...");
-                        Thread.Sleep(waitBetweenRetries);
+                        TestContext.WriteLine($"Retrying in {retryDelay.TotalSeconds:F1}s...");
+                        await Task.Delay(retryDelay);
                     }
                     else
                     {

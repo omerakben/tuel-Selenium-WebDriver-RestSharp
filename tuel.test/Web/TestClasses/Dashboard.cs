@@ -5,7 +5,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
 using System;
 using System.Linq;
-using System.Threading;
+using System.Threading.Tasks;
+using TUEL.TestFramework.Logging;
 
 namespace TUEL.TestFramework.Web.TestClasses
 {
@@ -53,7 +54,7 @@ namespace TUEL.TestFramework.Web.TestClasses
                     TestContext.WriteLine("No credentials provided");
                 }
 
-                WaitForDashboardReady();
+            WaitForDashboardReady();
                 TestContext.WriteLine("Dashboard test setup completed successfully");
             }
             catch (Exception ex)
@@ -139,14 +140,18 @@ namespace TUEL.TestFramework.Web.TestClasses
 
         private void WaitForDashboardReady()
         {
+            WaitForDashboardReadyAsync().GetAwaiter().GetResult();
+        }
+
+        private async Task WaitForDashboardReadyAsync()
+        {
             const int maxRetries = 3;
-            const int waitBetweenRetries = 2000;
+            var retryDelay = TimeSpan.FromSeconds(2);
 
             for (int attempt = 1; attempt <= maxRetries; attempt++)
             {
                 try
                 {
-
                     Driver.WaitForPageTransition(TimeSpan.FromSeconds(5));
 
                     // Try to wait for dashboard-specific elements
@@ -157,11 +162,12 @@ namespace TUEL.TestFramework.Web.TestClasses
                 }
                 catch (Exception ex)
                 {
+                    TestContext.WriteLine($"Dashboard readiness attempt {attempt} failed: {ex.Message}");
 
                     if (attempt < maxRetries)
                     {
-                        TestContext.WriteLine($"Waiting {waitBetweenRetries}ms before retry...");
-                        Thread.Sleep(waitBetweenRetries);
+                        TestContext.WriteLine($"Retrying in {retryDelay.TotalSeconds:F1}s...");
+                        await Task.Delay(retryDelay);
                     }
                     else
                     {
@@ -505,12 +511,28 @@ namespace TUEL.TestFramework.Web.TestClasses
                 try
                 {
                     TestContext.WriteLine($"Testing {tabName} tab");
+                    var currentUrl = Driver.Url;
                     _dashboardPage.ClickNavigationTab(tabName);
-                    Thread.Sleep(1000);
+
+                    var transitioned = Driver.WaitForPageTransition(TimeSpan.FromSeconds(5)) |
+                                       Driver.WaitForUrlChange(currentUrl, TimeSpan.FromSeconds(5));
+
+                    if (!transitioned)
+                    {
+                        TestContext.WriteLine($"Warning: {tabName} tab did not trigger a visible transition");
+                    }
 
                     // Navigate back to Dashboard
+                    currentUrl = Driver.Url;
                     _dashboardPage.ClickNavigationTab("Dashboard");
-                    Thread.Sleep(1000);
+
+                    var returnedToDashboard = Driver.WaitForUrlContains("/dashboard", TimeSpan.FromSeconds(5)) |
+                                              Driver.WaitForUrlChange(currentUrl, TimeSpan.FromSeconds(5));
+
+                    if (!returnedToDashboard)
+                    {
+                        TestContext.WriteLine("Warning: returning to dashboard did not trigger a visible transition");
+                    }
 
                     TestContext.WriteLine($"{tabName} tab navigation successful");
                 }

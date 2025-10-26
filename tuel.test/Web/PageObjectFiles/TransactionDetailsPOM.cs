@@ -118,8 +118,15 @@ namespace TUEL.TestFramework.Web.PageObjects
             {
                 var tab = Driver.FindElements(transactionDetailsSubTab).FirstOrDefault();
                 if (tab == null) throw new InvalidOperationException("Transaction Details sub-tab not found");
+                var previousUrl = Driver.Url;
                 tab.Click();
-                Thread.Sleep(1500); // Allow route change
+                var transitioned = Driver.WaitForPageTransition(TimeSpan.FromSeconds(5)) ||
+                                   Driver.WaitForUrlChange(previousUrl, TimeSpan.FromSeconds(5));
+
+                if (!transitioned)
+                {
+                    Driver.WaitVisible(dataTable, TimeSpan.FromSeconds(5));
+                }
             }
             catch (Exception ex)
             {
@@ -135,7 +142,8 @@ namespace TUEL.TestFramework.Web.PageObjects
                 if (!searchOk) throw new InvalidOperationException("Search input not found on Transaction Details page");
                 EnterText(searchInput, string.Empty); // clear first
                 EnterText(searchInput, searchText);
-                Thread.Sleep(1000);
+
+                Driver.WaitForPageTransition(TimeSpan.FromSeconds(3));
             }
             catch (Exception ex)
             {

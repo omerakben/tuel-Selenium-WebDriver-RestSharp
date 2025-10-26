@@ -4,7 +4,7 @@ using TUEL.TestFramework.Web.PageObjects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
 using System;
-using System.Threading;
+using System.Threading.Tasks;
 
 namespace TUEL.TestFramework.Web.TestClasses
 {
@@ -37,13 +37,13 @@ namespace TUEL.TestFramework.Web.TestClasses
                 throw new InvalidOperationException("UI Url ('BaseURL') is not configured in the .runsettings file.");
             }
 
-            NavigateToApplicationWithRetry();
+            NavigateToApplicationWithRetryAsync().GetAwaiter().GetResult();
 
             // Perform login using LoginPOM ROPC
-            PerformLogin();
+            PerformLoginAsync().GetAwaiter().GetResult();
         }
 
-        private void PerformLogin()
+        private async Task PerformLoginAsync()
         {
             try
             {
@@ -70,7 +70,7 @@ namespace TUEL.TestFramework.Web.TestClasses
                 if (!loginPOM.IsLoginPageDisplayed(TimeSpan.FromSeconds(10)))
                 {
                     TestContext.WriteLine("Login page waiting for redirect...");
-                    Thread.Sleep(2_000); // Allow time for redirect to login page
+                    await Task.Delay(2_000); // Allow time for redirect to login page
                 }
 
                 // Get credentials from configuration
@@ -83,7 +83,7 @@ namespace TUEL.TestFramework.Web.TestClasses
                 }
 
                 TestContext.WriteLine($"Attempting login with username(Email): {username}");
-                loginPOM.LoginToApplication(username, password);
+                await loginPOM.LoginToApplicationAsync(username, password);
 
                 TestContext.WriteLine("Login process completed");
             }
@@ -95,7 +95,7 @@ namespace TUEL.TestFramework.Web.TestClasses
             }
         }
 
-        private void NavigateToApplicationWithRetry()
+        private async Task NavigateToApplicationWithRetryAsync()
         {
             const int maxAttempts = 3;
             Exception? lastException = null;
@@ -114,7 +114,7 @@ namespace TUEL.TestFramework.Web.TestClasses
 
                     Driver.Navigate().GoToUrl(InitializeTestAssembly.UiUrl);
 
-                    if (WaitForPageStabilization())
+                    if (await WaitForPageStabilizationAsync())
                     {
                         var loadTime = DateTime.Now - startTime;
                         TestContext.WriteLine($"Page navigation completed in: {loadTime.TotalSeconds:F2} seconds");
@@ -129,7 +129,7 @@ namespace TUEL.TestFramework.Web.TestClasses
                     if (attempt < maxAttempts)
                     {
                         TestContext.WriteLine($"Waiting before retry attempt {attempt + 1}...");
-                        Thread.Sleep(2000);
+                        await Task.Delay(2000);
                     }
                 }
             }
@@ -137,7 +137,7 @@ namespace TUEL.TestFramework.Web.TestClasses
             throw new InvalidOperationException($"Failed to navigate to application after {maxAttempts} attempts. Last error: {lastException?.Message}", lastException);
         }
 
-        private bool WaitForPageStabilization()
+        private async Task<bool> WaitForPageStabilizationAsync()
         {
             const int maxWaitSeconds = 10;
             var startTime = DateTime.Now;
@@ -153,7 +153,7 @@ namespace TUEL.TestFramework.Web.TestClasses
                     // Handle data: URL - wait for redirect
                     if (currentUrl.StartsWith("data:"))
                     {
-                        Thread.Sleep(1000);
+                        await Task.Delay(1000);
                         continue;
                     }
 
@@ -164,12 +164,12 @@ namespace TUEL.TestFramework.Web.TestClasses
                         return true;
                     }
 
-                    Thread.Sleep(500);
+                    await Task.Delay(500);
                 }
                 catch (Exception ex)
                 {
                     TestContext.WriteLine($"Page stabilization check failed: {ex.Message}");
-                    Thread.Sleep(1000);
+                    await Task.Delay(1000);
                 }
             }
 

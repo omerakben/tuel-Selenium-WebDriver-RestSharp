@@ -81,7 +81,7 @@ namespace TUEL.TestFramework.API.Auth
             if (string.IsNullOrEmpty(InitializeTestAssembly.EntraIdApiScope))
                 throw new InvalidOperationException("EntraIdApiScope is not configured for ROPC.");
             var tokenUrl = GetTenantSpecificTokenEndpoint();
-            Console.WriteLine($"ROPC Token Endpoint: {tokenUrl}");
+            TestLogger.LogInformation("ROPC Token Endpoint: {0}", tokenUrl);
 
             using var client = new HttpClient();
             var requestBody = new List<KeyValuePair<string, string>>
@@ -104,7 +104,7 @@ namespace TUEL.TestFramework.API.Auth
             if (!response.IsSuccessStatusCode)
             {
                 var error = await response.Content.ReadAsStringAsync();
-                Console.WriteLine($"ROPC Request Body: {await body.ReadAsStringAsync()}");
+                TestLogger.LogDebug("ROPC Request Body: {0}", await body.ReadAsStringAsync());
                 throw new Exception($"ROPC token acquisition failed: {response.StatusCode} - {error}");
             }
 
@@ -124,7 +124,7 @@ namespace TUEL.TestFramework.API.Auth
                 _tokenExpiry = DateTimeOffset.UtcNow.AddSeconds(expiresIn);
             }
 
-            Console.WriteLine($"Token acquired using ROPC, expires in: {json["expires_in"]?.ToString() ?? "N/A"} seconds");
+            TestLogger.LogInformation("Token acquired using ROPC, expires in: {0} seconds", json["expires_in"]?.ToString() ?? "N/A");
             return _cachedToken;
         }
 
@@ -162,12 +162,12 @@ namespace TUEL.TestFramework.API.Auth
                 _cachedToken = result.AccessToken;
                 _tokenExpiry = result.ExpiresOn;
 
-                Console.WriteLine($"Token acquired using MSAL Client Credentials, expires at: {result.ExpiresOn}");
+                TestLogger.LogInformation("Token acquired using MSAL Client Credentials, expires at: {0}", result.ExpiresOn);
                 return _cachedToken;
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"MSAL Client Credentials failed: {ex.Message}. Falling back to direct HTTP.");
+                TestLogger.LogWarning("MSAL Client Credentials failed: {0}. Falling back to direct HTTP.", ex.Message);
             }
             return await GetTokenUsingHttpClientCredentialsAsync();
         }
@@ -184,7 +184,7 @@ namespace TUEL.TestFramework.API.Auth
                 throw new InvalidOperationException("EntraIdApiScope is not configured for HTTP Client Credentials.");
 
             var tokenEndpoint = GetTenantSpecificTokenEndpoint();
-            Console.WriteLine($"HTTP Client Credentials Token Endpoint: {tokenEndpoint}");
+            TestLogger.LogInformation("HTTP Client Credentials Token Endpoint: {0}", tokenEndpoint);
 
             var formData = new FormUrlEncodedContent(new[]
             {
@@ -199,7 +199,7 @@ namespace TUEL.TestFramework.API.Auth
             if (!response.IsSuccessStatusCode)
             {
                 var error = await response.Content.ReadAsStringAsync();
-                Console.WriteLine($"HTTP Client Credentials Request Body: {await formData.ReadAsStringAsync()}");
+                TestLogger.LogDebug("HTTP Client Credentials Request Body: {0}", await formData.ReadAsStringAsync());
                 throw new Exception($"Client Credentials token acquisition via HTTP failed: {response.StatusCode} - {error}");
             }
 
@@ -218,7 +218,7 @@ namespace TUEL.TestFramework.API.Auth
                 _tokenExpiry = DateTimeOffset.UtcNow.AddSeconds(expiresIn);
             }
 
-            Console.WriteLine($"Token acquired using HTTP Client Credentials, expires in: {json["expires_in"]?.ToString() ?? "N/A"} seconds");
+            TestLogger.LogInformation("Token acquired using HTTP Client Credentials, expires in: {0} seconds", json["expires_in"]?.ToString() ?? "N/A");
             return _cachedToken;
         }
 

@@ -55,7 +55,7 @@ namespace TUEL.TestFramework.Architecture
         public override async Task<bool> ExecuteAsync()
         {
             LogExecution($"Navigating to {Parameters["Url"]}");
-            return await PerformanceMonitor.TimeOperationAsync(CommandName, _navigationAction);
+            return await PerformanceMonitor.TimeOperationAsync(CommandName, async () => await _navigationAction());
         }
     }
 
@@ -77,7 +77,7 @@ namespace TUEL.TestFramework.Architecture
         public override async Task<bool> ExecuteAsync()
         {
             LogExecution($"Performing {Parameters["Action"]} on element {Parameters["ElementId"]}");
-            return await PerformanceMonitor.TimeOperationAsync(CommandName, _interactionAction);
+            return await PerformanceMonitor.TimeOperationAsync(CommandName, async () => await _interactionAction());
         }
     }
 
@@ -356,7 +356,7 @@ namespace TUEL.TestFramework.Architecture
 
         public override async Task<bool> ExecuteAsync()
         {
-            return await PerformanceMonitor.TimeOperationAsync(_testName, _testMethod);
+            return await PerformanceMonitor.TimeOperationAsync(_testName, async () => await _testMethod());
         }
     }
 

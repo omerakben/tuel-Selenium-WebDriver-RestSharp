@@ -4,6 +4,7 @@ using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using TUEL.TestFramework.Web.Support;
 
 namespace TUEL.TestFramework.Web.PageObjects
 {
@@ -469,7 +470,8 @@ namespace TUEL.TestFramework.Web.PageObjects
                 var searchElement = Driver.FindElement(searchInput);
                 searchElement.Clear();
                 searchElement.SendKeys(searchTerm);
-                Thread.Sleep(1_500);
+
+                Driver.WaitForPageTransition(TimeSpan.FromSeconds(3));
 
                 return true;
             }
@@ -566,7 +568,8 @@ namespace TUEL.TestFramework.Web.PageObjects
             {
                 var searchElement = Driver.FindElement(searchInput);
                 searchElement.Clear();
-                Thread.Sleep(1_000);
+
+                Driver.WaitForPageTransition(TimeSpan.FromSeconds(3));
             }
             catch (Exception ex)
             {
