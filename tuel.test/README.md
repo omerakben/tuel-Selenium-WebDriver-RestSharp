@@ -1,5 +1,5 @@
-# Transit to Fully Open-Source TUEL – Generic Testing Framework
-This repository contains the open community edition of the TUEL enterprise-grade automation testing framework. It evolved from a bespoke financial services solution and is now designed to be easily adaptable to a wide range of business applications.
+# Transit to Fully Open-Source – Generic Testing Framework
+This repository contains an open-source enterprise-grade automation testing framework. It evolved from a bespoke financial services solution and is now designed to be easily adaptable to a wide range of business applications.
 
 ## Prerequisites
 - .NET 8.0 SDK

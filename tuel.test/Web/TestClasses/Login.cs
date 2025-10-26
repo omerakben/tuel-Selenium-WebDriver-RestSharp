@@ -28,21 +28,21 @@ namespace TUEL.TestFramework.Web.TestClasses
             // Wait for dashboard to load after service principal authentication
             dashboardPage.WaitUntilPageIsLoaded();
 
-            // Verify on the Business Application
+            // Verify on the Application
             var currentUrl = Driver.Url;
             var pageTitle = Driver.Title;
 
             TestContext.WriteLine($"Post-authentication URL: {currentUrl}");
             TestContext.WriteLine($"Post-authentication Page Title: {pageTitle}");
 
-            // Verify successful authentication by checking on the Business Application
-            bool isOnApplication = currentUrl.Contains("as-badev-nc-tuel-ui", StringComparison.OrdinalIgnoreCase) ||
-                                 currentUrl.Contains("business-application", StringComparison.OrdinalIgnoreCase);
+            // Verify successful authentication by checking on the Application
+            bool isOnApplication = currentUrl.Contains("application", StringComparison.OrdinalIgnoreCase) ||
+                                 currentUrl.Contains("dashboard", StringComparison.OrdinalIgnoreCase);
 
-            bool hasValidTitle = pageTitle.Contains("Business Application", StringComparison.OrdinalIgnoreCase);
+            bool hasValidTitle = pageTitle.Contains("Application", StringComparison.OrdinalIgnoreCase);
 
             Assert.IsTrue(isOnApplication || hasValidTitle,
-                $"Should be on Business Application after service principal authentication. URL: {currentUrl}, Title: {pageTitle}");
+                $"Should be on Application after service principal authentication. URL: {currentUrl}, Title: {pageTitle}");
 
             TestContext.WriteLine("Service principal authentication verification completed successfully");
         }

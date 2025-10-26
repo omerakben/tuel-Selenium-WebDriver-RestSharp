@@ -59,12 +59,12 @@ namespace TUEL.TestFramework.Web.Support
                 localStorage.setItem('access_token', '{accessToken}');
                 localStorage.setItem('token_type', 'Bearer');
                 localStorage.setItem('authenticated', 'true');
-                
+
                 // Also set in sessionStorage as backup
                 sessionStorage.setItem('access_token', '{accessToken}');
                 sessionStorage.setItem('token_type', 'Bearer');
                 sessionStorage.setItem('authenticated', 'true');
-                
+
                 console.log('Authentication tokens injected successfully');
             ";
 
@@ -89,7 +89,7 @@ namespace TUEL.TestFramework.Web.Support
                 }
 
                 // Check for typical authenticated page indicators
-                var hasAuthenticatedContent = driver.PageSource.Contains("TUEL Records") ||
+                var hasAuthenticatedContent = driver.PageSource.Contains("Application") ||
                                             driver.PageSource.Contains("Dashboard") ||
                                             driver.PageSource.Contains("logout", StringComparison.OrdinalIgnoreCase);
 

@@ -66,11 +66,11 @@ namespace TUEL.TestFramework.Web.PageObjects
             {
                 var currentUrl = Driver.Url;
 
-                if (currentUrl.Contains("as-badev-nc-tuel-ui", StringComparison.OrdinalIgnoreCase) ||
-                    currentUrl.Contains("tuel-records", StringComparison.OrdinalIgnoreCase))
+                if (currentUrl.Contains("application", StringComparison.OrdinalIgnoreCase) ||
+                    currentUrl.Contains("dashboard", StringComparison.OrdinalIgnoreCase))
                 {
                     // Dashboard landing page
-                    if (currentUrl.Contains("/tuel-records/dashboard", StringComparison.OrdinalIgnoreCase) ||
+                    if (currentUrl.Contains("/application/dashboard", StringComparison.OrdinalIgnoreCase) ||
                         currentUrl.Contains("/dashboard", StringComparison.OrdinalIgnoreCase))
                     {
                         return AuthenticationState.LoggedIn;

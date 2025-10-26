@@ -304,9 +304,9 @@ namespace TUEL.TestFramework.Web.TestClasses
             var expectedComponents = new[]
             {
                 "Azure Blob Storage",
-                "Cwf Domain Api",
-                "DDA Domain Api",
-                "TUEL Domain API",
+                "Domain API",
+                "Account Domain Api",
+                "Product Domain API",
                 "Queues"
             };
 

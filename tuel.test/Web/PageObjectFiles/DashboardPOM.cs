@@ -16,22 +16,22 @@ namespace TUEL.TestFramework.Web.PageObjects
         }
 
         // Primary page identifier
-        protected override By UniqueLocator => By.XPath("//div[contains(text(), 'Approval Queue')] | //h1[contains(text(), 'Business Application')]");
+        protected override By UniqueLocator => By.XPath("//div[contains(text(), 'Approval Queue')] | //h1[contains(text(), 'Application')]");
 
         #region Page & Header Elements
-        private readonly By mainHeader = By.XPath("//h1[contains(text(), 'Business Application')] | //*[contains(text(), 'Business Application') and contains(@class, 'title')] | //*[@title='Business Application']");
+        private readonly By mainHeader = By.XPath("//h1[contains(text(), 'Application')] | //*[contains(text(), 'Application') and contains(@class, 'title')] | //*[@title='Application']");
 
         // Navigation Tabs
-        private readonly By navigationTabs = By.XPath("//nav//a | //div[contains(@class, 'nav')]//a | //*[contains(@class, 'tab')] | //a[contains(text(), 'Dashboard')] | //a[contains(text(), 'Completed')] | //a[contains(text(), 'Customers')]");
+        private readonly By navigationTabs = By.XPath("//nav//a | //div[contains(@class, 'nav')]//a | //*[contains(@class, 'tab')] | //a[contains(text(), 'Dashboard')] | //a[contains(text(), 'Transactions')] | //a[contains(text(), 'Customers')]");
         private readonly By dashboardTab = By.XPath("//a[contains(text(), 'Dashboard')] | //button[contains(text(), 'Dashboard')] | //*[contains(@class, 'active') and contains(text(), 'Dashboard')]");
-        private readonly By completedTab = By.XPath("//a[contains(text(), 'Completed')] | //button[contains(text(), 'Completed')]");
+        private readonly By transactionsTab = By.XPath("//a[contains(text(), 'Transactions')] | //button[contains(text(), 'Transactions')]");
         private readonly By customersTab = By.XPath("//a[contains(text(), 'Customers')] | //button[contains(text(), 'Customers')]");
         private readonly By templatesTab = By.XPath("//a[contains(text(), 'Templates')] | //button[contains(text(), 'Templates')]");
         private readonly By pricingTab = By.XPath("//a[contains(text(), 'Pricing')] | //button[contains(text(), 'Pricing')]");
 
         // Left sidebar navigation
         private readonly By leftSidebar = By.XPath("//div[contains(@class, 'sidebar')] | //nav[contains(@class, 'sidebar')]");
-        private readonly By businessApplicationMenuItem = By.XPath("//a[contains(text(), 'Business Application')] | //*[contains(@class, 'menu') and contains(text(), 'Business Application')]");
+        private readonly By businessApplicationMenuItem = By.XPath("//a[contains(text(), 'Application')] | //*[contains(@class, 'menu') and contains(text(), 'Application')]");
         private readonly By healthCheckMenuItem = By.XPath("//a[contains(text(), 'Health Check')] | //*[contains(@class, 'menu') and contains(text(), 'Health Check')]");
         #endregion
 
@@ -78,7 +78,7 @@ namespace TUEL.TestFramework.Web.PageObjects
             try
             {
                 var title = Driver.Title;
-                return !string.IsNullOrEmpty(title) && title.Contains("Business Application");
+                return !string.IsNullOrEmpty(title) && title.Contains("Application");
             }
             catch
             {
@@ -329,16 +329,16 @@ namespace TUEL.TestFramework.Web.PageObjects
 
         #region Action Methods
 
-        public void ClickCompletedTab()
+        public void ClickTransactionsTab()
         {
             try
             {
                 Thread.Sleep(2000);
-                ClickNavigationTab("completed");
+                ClickNavigationTab("transactions");
             }
             catch (Exception ex)
             {
-                throw new InvalidOperationException($"Failed to click Completed tab: {ex.Message}");
+                throw new InvalidOperationException($"Failed to click Transactions tab: {ex.Message}");
             }
         }
 
@@ -349,7 +349,7 @@ namespace TUEL.TestFramework.Web.PageObjects
                 By tabLocator = tabName.ToLower() switch
                 {
                     "dashboard" => dashboardTab,
-                    "completed" => completedTab,
+                    "transactions" => transactionsTab,
                     "customers" => customersTab,
                     "templates" => templatesTab,
                     "pricing" => pricingTab,

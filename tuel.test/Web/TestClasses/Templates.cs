@@ -9,7 +9,7 @@ using System.Threading;
 
 namespace TUEL.TestFramework.Web.TestClasses
 {
-    // Test class for the Business Application Templates & Signatures page
+    // Test class for the Application Templates & Signatures page
     [TestClass, TestCategory("UI")]
     public class Templates : Base
     {
@@ -68,16 +68,16 @@ namespace TUEL.TestFramework.Web.TestClasses
             try
             {
                 // Wait for redirect to complete after authentication
-                var authenticationLanded = Driver.WaitForUrlContains("/tuel-records", TimeSpan.FromSeconds(15)) ||
+                var authenticationLanded = Driver.WaitForUrlContains("/application", TimeSpan.FromSeconds(15)) ||
                                           Driver.WaitForUrlContains("/dashboard", TimeSpan.FromSeconds(5));
 
                 if (authenticationLanded)
                 {
-                    TestContext.WriteLine("Successfully authenticated and landed on TUEL Records application");
+                    TestContext.WriteLine("Successfully authenticated and landed on Application");
                 }
                 else
                 {
-                    TestContext.WriteLine($"Warning: Expected TUEL Records landing, current URL: {Driver.Url}");
+                    TestContext.WriteLine($"Warning: Expected Application landing, current URL: {Driver.Url}");
                 }
             }
             catch (Exception ex)
@@ -149,7 +149,7 @@ namespace TUEL.TestFramework.Web.TestClasses
             try
             {
                 var currentUrl = Driver.Url;
-                if (currentUrl.Contains("as-badev-nc-tuel-ui", StringComparison.OrdinalIgnoreCase))
+                if (currentUrl.Contains("application", StringComparison.OrdinalIgnoreCase))
                 {
                     var baseUrl = currentUrl.Substring(0, currentUrl.IndexOf(".net") + 4);
                     var templatesUrl = $"{baseUrl}/business-application/templates";
@@ -211,7 +211,7 @@ namespace TUEL.TestFramework.Web.TestClasses
             bool templatesTabActive = _templatesPage.VerifyTemplatesTabActive();
             bool templatesAndSignaturesHeader = _templatesPage.VerifyTemplatesAndSignaturesHeader();
 
-            TestContext.WriteLine($"Page title contains 'TUEL Records': {pageTitle}");
+            TestContext.WriteLine($"Page title contains 'Application': {pageTitle}");
             TestContext.WriteLine($"Templates tab is highlighted as active: {templatesTabActive}");
             TestContext.WriteLine($"'Templates & Signatures' sub-header visible: {templatesAndSignaturesHeader}");
 
@@ -233,15 +233,15 @@ namespace TUEL.TestFramework.Web.TestClasses
 
             // Verify specific templates
             bool standbyPud = _templatesPage.VerifySpecificTemplateCard("Standby / PUD");
-            bool standbyConfirming = _templatesPage.VerifySpecificTemplateCard("Standby for Confirming TUEL Records");
+            bool confirming = _templatesPage.VerifySpecificTemplateCard("Confirmation Template");
             bool directPay = _templatesPage.VerifySpecificTemplateCard("Direct Pay");
 
-            TestContext.WriteLine($"Standby / PUD template: {standbyPud}");
-            TestContext.WriteLine($"Standby for Confirming TUEL Records template: {standbyConfirming}");
+            TestContext.WriteLine($"Standard template: {standbyPud}");
+            TestContext.WriteLine($"Confirmation template: {confirming}");
             TestContext.WriteLine($"Direct Pay template: {directPay}");
 
-            // TUEL Records Signatories Section Verification
-            TestContext.WriteLine("TUEL Records Signatories Section Verification");
+            // Signatories Section Verification
+            TestContext.WriteLine("Signatories Section Verification");
             bool signersBlock = _templatesPage.VerifySignersBlock();
             bool editSignersLink = _templatesPage.VerifyEditSignersLink();
             bool editSignersArrow = _templatesPage.VerifyEditSignersArrowIcon();
@@ -250,12 +250,12 @@ namespace TUEL.TestFramework.Web.TestClasses
             TestContext.WriteLine($"'Edit Signers' link visible: {editSignersLink}");
             TestContext.WriteLine($"'Edit Signers' right-arrow icon: {editSignersArrow}");
 
-            // Special TUEL Templates Section Verification
-            TestContext.WriteLine("Special TUEL Templates Section Verification");
-            bool specialTemplatesSection = _templatesPage.VerifySpecialTuelTemplatesSection();
-            bool specialTemplatesContent = _templatesPage.VerifySpecialTuelTemplatesContentBlock();
+            // Special Templates Section Verification
+            TestContext.WriteLine("Special Templates Section Verification");
+            bool specialTemplatesSection = _templatesPage.VerifySpecialTemplatesSection();
+            bool specialTemplatesContent = _templatesPage.VerifySpecialTemplatesContentBlock();
 
-            TestContext.WriteLine($"'Special TUEL Templates' section header: {specialTemplatesSection}");
+            TestContext.WriteLine($"'Special Templates' section header: {specialTemplatesSection}");
             TestContext.WriteLine($"Special templates content block displayed: {specialTemplatesContent}");
 
             // Overall verification
@@ -276,7 +276,7 @@ namespace TUEL.TestFramework.Web.TestClasses
             TestContext.WriteLine($"Recommended checks passed: {recommendedPassed}/{recommendedChecks.Length}");
 
             // Assertions
-            Assert.IsTrue(pageTitle, "The browser page title must be 'Business Application'");
+            Assert.IsTrue(pageTitle, "The browser page title must be 'Application'");
             Assert.IsTrue(templatesTabActive, "The 'Templates' tab must be highlighted as the active tab");
             Assert.IsTrue(templatesAndSignaturesHeader, "A sub-header with the text 'Templates & Signatures' is visible on the page");
 
@@ -287,7 +287,7 @@ namespace TUEL.TestFramework.Web.TestClasses
             Assert.IsTrue(signersBlock, "A content block titled 'Signers' is displayed");
             Assert.IsTrue(editSignersLink, "An 'Edit Signers' link is visible below the 'Signers' block");
 
-            Assert.IsTrue(specialTemplatesSection, "A section header with the text 'Special TUEL Templates' is visible");
+            Assert.IsTrue(specialTemplatesSection, "A section header with the text 'Special Templates' is visible");
             Assert.IsTrue(specialTemplatesContent, "A large content block for special templates is displayed on the right side of the page");
 
         }
@@ -308,7 +308,7 @@ namespace TUEL.TestFramework.Web.TestClasses
             TestContext.WriteLine($"Navigation tabs present: {navigationTabs}");
             TestContext.WriteLine($"Templates & Signatures header: {templatesAndSignaturesHeader}");
 
-            Assert.IsTrue(pageTitle, "Page title should contain 'TUEL Records'");
+            Assert.IsTrue(pageTitle, "Page title should contain 'Application'");
             Assert.IsTrue(templatesTabActive, "Templates tab should be highlighted as active");
             Assert.IsTrue(templatesAndSignaturesHeader, "Templates & Signatures header should be visible");
 
@@ -331,11 +331,11 @@ namespace TUEL.TestFramework.Web.TestClasses
 
             // Verify individual templates
             bool standbyPudTemplate = _templatesPage.VerifySpecificTemplateCard("Standby / PUD");
-            bool standbyConfirmingTemplate = _templatesPage.VerifySpecificTemplateCard("Standby for Confirming TUEL Records");
+            bool confirmingTemplate = _templatesPage.VerifySpecificTemplateCard("Confirmation Template");
             bool directPayTemplate = _templatesPage.VerifySpecificTemplateCard("Direct Pay");
 
-            TestContext.WriteLine($"Standby / PUD template: {standbyPudTemplate}");
-            TestContext.WriteLine($"Standby for Confirming TUEL Records template: {standbyConfirmingTemplate}");
+            TestContext.WriteLine($"Standard template: {standbyPudTemplate}");
+            TestContext.WriteLine($"Confirmation template: {confirmingTemplate}");
             TestContext.WriteLine($"Direct Pay template: {directPayTemplate}");
 
             var visibleTemplates = _templatesPage.GetVisibleTemplateNames();
@@ -344,30 +344,30 @@ namespace TUEL.TestFramework.Web.TestClasses
             Assert.IsTrue(defaultTemplatesSection, "Default Templates section should be visible");
             Assert.IsTrue(defaultTemplateOptions, "Default template links should be displayed");
             Assert.IsTrue(allViewButtons, "Default template links should be present");
-            Assert.IsTrue(standbyPudTemplate && standbyConfirmingTemplate && directPayTemplate,
-                         "All default template links should be visible: Standby / PUD, Standby for Confirming TUEL Records, Direct Pay");
+            Assert.IsTrue(standbyPudTemplate && confirmingTemplate && directPayTemplate,
+                         "All default template links should be visible: Standard, Confirmation, Direct Pay");
 
             TestContext.WriteLine("Default Templates section verification completed");
         }
 
         [TestMethod]
-        [Description("Verify Special TUEL Templates section with content block")]
-        public void Templates_VerifySpecialTuelTemplatesSection()
+        [Description("Verify Special Templates section with content block")]
+        public void Templates_VerifySpecialTemplatesSection()
         {
-            TestContext.WriteLine("Testing Special TUEL Templates section");
+            TestContext.WriteLine("Testing Special Templates section");
 
-            bool specialTemplatesSection = _templatesPage.VerifySpecialTuelTemplatesSection();
-            bool specialTemplatesContent = _templatesPage.VerifySpecialTuelTemplatesContentBlock();
+            bool specialTemplatesSection = _templatesPage.VerifySpecialTemplatesSection();
+            bool specialTemplatesContent = _templatesPage.VerifySpecialTemplatesContentBlock();
             bool completeSection = _templatesPage.VerifyCompleteSpecialTemplatesSection();
 
-            TestContext.WriteLine($"Special TUEL Templates section: {specialTemplatesSection}");
+            TestContext.WriteLine($"Special Templates section: {specialTemplatesSection}");
             TestContext.WriteLine($"Special templates content block: {specialTemplatesContent}");
             TestContext.WriteLine($"Complete special templates section: {completeSection}");
 
-            Assert.IsTrue(specialTemplatesSection, "Special TUEL Templates section should be visible");
+            Assert.IsTrue(specialTemplatesSection, "Special Templates section should be visible");
             Assert.IsTrue(specialTemplatesContent, "Special templates content block should be displayed");
 
-            TestContext.WriteLine("Special TUEL Templates section verification completed");
+            TestContext.WriteLine("Special Templates section verification completed");
         }
 
         [TestMethod]

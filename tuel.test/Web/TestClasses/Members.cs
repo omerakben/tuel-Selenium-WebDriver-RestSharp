@@ -53,7 +53,7 @@ namespace TUEL.TestFramework.Web.TestClasses
                 }
 
                 // Try to navigate to Members page directly
-                if (currentUrl.Contains("tuel-ui", StringComparison.OrdinalIgnoreCase))
+                if (currentUrl.Contains("application", StringComparison.OrdinalIgnoreCase))
                 {
                     var baseUrl = ExtractBaseUrl(currentUrl);
                     var membersUrl = $"{baseUrl}/members";
@@ -427,16 +427,16 @@ namespace TUEL.TestFramework.Web.TestClasses
                 TestContext.WriteLine($"Bank search failed: {ex.Message}");
             }
 
-            // Test search for specific DDA number "123"
-            bool ddaSearch = false;
+            // Test search for specific account number "123"
+            bool accountSearch = false;
             try
             {
-                ddaSearch = _membersPage.VerifyDDANumberSearch("123");
-                TestContext.WriteLine($"Search for DDA '123' returned exact match: {ddaSearch}");
+                accountSearch = _membersPage.VerifyAccountNumberSearch("123");
+                TestContext.WriteLine($"Search for account '123' returned exact match: {accountSearch}");
             }
             catch (Exception ex)
             {
-                TestContext.WriteLine($"DDA search failed: {ex.Message}");
+                TestContext.WriteLine($"Account search failed: {ex.Message}");
             }
 
             // Test general search results update
@@ -463,7 +463,7 @@ namespace TUEL.TestFramework.Web.TestClasses
             }
 
             // At least one search test should work
-            Assert.IsTrue(bankSearch || ddaSearch || searchUpdates,
+            Assert.IsTrue(bankSearch || accountSearch || searchUpdates,
                 "At least one search functionality should work properly");
 
             TestContext.WriteLine("Search results verification completed");

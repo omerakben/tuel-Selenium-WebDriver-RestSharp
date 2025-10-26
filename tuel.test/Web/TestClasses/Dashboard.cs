@@ -9,7 +9,7 @@ using System.Threading;
 
 namespace TUEL.TestFramework.Web.TestClasses
 {
-    // Test class for the Business Application Dashboard page
+    // Test class for the Application Dashboard page
     [TestClass, TestCategory("UI")]
     public class Dashboard : Base
     {
@@ -70,7 +70,7 @@ namespace TUEL.TestFramework.Web.TestClasses
             try
             {
                 // Wait for redirect to complete
-                var dashboardLanded = Driver.WaitForUrlContains("/tuel-records/dashboard", TimeSpan.FromSeconds(15)) ||
+                var dashboardLanded = Driver.WaitForUrlContains("/application/dashboard", TimeSpan.FromSeconds(15)) ||
                                     Driver.WaitForUrlContains("/dashboard", TimeSpan.FromSeconds(5));
 
                 if (dashboardLanded)
@@ -93,7 +93,7 @@ namespace TUEL.TestFramework.Web.TestClasses
             try
             {
                 var currentUrl = Driver.Url;
-                return currentUrl.Contains("/tuel-records/dashboard", StringComparison.OrdinalIgnoreCase) ||
+                return currentUrl.Contains("/application/dashboard", StringComparison.OrdinalIgnoreCase) ||
                        currentUrl.Contains("/dashboard", StringComparison.OrdinalIgnoreCase) ||
                        _dashboardPage.IsPageLoaded();
             }
@@ -123,10 +123,10 @@ namespace TUEL.TestFramework.Web.TestClasses
                 }
 
                 var currentUrl = Driver.Url;
-                if (currentUrl.Contains("as-badev-nc-tuel-ui", StringComparison.OrdinalIgnoreCase))
+                if (currentUrl.Contains(".net", StringComparison.OrdinalIgnoreCase))
                 {
                     var baseUrl = currentUrl.Substring(0, currentUrl.IndexOf(".net") + 4);
-                    var dashboardUrl = $"{baseUrl}/business-application/dashboard";
+                    var dashboardUrl = $"{baseUrl}/application/dashboard";
                     TestContext.WriteLine($"Attempting direct navigation to: {dashboardUrl}");
                     Driver.Navigate().GoToUrl(dashboardUrl);
                 }
@@ -251,7 +251,7 @@ namespace TUEL.TestFramework.Web.TestClasses
             bool pageTitle = _dashboardPage.VerifyPageTitle();
             bool mainHeader = _dashboardPage.VerifyMainHeader();
 
-            TestContext.WriteLine($"Page title contains 'TUEL Records': {pageTitle}");
+            TestContext.WriteLine($"Page title contains 'Application': {pageTitle}");
             TestContext.WriteLine($"Main header is visible: {mainHeader}");
 
             Assert.IsTrue(pageTitle || mainHeader, "Page title or main header should be valid");
@@ -553,7 +553,7 @@ namespace TUEL.TestFramework.Web.TestClasses
             var currentUrl = Driver.Url;
             TestContext.WriteLine($"Current URL: {currentUrl}");
 
-            bool isOnDashboard = currentUrl.Contains("/tuel-records/dashboard", StringComparison.OrdinalIgnoreCase) ||
+            bool isOnDashboard = currentUrl.Contains("/application/dashboard", StringComparison.OrdinalIgnoreCase) ||
                                currentUrl.Contains("/dashboard", StringComparison.OrdinalIgnoreCase);
 
             TestContext.WriteLine($"Is on dashboard page: {isOnDashboard}");

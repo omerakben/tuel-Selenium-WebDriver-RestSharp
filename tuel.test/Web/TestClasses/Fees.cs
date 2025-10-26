@@ -84,7 +84,7 @@ namespace TUEL.TestFramework.Web.TestClasses
             bool feesTabActive = FeesPage.VerifyFeesTabActive();
             bool feeActivityHeader = FeesPage.VerifyFeeActivitySubHeader();
 
-            TestContext.WriteLine($"Browser title contains 'Business Application': {pageTitle}");
+            TestContext.WriteLine($"Browser title contains 'Application': {pageTitle}");
             TestContext.WriteLine($"Fees tab highlighted as active: {feesTabActive}");
             TestContext.WriteLine($"'Fee Activity' sub-header visible: {feeActivityHeader}");
 
@@ -233,7 +233,7 @@ namespace TUEL.TestFramework.Web.TestClasses
         }
 
         [TestMethod]
-        [Description("Combined search: first-row DDA token then status (simple strict validation)")]
+        [Description("Combined search: first-row account token then status (simple strict validation)")]
         public void Fees_VerifySearch_WithActualDataOnFirstRow()
         {
             TestContext.WriteLine("Starting first-row based search verification (strict mode)");
@@ -262,7 +262,7 @@ namespace TUEL.TestFramework.Web.TestClasses
             {
                 if (!first)
                 {
-                    // Clear before switching from DDA to status to let grid repopulate
+                    // Clear before switching from account to status to let grid repopulate
                     FeesPage.ClearFeesSearch();
                 }
                 first = false;

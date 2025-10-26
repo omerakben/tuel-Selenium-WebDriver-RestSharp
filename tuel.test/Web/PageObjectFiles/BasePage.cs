@@ -30,10 +30,10 @@ namespace TUEL.TestFramework.Web.PageObjects
         // A locator unique to the page, used to confirm the page has loaded correctly.
         protected abstract By UniqueLocator { get; }
 
-        #region Common Business Application Locators
+        #region Common Application Locators
 
-        // Common elements across business application pages
-        protected readonly By mainHeader = By.XPath("//h1[contains(text(), 'Business Application')] | //*[contains(text(), 'Business Application') and contains(@class, 'title')] | //*[@title='Business Application']");
+        // Common elements across application pages
+        protected readonly By mainHeader = By.XPath("//h1[contains(text(), 'Application')] | //*[contains(text(), 'Application') and contains(@class, 'title')] | //*[@title='Application']");
 
         // Navigation Tabs (common across all pages)
         protected readonly By navigationTabs = By.XPath("//nav//a | //div[contains(@class, 'nav')]//a | //*[contains(@class, 'tab')] | //a[contains(text(), 'Dashboard')] | //a[contains(text(), 'Completed')] | //a[contains(text(), 'Customers')]");
@@ -61,7 +61,7 @@ namespace TUEL.TestFramework.Web.PageObjects
 
         #endregion
 
-        #region Common Business Application Methods
+        #region Common Application Methods
 
         // Common page verification methods with enhanced error handling
         public virtual bool VerifyPageTitle()
@@ -70,7 +70,7 @@ namespace TUEL.TestFramework.Web.PageObjects
             {
                 WaitUntilPageIsLoaded();
                 var title = Driver.Title;
-                return !string.IsNullOrEmpty(title) && title.Contains("Business Application");
+                return !string.IsNullOrEmpty(title) && title.Contains("Application");
             }, "VerifyPageTitle", false);
         }
 

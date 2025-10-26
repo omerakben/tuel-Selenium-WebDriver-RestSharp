@@ -20,7 +20,7 @@ namespace TUEL.TestFramework.Web.PageObjects
 
         // Page title and header elements
         private readonly By pageHeader = By.XPath("//app-members//h3[contains(text(), 'Members')] | //h3[contains(text(), 'Members')]");
-        private readonly By mainHeader = By.XPath("//h1[contains(text(), 'Credit Portal')] | //*[contains(text(), 'Credit Portal') and contains(@class, 'title')] | //*[@title='Credit Portal']");
+        private readonly By mainHeader = By.XPath("//h1[contains(text(), 'Application')] | //*[contains(text(), 'Application') and contains(@class, 'title')] | //*[@title='Application']");
 
         // Left sidebar navigation
         private readonly By membersMenuItem = By.XPath("//a[contains(text(), 'Members')] | //*[contains(@class, 'menu') and contains(text(), 'Members')] | //a[@href='/members']");
@@ -66,7 +66,7 @@ namespace TUEL.TestFramework.Web.PageObjects
         // Expected column headers based on actual DOM structure
         private readonly string[] expectedColumnHeaders = new string[]
         {
-            "View", "DDA", "Member", "Address", "Address 2", "City", "State", "Zip Code", "TUEL Address Override in Place?"
+            "View", "Account", "Member", "Address", "Address 2", "City", "State", "Zip Code", "Address Override in Place?"
         };
 
         #endregion
@@ -92,7 +92,7 @@ namespace TUEL.TestFramework.Web.PageObjects
         // Items per page selector
         private readonly By itemsPerPageContainer = By.XPath("//*[contains(text(), 'items per page')] | //*[contains(@class, 'page-size')]");
         private readonly By itemsPerPageInput = By.XPath("//kendo-numerictextbox[contains(@class, 'page-size-input')] | //input[preceding-sibling::*/text()[contains(., 'items per page')] or following-sibling::*/text()[contains(., 'items per page')]]");
-        
+
         #endregion
 
         #region Core Verification Methods
@@ -522,19 +522,19 @@ namespace TUEL.TestFramework.Web.PageObjects
             }
         }
 
-        // Verifies search for specific DDA number returns exact matches
-        public bool VerifyDDANumberSearch(string ddaNumber = "12431")
+        // Verifies search for specific account number returns exact matches
+        public bool VerifyAccountNumberSearch(string accountNumber = "12431")
         {
             try
             {
-                if (!PerformSearch(ddaNumber)) return false;
+                if (!PerformSearch(accountNumber)) return false;
 
                 var rows = Driver.FindElements(dataRows);
                 if (rows.Count == 0) return IsElementVisible(noRecordsMessage);
 
-                // Check if results contain the DDA number
+                // Check if results contain the account number
                 var firstRowText = rows[0].Text ?? "";
-                return firstRowText.Contains(ddaNumber);
+                return firstRowText.Contains(accountNumber);
             }
             catch
             {
