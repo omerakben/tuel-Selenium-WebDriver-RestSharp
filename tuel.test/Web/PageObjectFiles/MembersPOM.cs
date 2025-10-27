@@ -20,8 +20,8 @@ namespace TUEL.TestFramework.Web.PageObjects
         #region Page & Header Elements
 
         // Page title and header elements
-        private readonly By pageHeader = By.XPath("//app-members//h3[contains(text(), 'Members')] | //h3[contains(text(), 'Members')]");
-        private readonly By mainHeader = By.XPath("//h1[contains(text(), 'Application')] | //*[contains(text(), 'Application') and contains(@class, 'title')] | //*[@title='Application']");
+        private readonly By _membersPageHeader = By.XPath("//app-members//h3[contains(text(), 'Members')] | //h3[contains(text(), 'Members')]");
+        private readonly By _membersMainHeader = By.XPath("//h1[contains(text(), 'Application')] | //*[contains(text(), 'Application') and contains(@class, 'title')] | //*[@title='Application']");
 
         // Left sidebar navigation
         private readonly By membersMenuItem = By.XPath("//a[contains(text(), 'Members')] | //*[contains(@class, 'menu') and contains(text(), 'Members')] | //a[@href='/members']");
@@ -34,15 +34,15 @@ namespace TUEL.TestFramework.Web.PageObjects
         #region Search Elements
 
         // Search functionality elements
-        private readonly By searchContainer = By.XPath("//summit-search | //*[contains(@class, 'summit-search')] | //*[contains(@class, 'search')]");
-        private readonly By searchInput = By.XPath("//summit-search//input[@placeholder='Search'] | //input[@placeholder='Search'] | //input[contains(@class, 'search')] | //input[contains(@placeholder, 'search')]");
+        private readonly By _membersSearchContainer = By.XPath("//summit-search | //*[contains(@class, 'summit-search')] | //*[contains(@class, 'search')]");
+        private readonly By _membersSearchInput = By.XPath("//summit-search//input[@placeholder='Search'] | //input[@placeholder='Search'] | //input[contains(@class, 'search')] | //input[contains(@placeholder, 'search')]");
 
         #endregion
 
         #region Export Elements
 
         // Export functionality elements
-        private readonly By exportButton = By.XPath("//summit-button[contains(., 'Export to CSV')] | //button[contains(text(), 'Export to CSV')] | //*[contains(@class, 'button') and contains(text(), 'Export to CSV')]");
+        private readonly By _membersExportButton = By.XPath("//summit-button[contains(., 'Export to CSV')] | //button[contains(text(), 'Export to CSV')] | //*[contains(@class, 'button') and contains(text(), 'Export to CSV')]");
 
         #endregion
 
@@ -53,7 +53,7 @@ namespace TUEL.TestFramework.Web.PageObjects
         private readonly By kendoGrid = By.XPath("//kendo-grid | //div[contains(@class, 'k-grid')]");
 
         // Table headers - based on actual DOM structure from body.html
-        private readonly By tableHeaders = By.XPath("//thead//th | //thead//td | //*[contains(@class, 'k-header')] | //*[contains(@class, 'column-title')] | //th[contains(@class, 'k-table-th')]");
+        private readonly By _membersTableHeaders = By.XPath("//thead//th | //thead//td | //*[contains(@class, 'k-header')] | //*[contains(@class, 'column-title')] | //th[contains(@class, 'k-table-th')]");
 
         // Table body and rows
         private readonly By dataRows = By.XPath("//tbody//tr[contains(@class, 'k-master-row')] | //tbody//tr[contains(@class, 'k-table-row')]");
@@ -62,7 +62,7 @@ namespace TUEL.TestFramework.Web.PageObjects
         private readonly By viewLinksInRows = By.XPath("//tbody//tr//a[contains(text(), 'View')] | //tbody//tr//*[contains(@class, 'grid-link')]");
 
         // No data message
-        private readonly By noRecordsMessage = By.XPath("//*[contains(text(), 'No records available') or contains(text(), 'No records') or contains(text(), 'No data') or contains(text(), 'No items') or contains(text(), 'No results')]");
+        private readonly By _membersNoRecordsMessage = By.XPath("//*[contains(text(), 'No records available') or contains(text(), 'No records') or contains(text(), 'No data') or contains(text(), 'No items') or contains(text(), 'No results')]");
 
         // Expected column headers based on actual DOM structure
         private readonly string[] expectedColumnHeaders = new string[]
@@ -75,8 +75,8 @@ namespace TUEL.TestFramework.Web.PageObjects
         #region Pagination Elements
 
         // Pagination controls - based on Kendo UI structure
-        private readonly By paginationContainer = By.XPath("//kendo-pager | //*[contains(@class, 'k-pager')] | //*[contains(@class, 'pagination')] | //*[contains(@class, 'grid-pager')]");
-        private readonly By pagerInfo = By.XPath("//kendo-pager-info | //*[contains(@class, 'k-pager-info')] | //*[contains(text(), ' of ') and contains(text(), 'items')]");
+        private readonly By _membersPaginationContainer = By.XPath("//kendo-pager | //*[contains(@class, 'k-pager')] | //*[contains(@class, 'pagination')] | //*[contains(@class, 'grid-pager')]");
+        private readonly By _membersPagerInfo = By.XPath("//kendo-pager-info | //*[contains(@class, 'k-pager-info')] | //*[contains(text(), ' of ') and contains(text(), 'items')]");
         private readonly By pageStatusDisplay = By.XPath("//*[contains(text(), ' - ') and contains(text(), ' of ') and contains(text(), 'items')] | //kendo-pager-info");
 
         // Navigation buttons
@@ -99,7 +99,7 @@ namespace TUEL.TestFramework.Web.PageObjects
         #region Core Verification Methods
 
         // Verifies the browser page title contains "Members"
-        public bool VerifyPageTitle()
+        public override bool VerifyPageTitle()
         {
             try
             {
@@ -117,7 +117,7 @@ namespace TUEL.TestFramework.Web.PageObjects
         {
             try
             {
-                return IsElementVisible(pageHeader);
+                return IsElementVisible(_membersPageHeader);
             }
             catch
             {
@@ -126,11 +126,11 @@ namespace TUEL.TestFramework.Web.PageObjects
         }
 
         // Verifies the main application header is present
-        public bool VerifyMainHeader()
+        public override bool VerifyMainHeader()
         {
             try
             {
-                return IsElementVisible(mainHeader);
+                return IsElementVisible(_membersMainHeader);
             }
             catch
             {
@@ -166,8 +166,8 @@ namespace TUEL.TestFramework.Web.PageObjects
             {
                 bool hasHeader = VerifyPageHeader();
                 bool hasDataGrid = IsElementVisible(dataGrid);
-                bool hasSearch = IsElementVisible(searchContainer);
-                bool hasExport = IsElementVisible(exportButton);
+                bool hasSearch = IsElementVisible(_membersSearchContainer);
+                bool hasExport = IsElementVisible(_membersExportButton);
 
                 return hasHeader && hasDataGrid && hasSearch && hasExport;
             }
@@ -182,11 +182,11 @@ namespace TUEL.TestFramework.Web.PageObjects
         #region Search Functionality Verification Methods
 
         // Verifies a search input box is visible
-        public bool VerifySearchInputVisible()
+        public override bool VerifySearchInput()
         {
             try
             {
-                return IsElementVisible(searchInput);
+                return IsElementVisible(_membersSearchInput);
             }
             catch
             {
@@ -199,7 +199,7 @@ namespace TUEL.TestFramework.Web.PageObjects
         {
             try
             {
-                var searchElement = Driver.FindElement(searchInput);
+                var searchElement = Driver.FindElement(_membersSearchInput);
                 var placeholder = searchElement.GetAttribute("placeholder") ?? "";
                 return placeholder.Equals("Search", StringComparison.OrdinalIgnoreCase);
             }
@@ -214,7 +214,7 @@ namespace TUEL.TestFramework.Web.PageObjects
         {
             try
             {
-                var searchElement = Driver.FindElement(searchInput);
+                var searchElement = Driver.FindElement(_membersSearchInput);
                 var originalValue = searchElement.GetAttribute("value") ?? "";
 
                 // Clear and enter test text
@@ -244,7 +244,7 @@ namespace TUEL.TestFramework.Web.PageObjects
         #region Data Table Structure Verification Methods
 
         // Verifies a data table with member information is displayed
-        public bool VerifyDataTablePresent()
+        public override bool VerifyDataTablePresent()
         {
             try
             {
@@ -261,7 +261,7 @@ namespace TUEL.TestFramework.Web.PageObjects
         {
             try
             {
-                var headers = Driver.FindElements(tableHeaders);
+                var headers = Driver.FindElements(_membersTableHeaders);
                 if (headers.Count == 0) return false;
 
                 var headerTexts = headers.Select(h => h.Text?.Trim()).Where(t => !string.IsNullOrEmpty(t)).ToList();
@@ -352,11 +352,11 @@ namespace TUEL.TestFramework.Web.PageObjects
         #region Pagination Controls Verification Methods
 
         // Verifies pagination navigation controls are visible
-        public bool VerifyPaginationControlsVisible()
+        public override bool VerifyPaginationControls()
         {
             try
             {
-                return IsElementVisible(paginationContainer);
+                return IsElementVisible(_membersPaginationContainer);
             }
             catch
             {
@@ -402,11 +402,11 @@ namespace TUEL.TestFramework.Web.PageObjects
         }
 
         // Verifies "Items per page" selector is available
-        public bool VerifyItemsPerPageSelector()
+        public override bool VerifyItemsPerPageSelector()
         {
             try
             {
-                return IsElementVisible(itemsPerPageContainer) || IsElementVisible(itemsPerPageInput);
+                return IsElementVisible(itemsPerPageContainer);
             }
             catch
             {
@@ -415,11 +415,11 @@ namespace TUEL.TestFramework.Web.PageObjects
         }
 
         // Verifies total item count is displayed
-        public bool VerifyTotalItemCountDisplay()
+        public override bool VerifyPageStatusDisplay()
         {
             try
             {
-                return IsElementVisible(pageStatusDisplay) || IsElementVisible(pagerInfo);
+                return IsElementVisible(pageStatusDisplay) || IsElementVisible(_membersPagerInfo);
             }
             catch
             {
@@ -436,7 +436,7 @@ namespace TUEL.TestFramework.Web.PageObjects
         {
             try
             {
-                return IsElementVisible(exportButton);
+                return IsElementVisible(_membersExportButton);
             }
             catch
             {
@@ -449,7 +449,7 @@ namespace TUEL.TestFramework.Web.PageObjects
         {
             try
             {
-                var exportElement = Driver.FindElement(exportButton);
+                var exportElement = Driver.FindElement(_membersExportButton);
                 return exportElement.Displayed && exportElement.Enabled;
             }
             catch
@@ -467,7 +467,7 @@ namespace TUEL.TestFramework.Web.PageObjects
         {
             try
             {
-                var searchElement = Driver.FindElement(searchInput);
+                var searchElement = Driver.FindElement(_membersSearchInput);
                 searchElement.Clear();
                 searchElement.SendKeys(searchTerm);
 
@@ -496,7 +496,7 @@ namespace TUEL.TestFramework.Web.PageObjects
                 var searchRowCount = GetDataRowCount();
 
                 // Results should either change or show no records message
-                return searchRowCount != initialRowCount || IsElementVisible(noRecordsMessage);
+                return searchRowCount != initialRowCount || IsElementVisible(_membersNoRecordsMessage);
             }
             catch
             {
@@ -512,7 +512,7 @@ namespace TUEL.TestFramework.Web.PageObjects
                 if (!PerformSearch("bank")) return false;
 
                 var rows = Driver.FindElements(dataRows);
-                if (rows.Count == 0) return IsElementVisible(noRecordsMessage);
+                if (rows.Count == 0) return IsElementVisible(_membersNoRecordsMessage);
 
                 // Check if results contain "bank"
                 var firstRowText = rows[0].Text?.ToLower() ?? "";
@@ -532,7 +532,7 @@ namespace TUEL.TestFramework.Web.PageObjects
                 if (!PerformSearch(accountNumber)) return false;
 
                 var rows = Driver.FindElements(dataRows);
-                if (rows.Count == 0) return IsElementVisible(noRecordsMessage);
+                if (rows.Count == 0) return IsElementVisible(_membersNoRecordsMessage);
 
                 // Check if results contain the account number
                 var firstRowText = rows[0].Text ?? "";
@@ -553,7 +553,7 @@ namespace TUEL.TestFramework.Web.PageObjects
         {
             try
             {
-                Click(exportButton);
+                Click(_membersExportButton);
             }
             catch (Exception ex)
             {
@@ -566,7 +566,7 @@ namespace TUEL.TestFramework.Web.PageObjects
         {
             try
             {
-                var searchElement = Driver.FindElement(searchInput);
+                var searchElement = Driver.FindElement(_membersSearchInput);
                 searchElement.Clear();
 
                 Driver.WaitForPageTransition(TimeSpan.FromSeconds(3));
@@ -607,7 +607,7 @@ namespace TUEL.TestFramework.Web.PageObjects
         {
             try
             {
-                var headers = Driver.FindElements(tableHeaders);
+                var headers = Driver.FindElements(_membersTableHeaders);
                 return headers.Select(h => h.Text?.Trim()).Where(t => !string.IsNullOrEmpty(t)).ToList();
             }
             catch
@@ -649,7 +649,7 @@ namespace TUEL.TestFramework.Web.PageObjects
         {
             try
             {
-                return VerifyPageHeader() && VerifyDataTablePresent() && VerifySearchInputVisible();
+                return VerifyPageHeader() && VerifyDataTablePresent() && VerifySearchInput();
             }
             catch
             {

@@ -22,8 +22,8 @@ namespace TUEL.TestFramework.Web.PageObjects
         #region Page-Specific Elements
 
         // Customers specific elements
-        private readonly By customersHeader = By.XPath("//h3[contains(text(), 'Customers')] | //div[contains(text(), 'Customers')] | //h2[contains(text(), 'Customers')]");
-        private readonly By customersTab = By.XPath("//nav//a[contains(translate(., 'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'), 'customer')] | //a[@href='/customers'] | //button[contains(translate(., 'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'), 'customer')]");
+        private readonly By _customersHeader = By.XPath("//h3[contains(text(), 'Customers')] | //div[contains(text(), 'Customers')] | //h2[contains(text(), 'Customers')]");
+        private readonly By _customersTab = By.XPath("//nav//a[contains(translate(., 'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'), 'customer')] | //a[@href='/customers'] | //button[contains(translate(., 'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'), 'customer')]");
         private readonly By addNewCustomerButton = By.XPath("//button[contains(text(), 'Add New Customer')] | //*[contains(text(), 'Add New Customer')]");
 
         // Expected column headers in exact order for Customers page
@@ -33,30 +33,30 @@ namespace TUEL.TestFramework.Web.PageObjects
         };
 
         // Specific column locators for validation - based on the HTML structure
-        private readonly By viewColumn = By.XPath("//th[contains(.//span, 'View')] | //th[contains(@title, 'View')] | //span[contains(@class, 'k-column-title') and contains(text(), 'View')]");
-        private readonly By customerColumn = By.XPath("//th[contains(.//span, 'Customer')] | //th[contains(@title, 'Customer')] | //span[contains(@class, 'k-column-title') and contains(text(), 'Customer')]");
-        private readonly By addressColumn = By.XPath("//th[contains(.//span, 'Address') and not(contains(.//span, 'Address 2'))] | //span[contains(@class, 'k-column-title') and text()='Address']");
-        private readonly By address2Column = By.XPath("//th[contains(.//span, 'Address 2')] | //span[contains(@class, 'k-column-title') and contains(text(), 'Address 2')]");
-        private readonly By cityColumn = By.XPath("//th[contains(.//span, 'City')] | //span[contains(@class, 'k-column-title') and contains(text(), 'City')]");
-        private readonly By stateColumn = By.XPath("//th[contains(.//span, 'State')] | //span[contains(@class, 'k-column-title') and contains(text(), 'State')]");
-        private readonly By zipCodeColumn = By.XPath("//th[contains(.//span, 'Zip Code')] | //span[contains(@class, 'k-column-title') and contains(text(), 'Zip Code')]");
+        private readonly By _viewColumn = By.XPath("//th[contains(.//span, 'View')] | //th[contains(@title, 'View')] | //span[contains(@class, 'k-column-title') and contains(text(), 'View')]");
+        private readonly By _customerColumn = By.XPath("//th[contains(.//span, 'Customer')] | //th[contains(@title, 'Customer')] | //span[contains(@class, 'k-column-title') and contains(text(), 'Customer')]");
+        private readonly By _addressColumn = By.XPath("//th[contains(.//span, 'Address') and not(contains(.//span, 'Address 2'))] | //span[contains(@class, 'k-column-title') and text()='Address']");
+        private readonly By _address2Column = By.XPath("//th[contains(.//span, 'Address 2')] | //span[contains(@class, 'k-column-title') and contains(text(), 'Address 2')]");
+        private readonly By _cityColumn = By.XPath("//th[contains(.//span, 'City')] | //span[contains(@class, 'k-column-title') and contains(text(), 'City')]");
+        private readonly By _stateColumn = By.XPath("//th[contains(.//span, 'State')] | //span[contains(@class, 'k-column-title') and contains(text(), 'State')]");
+        private readonly By _zipCodeColumn = By.XPath("//th[contains(.//span, 'Zip Code')] | //span[contains(@class, 'k-column-title') and contains(text(), 'Zip Code')]");
 
         // Kendo Grid specific locators
-        private readonly By kendoGrid = By.XPath("//kendo-grid | //*[contains(@class, 'k-grid')]");
-        private readonly By kendoGridHeaders = By.XPath("//kendo-grid//thead//th | //*[contains(@class, 'k-grid')]//thead//th");
-        private readonly By kendoGridRows = By.XPath("//kendo-grid//tbody//tr[contains(@class, 'k-master-row')] | //*[contains(@class, 'k-grid')]//tbody//tr[contains(@class, 'k-master-row')]");
+        private readonly By _kendoGrid = By.XPath("//kendo-grid | //*[contains(@class, 'k-grid')]");
+        private readonly By _kendoGridHeaders = By.XPath("//kendo-grid//thead//th | //*[contains(@class, 'k-grid')]//thead//th");
+        private readonly By _kendoGridRows = By.XPath("//kendo-grid//tbody//tr[contains(@class, 'k-master-row')] | //*[contains(@class, 'k-grid')]//tbody//tr[contains(@class, 'k-master-row')]");
 
         // View links in the first column
-        private readonly By viewLinks = By.XPath("//a[contains(@class, 'grid-link') and contains(text(), 'View')] | //a[contains(@title, 'View this customer')]");
+        private readonly By _viewLinks = By.XPath("//a[contains(@class, 'grid-link') and contains(text(), 'View')] | //a[contains(@title, 'View this customer')]");
 
         // Export to CSV specific to customers page
-        private readonly By exportToCsvButton = By.XPath("//button[contains(text(), 'Export to CSV')] | //*[contains(text(), 'Export to CSV')]");
+        private readonly By _exportToCsvButton = By.XPath("//button[contains(text(), 'Export to CSV')] | //*[contains(text(), 'Export to CSV')]");
 
         // Kendo Pager specific elements - more specific locators based on HTML structure
-        private readonly By kendoPager = By.XPath("//kendo-pager | //*[contains(@class, 'k-pager')]");
-        private readonly By kendoPagerInfo = By.XPath("//kendo-pager-info | //*[contains(@class, 'k-pager-info')]");
-        private readonly By kendoPagerItemsPerPage = By.XPath("//kendo-numerictextbox[contains(@class, 'page-size-input')] | //div[contains(text(), 'items per page')]");
-        private readonly By kendoPagerPageNumbers = By.XPath("//kendo-pager-numeric-buttons | //*[contains(@class, 'k-pager-numbers')]");
+        private readonly By _kendoPager = By.XPath("//kendo-pager | //*[contains(@class, 'k-pager')]");
+        private readonly By _kendoPagerInfo = By.XPath("//kendo-pager-info | //*[contains(@class, 'k-pager-info')]");
+        private readonly By _kendoPagerItemsPerPage = By.XPath("//kendo-numerictextbox[contains(@class, 'page-size-input')] | //div[contains(text(), 'items per page')]");
+        private readonly By _kendoPagerPageNumbers = By.XPath("//kendo-pager-numeric-buttons | //*[contains(@class, 'k-pager-numbers')]");
 
         #endregion
 
@@ -66,7 +66,7 @@ namespace TUEL.TestFramework.Web.PageObjects
         {
             try
             {
-                return IsElementVisible(customersHeader);
+                return IsElementVisible(_customersHeader);
             }
             catch
             {
@@ -78,7 +78,7 @@ namespace TUEL.TestFramework.Web.PageObjects
         {
             try
             {
-                var customersTabElement = Driver.FindElements(customersTab).FirstOrDefault();
+                var customersTabElement = Driver.FindElements(_customersTab).FirstOrDefault();
                 if (customersTabElement == null) return false;
 
                 // Check for active state indicators based on HTML structure
@@ -131,13 +131,13 @@ namespace TUEL.TestFramework.Web.PageObjects
             {
                 var columnChecks = new[]
                 {
-                    IsElementVisible(viewColumn),
-                    IsElementVisible(customerColumn) || IsElementVisible(By.XPath("//span[contains(@class, 'k-column-title') and contains(text(), 'Customer')]") ),
-                    IsElementVisible(addressColumn),
-                    IsElementVisible(address2Column),
-                    IsElementVisible(cityColumn),
-                    IsElementVisible(stateColumn),
-                    IsElementVisible(zipCodeColumn)
+                    IsElementVisible(_viewColumn),
+                    IsElementVisible(_customerColumn) || IsElementVisible(By.XPath("//span[contains(@class, 'k-column-title') and contains(text(), 'Customer')]") ),
+                    IsElementVisible(_addressColumn),
+                    IsElementVisible(_address2Column),
+                    IsElementVisible(_cityColumn),
+                    IsElementVisible(_stateColumn),
+                    IsElementVisible(_zipCodeColumn)
                 };
 
                 return columnChecks.All(check => check);
@@ -152,8 +152,8 @@ namespace TUEL.TestFramework.Web.PageObjects
         {
             try
             {
-                var viewLinksElements = Driver.FindElements(viewLinks);
-                var dataRows = Driver.FindElements(kendoGridRows);
+                var viewLinksElements = Driver.FindElements(_viewLinks);
+                var dataRows = Driver.FindElements(_kendoGridRows);
 
                 if (dataRows.Count == 0)
                 {
@@ -235,7 +235,7 @@ namespace TUEL.TestFramework.Web.PageObjects
             {
                 // Wait for page to stabilize before clicking
                 Driver.WaitForPageTransition(TimeSpan.FromSeconds(2));
-                var tab = Driver.WaitClickable(customersTab, TimeSpan.FromSeconds(10));
+                var tab = Driver.WaitClickable(_customersTab, TimeSpan.FromSeconds(10));
                 tab.Click();
             }
             catch (Exception ex)
@@ -282,7 +282,7 @@ namespace TUEL.TestFramework.Web.PageObjects
         {
             try
             {
-                var exportButton = Driver.WaitClickable(exportToCsvButton, TimeSpan.FromSeconds(10));
+                var exportButton = Driver.WaitClickable(_exportToCsvButton, TimeSpan.FromSeconds(10));
                 exportButton.Click();
 
                 // Wait for export process to complete
@@ -298,7 +298,7 @@ namespace TUEL.TestFramework.Web.PageObjects
         {
             try
             {
-                var firstViewLink = Driver.WaitClickable(viewLinks, TimeSpan.FromSeconds(10));
+                var firstViewLink = Driver.WaitClickable(_viewLinks, TimeSpan.FromSeconds(10));
                 firstViewLink.Click();
 
                 // Wait for navigation to complete
@@ -328,7 +328,7 @@ namespace TUEL.TestFramework.Web.PageObjects
                 }
 
                 // Fallback to standard headers
-                var headers = Driver.FindElements(kendoGridHeaders);
+                var headers = Driver.FindElements(_kendoGridHeaders);
                 if (headers.Count > 0)
                 {
                     return headers.Select(h => h.Text.Trim())
@@ -350,7 +350,7 @@ namespace TUEL.TestFramework.Web.PageObjects
             try
             {
                 // Try Kendo Grid specific rows first
-                var kendoRows = Driver.FindElements(kendoGridRows);
+                var kendoRows = Driver.FindElements(_kendoGridRows);
                 if (kendoRows.Count > 0)
                 {
                     return kendoRows.Count;
@@ -370,7 +370,7 @@ namespace TUEL.TestFramework.Web.PageObjects
             try
             {
                 // Try Kendo Pager info first
-                var kendoPagerInfoElement = Driver.FindElements(kendoPagerInfo).FirstOrDefault();
+                var kendoPagerInfoElement = Driver.FindElements(_kendoPagerInfo).FirstOrDefault();
                 if (kendoPagerInfoElement != null)
                 {
                     return kendoPagerInfoElement.Text;
@@ -390,7 +390,7 @@ namespace TUEL.TestFramework.Web.PageObjects
             try
             {
                 // Try Kendo Grid first, then fallback to base implementation
-                return IsElementVisible(kendoGrid) || base.VerifyDataTablePresent();
+                return IsElementVisible(_kendoGrid) || base.VerifyDataTablePresent();
             }
             catch
             {
@@ -403,7 +403,7 @@ namespace TUEL.TestFramework.Web.PageObjects
             try
             {
                 // Try Kendo Pager first, then fallback to base implementation
-                return IsElementVisible(kendoPager) || base.VerifyPaginationControls();
+                return IsElementVisible(_kendoPager) || base.VerifyPaginationControls();
             }
             catch
             {
@@ -416,7 +416,7 @@ namespace TUEL.TestFramework.Web.PageObjects
             try
             {
                 // Try Kendo Pager info first, then fallback to base implementation
-                return IsElementVisible(kendoPagerInfo) || base.VerifyPageStatusDisplay();
+                return IsElementVisible(_kendoPagerInfo) || base.VerifyPageStatusDisplay();
             }
             catch
             {
@@ -429,11 +429,24 @@ namespace TUEL.TestFramework.Web.PageObjects
             try
             {
                 // Try Kendo specific selector first, then fallback to base implementation
-                return IsElementVisible(kendoPagerItemsPerPage) || base.VerifyItemsPerPageSelector();
+                return IsElementVisible(_kendoPagerItemsPerPage) || base.VerifyItemsPerPageSelector();
             }
             catch
             {
                 return false;
+            }
+        }
+
+        public override void ClickNavigationTab(string tabName)
+        {
+            switch (tabName.ToLowerInvariant())
+            {
+                case "customers":
+                    Click(_customersTab);
+                    break;
+                default:
+                    base.ClickNavigationTab(tabName);
+                    break;
             }
         }
 
@@ -446,7 +459,7 @@ namespace TUEL.TestFramework.Web.PageObjects
             try
             {
                 // Check for either the unique locator or the Kendo grid
-                return IsElementVisible(UniqueLocator) || IsElementVisible(kendoGrid);
+                return IsElementVisible(UniqueLocator) || IsElementVisible(_kendoGrid);
             }
             catch
             {
@@ -463,7 +476,7 @@ namespace TUEL.TestFramework.Web.PageObjects
             catch
             {
                 // Fallback to waiting for Kendo grid
-                Driver.WaitVisible(kendoGrid, TimeSpan.FromSeconds(15));
+                Driver.WaitVisible(_kendoGrid, TimeSpan.FromSeconds(15));
             }
         }
 

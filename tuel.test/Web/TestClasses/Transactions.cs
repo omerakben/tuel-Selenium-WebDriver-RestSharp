@@ -13,19 +13,20 @@ namespace TUEL.TestFramework.Web.TestClasses
     [TestClass, TestCategory("UI"), TestCategory("Transactions")]
     public class Transactions : Base
     {
-        private TransactionsPOM _completedPage;
-        private DashboardPOM _dashboardPage;
-        private LoginPOM _loginPage;
+        private TransactionsPOM? _completedPage;
+        private DashboardPOM? _dashboardPage;
+        private LoginPOM? _loginPage;
 
         [TestInitialize]
         public void TransactionsTestSetup()
         {
             try
             {
-                TestContext.WriteLine("Initializing Transactions test components...");
-                _completedPage = new TransactionsPOM(Driver);
-                _dashboardPage = new DashboardPOM(Driver);
-                _loginPage = new LoginPOM(Driver);
+                TestContext?.WriteLine("Initializing Transactions test components...");
+                var driver = Driver ?? throw new InvalidOperationException("Driver not initialized");
+                _completedPage = new TransactionsPOM(driver);
+                _dashboardPage = new DashboardPOM(driver);
+                _loginPage = new LoginPOM(driver);
 
                 if (!string.IsNullOrEmpty(InitializeTestAssembly.Email) && !string.IsNullOrEmpty(InitializeTestAssembly.Password))
                 {
@@ -45,11 +46,11 @@ namespace TUEL.TestFramework.Web.TestClasses
                 }
                 else
                 {
-                    TestContext.WriteLine("No credentials provided for authentication");
+                    TestContext?.WriteLine("No credentials provided for authentication");
                 }
 
                 WaitForTransactionsPageReady();
-                TestContext.WriteLine("Transactions test setup completed successfully");
+                TestContext?.WriteLine("Transactions test setup completed successfully");
             }
             catch (Exception ex)
             {
@@ -69,19 +70,19 @@ namespace TUEL.TestFramework.Web.TestClasses
         {
             try
             {
-                TestContext.WriteLine("Navigating to Transactions page...");
+                    TestContext?.WriteLine("Navigating to Transactions page...");
 
                 // First ensure we're on a page with navigation tabs
-                if (!_dashboardPage.VerifyNavigationTabsPresent())
+                    if (!(_dashboardPage?.VerifyNavigationTabsPresent() ?? false))
                 {
                     // Navigate to dashboard first if not on a page with tabs
-                    var dashboardUrl = $"{InitializeTestAssembly.UiUrl}/application/dashboard";
-                    Driver.Navigate().GoToUrl(dashboardUrl);
-                    Driver.WaitForPageTransition(TimeSpan.FromSeconds(5));
+                        var dashboardUrl = $"{InitializeTestAssembly.UiUrl}/application/dashboard";
+                        Driver?.Navigate().GoToUrl(dashboardUrl);
+                        Driver?.WaitForPageTransition(TimeSpan.FromSeconds(5));
                 }
 
                 // Click on Transactions tab
-                _dashboardPage.ClickTransactionsTab();
+                    _dashboardPage?.ClickTransactionsTab();
                 TestContext.WriteLine("Clicked on Transactions tab");
 
                 // Wait for URL to change to transactions page

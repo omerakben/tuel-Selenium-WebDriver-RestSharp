@@ -19,15 +19,15 @@ namespace TUEL.TestFramework.Web.PageObjects
         protected override By UniqueLocator => By.XPath("//div[contains(text(), 'Approval Queue')] | //h1[contains(text(), 'Application')]");
 
         #region Page & Header Elements
-        private readonly By mainHeader = By.XPath("//h1[contains(text(), 'Application')] | //*[contains(text(), 'Application') and contains(@class, 'title')] | //*[@title='Application']");
+        private readonly By _dashboardMainHeader = By.XPath("//h1[contains(text(), 'Application')] | //*[contains(text(), 'Application') and contains(@class, 'title')] | //*[@title='Application']");
 
         // Navigation Tabs
-        private readonly By navigationTabs = By.XPath("//nav//a | //div[contains(@class, 'nav')]//a | //*[contains(@class, 'tab')] | //a[contains(text(), 'Dashboard')] | //a[contains(text(), 'Transactions')] | //a[contains(text(), 'Customers')]");
-        private readonly By dashboardTab = By.XPath("//a[contains(text(), 'Dashboard')] | //button[contains(text(), 'Dashboard')] | //*[contains(@class, 'active') and contains(text(), 'Dashboard')]");
+        private readonly By _dashboardNavigationTabs = By.XPath("//nav//a | //div[contains(@class, 'nav')]//a | //*[contains(@class, 'tab')] | //a[contains(text(), 'Dashboard')] | //a[contains(text(), 'Transactions')] | //a[contains(text(), 'Customers')]");
+        private readonly By _dashboardTab = By.XPath("//a[contains(text(), 'Dashboard')] | //button[contains(text(), 'Dashboard')] | //*[contains(@class, 'active') and contains(text(), 'Dashboard')]");
         private readonly By transactionsTab = By.XPath("//a[contains(text(), 'Transactions')] | //button[contains(text(), 'Transactions')]");
-        private readonly By customersTab = By.XPath("//a[contains(text(), 'Customers')] | //button[contains(text(), 'Customers')]");
-        private readonly By templatesTab = By.XPath("//a[contains(text(), 'Templates')] | //button[contains(text(), 'Templates')]");
-        private readonly By pricingTab = By.XPath("//a[contains(text(), 'Pricing')] | //button[contains(text(), 'Pricing')]");
+        private readonly By _customersTab = By.XPath("//a[contains(text(), 'Customers')] | //button[contains(text(), 'Customers')]");
+        private readonly By _templatesTab = By.XPath("//a[contains(text(), 'Templates')] | //button[contains(text(), 'Templates')]");
+        private readonly By _pricingTab = By.XPath("//a[contains(text(), 'Pricing')] | //button[contains(text(), 'Pricing')]");
 
         // Left sidebar navigation
         private readonly By leftSidebar = By.XPath("//div[contains(@class, 'sidebar')] | //nav[contains(@class, 'sidebar')]");
@@ -52,9 +52,9 @@ namespace TUEL.TestFramework.Web.PageObjects
         #region Data Table Elements
         // Table structure detection
         private readonly By anyTable = By.XPath("//table | //kendo-grid | //app-data-grid | //*[contains(@class, 'grid')] | //*[contains(@class, 'table')]");
-        private readonly By tableHeaders = By.XPath("//th | //thead//td | //*[contains(@class, 'header')] | //*[contains(@class, 'column-title')]");
-        private readonly By tableRows = By.XPath("//tbody//tr | //tr[contains(@class, 'row')] | //*[contains(@class, 'data-row')]");
-        private readonly By noRecordsMessage = By.XPath("//*[contains(text(), 'No records') or contains(text(), 'No data') or contains(text(), 'No items') or contains(text(), 'No results')]");
+        private readonly By _tableHeaders = By.XPath("//th | //thead//td | //*[contains(@class, 'header')] | //*[contains(@class, 'column-title')]");
+        private readonly By _tableRows = By.XPath("//tbody//tr | //tr[contains(@class, 'row')] | //*[contains(@class, 'data-row')]");
+        private readonly By _noRecordsMessage = By.XPath("//*[contains(text(), 'No records') or contains(text(), 'No data') or contains(text(), 'No items') or contains(text(), 'No results')]");
 
         // Key column headers to verify
         private readonly string[] expectedColumnHeaders = new string[]
@@ -66,14 +66,14 @@ namespace TUEL.TestFramework.Web.PageObjects
         #endregion
 
         #region Pagination Elements
-        private readonly By paginationContainer = By.XPath("//*[contains(@class, 'pager')] | //*[contains(@class, 'pagination')] | //kendo-pager");
-        private readonly By pageInfo = By.XPath("//*[contains(text(), ' of ') and contains(text(), 'items')] | //*[contains(@class, 'pager-info')]");
-        private readonly By itemsPerPageSelector = By.XPath("//select[contains(@title, 'items per page')] | //select[contains(@class, 'page-size')] | //*[contains(@class, 'pager')]//select");
+        private readonly By _paginationContainer = By.XPath("//*[contains(@class, 'pager')] | //*[contains(@class, 'pagination')] | //kendo-pager");
+        private readonly By _pageInfo = By.XPath("//*[contains(text(), ' of ') and contains(text(), 'items')] | //*[contains(@class, 'pager-info')]");
+        private readonly By _itemsPerPageSelector = By.XPath("//select[contains(@title, 'items per page')] | //select[contains(@class, 'page-size')] | //*[contains(@class, 'pager')]//select");
         #endregion
 
         #region Core Verification Methods
 
-        public bool VerifyPageTitle()
+        public override bool VerifyPageTitle()
         {
             try
             {
@@ -86,11 +86,11 @@ namespace TUEL.TestFramework.Web.PageObjects
             }
         }
 
-        public bool VerifyMainHeader()
+        public override bool VerifyMainHeader()
         {
             try
             {
-                return IsElementVisible(mainHeader);
+                return IsElementVisible(_dashboardMainHeader);
             }
             catch
             {
@@ -98,11 +98,11 @@ namespace TUEL.TestFramework.Web.PageObjects
             }
         }
 
-        public bool VerifyNavigationTabsPresent()
+        public override bool VerifyNavigationTabsPresent()
         {
             try
             {
-                return IsElementVisible(navigationTabs);
+                return IsElementVisible(_dashboardNavigationTabs);
             }
             catch
             {
@@ -114,7 +114,7 @@ namespace TUEL.TestFramework.Web.PageObjects
         {
             try
             {
-                var dashboardElement = Driver.FindElement(dashboardTab);
+                var dashboardElement = Driver.FindElement(_dashboardTab);
                 var classAttribute = dashboardElement.GetAttribute("class") ?? "";
                 var ariaCurrent = dashboardElement.GetAttribute("aria-current") ?? "";
 
@@ -213,7 +213,7 @@ namespace TUEL.TestFramework.Web.PageObjects
         {
             try
             {
-                var headers = Driver.FindElements(tableHeaders);
+                var headers = Driver.FindElements(_tableHeaders);
                 return headers.Count >= 10;
             }
             catch
@@ -226,7 +226,7 @@ namespace TUEL.TestFramework.Web.PageObjects
         {
             try
             {
-                var headers = Driver.FindElements(tableHeaders);
+                var headers = Driver.FindElements(_tableHeaders);
                 if (headers.Count == 0) return false;
 
                 var headerTexts = headers.Select(h => h.Text?.Trim()).Where(t => !string.IsNullOrEmpty(t)).ToList();
@@ -246,7 +246,7 @@ namespace TUEL.TestFramework.Web.PageObjects
         {
             try
             {
-                var rows = Driver.FindElements(tableRows);
+                var rows = Driver.FindElements(_tableRows);
                 return rows.Count > 0;
             }
             catch
@@ -259,10 +259,10 @@ namespace TUEL.TestFramework.Web.PageObjects
         {
             try
             {
-                var rows = Driver.FindElements(tableRows);
+                var rows = Driver.FindElements(_tableRows);
                 if (rows.Count == 0)
                 {
-                    return IsElementVisible(noRecordsMessage);
+                    return IsElementVisible(_noRecordsMessage);
                 }
                 return true; // If there are rows, no need for no-records message
             }
@@ -272,11 +272,11 @@ namespace TUEL.TestFramework.Web.PageObjects
             }
         }
 
-        public int GetDataRowCount()
+        public override int GetDataRowCount()
         {
             try
             {
-                var rows = Driver.FindElements(tableRows);
+                var rows = Driver.FindElements(_tableRows);
                 return rows.Count;
             }
             catch
@@ -289,11 +289,11 @@ namespace TUEL.TestFramework.Web.PageObjects
 
         #region Pagination Verification Methods
 
-        public bool VerifyPaginationControls()
+        public override bool VerifyPaginationControls()
         {
             try
             {
-                return IsElementVisible(paginationContainer);
+                return IsElementVisible(_paginationContainer);
             }
             catch
             {
@@ -301,11 +301,11 @@ namespace TUEL.TestFramework.Web.PageObjects
             }
         }
 
-        public bool VerifyPageStatusDisplay()
+        public override bool VerifyPageStatusDisplay()
         {
             try
             {
-                return IsElementVisible(pageInfo);
+                return IsElementVisible(_pageInfo);
             }
             catch
             {
@@ -313,11 +313,11 @@ namespace TUEL.TestFramework.Web.PageObjects
             }
         }
 
-        public bool VerifyItemsPerPageSelector()
+        public override bool VerifyItemsPerPageSelector()
         {
             try
             {
-                return IsElementVisible(itemsPerPageSelector);
+                return IsElementVisible(_itemsPerPageSelector);
             }
             catch
             {
@@ -348,17 +348,17 @@ namespace TUEL.TestFramework.Web.PageObjects
             }
         }
 
-        public void ClickNavigationTab(string tabName)
+        public override void ClickNavigationTab(string tabName)
         {
             try
             {
                 By tabLocator = tabName.ToLower() switch
                 {
-                    "dashboard" => dashboardTab,
+                    "dashboard" => _dashboardTab,
                     "transactions" => transactionsTab,
-                    "customers" => customersTab,
-                    "templates" => templatesTab,
-                    "pricing" => pricingTab,
+                    "customers" => _customersTab,
+                    "templates" => _templatesTab,
+                    "pricing" => _pricingTab,
                     _ => throw new ArgumentException($"Unknown tab: {tabName}")
                 };
 

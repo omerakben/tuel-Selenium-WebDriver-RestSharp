@@ -17,13 +17,13 @@ namespace TUEL.TestFramework.Web.TestClasses
         protected IWebDriver? Driver { get; private set; }
 
         // Gets or sets the test context which provides information
-        public TestContext TestContext { get; set; }
+        public TestContext? TestContext { get; set; }
 
         // Runs before each test method. Initializes the WebDriver and navigates to the base URL.
         [TestInitialize]
         public void TestSetup()
         {
-            TestContext.WriteLine($"Starting Web test: {TestContext.TestName}. Environment: {InitializeTestAssembly.ENV}");
+            TestContext?.WriteLine($"Starting Web test: {TestContext?.TestName}. Environment: {InitializeTestAssembly.ENV}");
 
             Driver = InitializeTestAssembly.CreateWebDriver();
 
@@ -47,7 +47,7 @@ namespace TUEL.TestFramework.Web.TestClasses
         {
             try
             {
-                TestContext.WriteLine("Starting Login Process");
+                TestContext?.WriteLine("Starting Login Process");
 
                 if (Driver == null)
                 {
@@ -58,18 +58,18 @@ namespace TUEL.TestFramework.Web.TestClasses
 
                 // Check if already on the login page or need to navigate
                 var currentState = loginPOM.GetCurrentAuthenticationState();
-                TestContext.WriteLine($"Current authentication state: {currentState}");
+                TestContext?.WriteLine($"Current authentication state: {currentState}");
 
                 if (currentState == AuthenticationState.LoggedIn)
                 {
-                    TestContext.WriteLine("Already logged in no authentication needed");
+                    TestContext?.WriteLine("Already logged in no authentication needed");
                     return;
                 }
 
                 // Wait for login page if needed
                 if (!loginPOM.IsLoginPageDisplayed(TimeSpan.FromSeconds(10)))
                 {
-                    TestContext.WriteLine("Login page waiting for redirect...");
+                    TestContext?.WriteLine("Login page waiting for redirect...");
                     await Task.Delay(2_000); // Allow time for redirect to login page
                 }
 
@@ -82,15 +82,15 @@ namespace TUEL.TestFramework.Web.TestClasses
                     throw new InvalidOperationException("Username or password not configured in .runsettings");
                 }
 
-                TestContext.WriteLine($"Attempting login with username(Email): {username}");
+                TestContext?.WriteLine($"Attempting login with username(Email): {username}");
                 await loginPOM.LoginToApplicationAsync(username, password);
 
-                TestContext.WriteLine("Login process completed");
+                TestContext?.WriteLine("Login process completed");
             }
             catch (Exception ex)
             {
-                TestContext.WriteLine($"Error during login: {ex.Message}");
-                TestContext.WriteLine($"Stack trace: {ex.StackTrace}");
+                TestContext?.WriteLine($"Error during login: {ex.Message}");
+                TestContext?.WriteLine($"Stack trace: {ex.StackTrace}");
                 throw new InvalidOperationException($"Login failed: {ex.Message}", ex);
             }
         }
@@ -109,7 +109,7 @@ namespace TUEL.TestFramework.Web.TestClasses
             {
                 try
                 {
-                    TestContext.WriteLine($"Navigation attempt {attempt}/{maxAttempts} to: {InitializeTestAssembly.UiUrl}");
+                    TestContext?.WriteLine($"Navigation attempt {attempt}/{maxAttempts} to: {InitializeTestAssembly.UiUrl}");
                     var startTime = DateTime.Now;
 
                     Driver.Navigate().GoToUrl(InitializeTestAssembly.UiUrl);
@@ -117,18 +117,18 @@ namespace TUEL.TestFramework.Web.TestClasses
                     if (await WaitForPageStabilizationAsync())
                     {
                         var loadTime = DateTime.Now - startTime;
-                        TestContext.WriteLine($"Page navigation completed in: {loadTime.TotalSeconds:F2} seconds");
+                        TestContext?.WriteLine($"Page navigation completed in: {loadTime.TotalSeconds:F2} seconds");
                         return;
                     }
                 }
                 catch (Exception ex)
                 {
                     lastException = ex;
-                    TestContext.WriteLine($"Navigation attempt {attempt} failed: {ex.Message}");
+                    TestContext?.WriteLine($"Navigation attempt {attempt} failed: {ex.Message}");
 
                     if (attempt < maxAttempts)
                     {
-                        TestContext.WriteLine($"Waiting before retry attempt {attempt + 1}...");
+                        TestContext?.WriteLine($"Waiting before retry attempt {attempt + 1}...");
                         await Task.Delay(2000);
                     }
                 }
